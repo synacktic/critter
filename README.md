@@ -7,13 +7,28 @@
 
   View Component
   
-  Commmands quit/show/step/stats
+  Commmands: quit/show/step/stats
   
-  encounters
+  Encounters
 
-  algae
+  Algae
 
-  make critter
+  Make Critter
   
+  
+  Katya
+---------
+
+ Walk / Run
+ 
+ Critter Collection
+ 
+ Reproduce
+ 
+ Commands: seed 
+ 
+ Double Movements Handling
+ 
+ Clear World
  
  
