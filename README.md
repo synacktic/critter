@@ -3,8 +3,6 @@ Our super exciting Critter crawler
 
  
   Brian:
-  ======
-
 
   View Component
   
@@ -18,7 +16,7 @@ Our super exciting Critter crawler
   
   
   Katya:
-  ======
+  
 
  Walk / Run
  
