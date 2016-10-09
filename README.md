@@ -1,8 +1,9 @@
-# critter
+Our super exciting Critter crawler
+==================================
 
  
-  Brian
- ----------
+  Brian:
+  ------
 
 
   View Component
@@ -16,8 +17,8 @@
   Make Critter
   
   
-  Katya
----------
+  Katya:
+  ------
 
  Walk / Run
  
