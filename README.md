@@ -1,8 +1,7 @@
-Our super exciting Critter crawler
-==================================
+#Critters
 
  
-  Brian:
+## Brian:
 
   View Component
   
@@ -15,7 +14,7 @@ Our super exciting Critter crawler
   Make Critter
   
   
-  Katya:
+## Katya:
   
 
  Walk / Run
