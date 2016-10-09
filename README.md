@@ -1,7 +1,7 @@
 #Critters
 
  
-## Brian:
+## Brian
 
   View Component
   
@@ -14,7 +14,7 @@
   Make Critter
   
   
-## Katya:
+## Katya
   
 
  Walk / Run
