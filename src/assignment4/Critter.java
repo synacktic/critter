@@ -15,7 +15,6 @@ package assignment4;
 
 import java.util.List;
 
-import assignment3.BFS.Node;
 
 /* see the PDF for descriptions of the methods and fields in this class
  * you may add fields, methods or inner classes to Critter ONLY if you make your additions private
@@ -27,7 +26,7 @@ public abstract class Critter {
 	 static String myPackage;
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
-	Sector[][] initial = new Sector[Params.world_height][Params.world_width];
+	private static Sector[][] worldMap = new Sector[Params.world_height][Params.world_width];
 
 	//private static Sector[0][1] = new Critter[SIZE][SIZE]
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
@@ -222,11 +221,17 @@ public abstract class Critter {
 			else 
 				System.out.printf("|");
 			
-			for (int current_width = -1; current_width <= Params.world_width; current_width++ ) {
+			for (int current_width = 0; current_width < Params.world_width; current_width++ ) {
 				if (current_height == -1 || current_height == Params.world_height)
 					System.out.printf("-");
-				else 
-					System.out.printf("X");
+				else {
+					//System.out.printf("%d %d\n",current_height,current_width);
+					if(worldMap[current_height][current_width] ==  null) {
+						System.out.printf(" ");
+					} else {
+						System.out.printf("%s",worldMap[current_height][current_width].critter.toString());
+					}
+				}
 				
 			}
 			if (current_height == -1 || current_height == Params.world_height)

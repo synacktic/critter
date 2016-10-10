@@ -69,7 +69,7 @@ public class Main {
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
         
-        System.out.println("GLHF");
+        //System.out.println("GLHF");
         Critter.displayWorld();
         //System.out.printf("%s",Critter.run(2));
         //Critter.run(2);
