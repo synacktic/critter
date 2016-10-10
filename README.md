@@ -17,11 +17,11 @@
 ## Katya
   
 
- Walk / Run
+ Walk / Run - ✓
  
  Critter Collection
  
- Reproduce
+ Reproduce - ✓
  
  Commands: seed 
  
