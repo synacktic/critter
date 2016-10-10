@@ -70,7 +70,9 @@ public class Main {
         /* Write your code below. */
         
         System.out.println("GLHF");
-        
+        Critter.displayWorld();
+        //System.out.printf("%s",Critter.run(2));
+        //Critter.run(2);
         /* Write your code above */
         System.out.flush();
 

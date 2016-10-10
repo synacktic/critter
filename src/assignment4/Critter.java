@@ -14,6 +14,8 @@ package assignment4;
 
 import java.util.List;
 
+import assignment3.BFS.Node;
+
 /* see the PDF for descriptions of the methods and fields in this class
  * you may add fields, methods or inner classes to Critter ONLY if you make your additions private
  * no new public, protected or default-package code or data can be added to Critter
@@ -21,10 +23,12 @@ import java.util.List;
 
 
 public abstract class Critter {
-	private static String myPackage;
+	 static String myPackage;
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
+	Sector[][] initial = new Sector[Params.world_height][Params.world_width];
 
+	//private static Sector[0][1] = new Critter[SIZE][SIZE]
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
@@ -53,7 +57,8 @@ public abstract class Critter {
 	}
 	
 	protected final void run(int direction) {
-		
+		//System.out.printf("%s", this.getClass() );
+
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
@@ -73,6 +78,7 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+
 	}
 	
 	/**
@@ -172,5 +178,39 @@ public abstract class Critter {
 	public static void worldTimeStep() {
 	}
 	
-	public static void displayWorld() {}
+	public static void displayWorld() {
+		//Params.world_width;
+		//Params.world_height;
+		for (int current_height = -1; current_height <= Params.world_height; current_height++ ) {
+			if (current_height == -1 || current_height == Params.world_height)
+				System.out.printf("+");
+			else 
+				System.out.printf("|");
+			
+			for (int current_width = -1; current_width <= Params.world_width; current_width++ ) {
+				if (current_height == -1 || current_height == Params.world_height)
+					System.out.printf("-");
+				else 
+					System.out.printf("X");
+				
+			}
+			if (current_height == -1 || current_height == Params.world_height)
+				System.out.printf("+");
+			else 
+				System.out.printf("|");
+			System.out.printf("\n");
+		}
+	}
+	private static class Sector {
+
+		public Critter critter; // The critter here
+		public Sector prev; // The critter already in this sector
+		public Sector next; // The next critter in the sector
+
+		public Sector(Sector parent, String word) {
+			this.critter = critter;
+			this.prev = prev;
+	
+		}
+	}
 }
