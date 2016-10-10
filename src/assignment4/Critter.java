@@ -39,7 +39,6 @@ public abstract class Critter {
 		rand = new java.util.Random(new_seed);
 	}
 	
-	
 	/* a one-character long string that visually depicts your critter in the ASCII interface */
 	public String toString() { return ""; }
 	
@@ -49,14 +48,47 @@ public abstract class Critter {
 	private int x_coord;
 	private int y_coord;
 	
-	protected final void walk(int direction) {
-	}
-	
-	protected final void run(int direction) {
+	private void move(int distance, int direction){
+		// update location
+		if(direction == 7 || direction == 0 || direction == 1 )	// right
+			this.x_coord += distance;		
+		if(direction == 3 || direction == 4 || direction == 5 )	// left
+			this.x_coord -= distance;		
+		if(direction == 5 || direction == 6 || direction == 7 ) // up
+			this.y_coord += distance;		
+		if(direction == 5 || direction == 6 || direction == 7 ) // down
+			this.y_coord -= distance;
+		
+		//wrap around world	
+		if (this.y_coord < 0) 							// wrap to bottom
+			this.y_coord = Params.world_height - 1;
+		if (this.y_coord > Params.world_height - 1) 	// wrap to top
+			this.y_coord = this.y_coord - Params.world_height;
+		if (this.x_coord < 0) 							// wrap to right
+			this.x_coord = Params.world_width - 1;
+		if (this.x_coord > Params.world_width - 1) 		// wrap to left
+			this.x_coord = this.x_coord - Params.world_width;
+		
 		
 	}
 	
+	protected final void walk(int direction) {
+		this.energy -= Params.walk_energy_cost;
+		this.move(1, direction);			// update the position
+	}
+	
+	protected final void run(int direction) {
+		this.energy -= Params.run_energy_cost;
+		this.move(2, direction);			// update the position
+	}
+	
 	protected final void reproduce(Critter offspring, int direction) {
+		offspring.energy = (int) Math.floor(this.energy/2);		// make new critter with half health of parent
+		this.energy = (int) Math.ceil(this.energy/2);			// decrease parent's energy
+		
+		offspring.move(1, direction); 							// location is next to parent - in direction	
+		
+		babies.add(offspring);									// add child to the list of babies for this timestep
 	}
 
 	public abstract void doTimeStep();
@@ -169,6 +201,9 @@ public abstract class Critter {
 	public static void clearWorld() {
 	}
 	
+	/**
+	 * Call doTimeStep() for every critter
+	 */
 	public static void worldTimeStep() {
 	}
 	
