@@ -74,6 +74,7 @@ public class Main {
         //System.out.printf("%s",Critter.run(2));
         //Critter.run(2);
         /* Write your code above */
+        Critter.makeCritter("Craig");
         System.out.flush();
 
     }
