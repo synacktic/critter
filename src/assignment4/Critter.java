@@ -27,6 +27,7 @@ public abstract class Critter {
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 	private static Sector[][] worldMap = new Sector[Params.world_height][Params.world_width];
+	
 
 	//private static Sector[0][1] = new Critter[SIZE][SIZE]
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
@@ -49,8 +50,13 @@ public abstract class Critter {
 	private int energy = 0;
 	protected int getEnergy() { return energy; }
 	
-	private int x_coord;
-	private int y_coord;
+	private int x_coord = getRandomInt(Params.world_width);
+	private int y_coord = getRandomInt(Params.world_height);
+	
+	private static void updateWorld(Critter that)  {
+		worldMap[that.y_coord][that.x_coord] = new Sector(that);
+		//System.out.printf("%s at (%d,%d)\n",worldMap[that.y_coord][that.x_coord].critter.toString(),that.x_coord,that.y_coord);
+	}
 	
 	private void move(int distance, int direction){
 		// update location
@@ -109,11 +115,14 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
+		String class_name = myPackage + "." + critter_class_name.substring(0, 1).toUpperCase() + critter_class_name.substring(1);
 		try {
-			Class.forName(critter_class_name.substring(0, 1).toUpperCase() + critter_class_name.substring(1)); 	// make a new class of the type specified
-			
-		} catch (ClassNotFoundException e) {
-			throw new InvalidCritterException(critter_class_name);												// InvalidCritterException
+			Object newCritter = Class.forName(class_name).newInstance();// get an instance of the critter 
+			population.add((Critter) newCritter);						// add to population list
+			updateWorld((Critter) newCritter);
+		} catch (InstantiationException e) { throw new InvalidCritterException(class_name);
+		} catch (IllegalAccessException e) { throw new InvalidCritterException(class_name);
+		} catch (ClassNotFoundException e) { throw new InvalidCritterException(class_name);
 		}
 		
 	}
@@ -253,9 +262,9 @@ public abstract class Critter {
 		public Sector prev; // The critter already in this sector
 		public Sector next; // The next critter in the sector
 
-		public Sector(Sector parent, String word) {
+		public Sector(Critter critter) {
 			this.critter = critter;
-			this.prev = prev;
+			//this.prev = prev;
 	
 		}
 	}
