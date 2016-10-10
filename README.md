@@ -10,8 +10,8 @@
   Encounters
 
   Algae
-
-  Make Critter
+  
+  Clear World
   
   
 ## Katya
@@ -27,6 +27,6 @@
  
  Double Movements Handling
  
- Clear World
+ Make Critter - ✓
  
  
