@@ -1,15 +1,16 @@
 /* CRITTERS Critter.java
  * EE422C Project 4 submission by
- * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
- * Slip days used: <0>
+ * Katya Malyavina
+ * ym5356
+ * 16465
+ * Brian Sutherland
+ * bcs2433
+ * 16445
+ * Slip days used: 0
  * Fall 2016
+ * GitHub Repository: https://github.com/synacktic/critter
  */
+
 package assignment4;
 
 import java.util.List;
@@ -43,7 +44,6 @@ public abstract class Critter {
 		rand = new java.util.Random(new_seed);
 	}
 	
-	
 	/* a one-character long string that visually depicts your critter in the ASCII interface */
 	public String toString() { return ""; }
 	
@@ -53,15 +53,47 @@ public abstract class Critter {
 	private int x_coord;
 	private int y_coord;
 	
+	private void move(int distance, int direction){
+		// update location
+		if(direction == 7 || direction == 0 || direction == 1 )	// right
+			this.x_coord += distance;		
+		if(direction == 3 || direction == 4 || direction == 5 )	// left
+			this.x_coord -= distance;		
+		if(direction == 5 || direction == 6 || direction == 7 ) // up
+			this.y_coord += distance;		
+		if(direction == 5 || direction == 6 || direction == 7 ) // down
+			this.y_coord -= distance;
+		
+		//wrap around world	
+		if (this.y_coord < 0) 							// wrap to bottom
+			this.y_coord = Params.world_height - 1;
+		if (this.y_coord > Params.world_height - 1) 	// wrap to top
+			this.y_coord = this.y_coord - Params.world_height;
+		if (this.x_coord < 0) 							// wrap to right
+			this.x_coord = Params.world_width - 1;
+		if (this.x_coord > Params.world_width - 1) 		// wrap to left
+			this.x_coord = this.x_coord - Params.world_width;
+		
+		
+	}
+	
 	protected final void walk(int direction) {
+		this.energy -= Params.walk_energy_cost;
+		this.move(1, direction);			// update the position
 	}
 	
 	protected final void run(int direction) {
-		//System.out.printf("%s", this.getClass() );
-
+		this.energy -= Params.run_energy_cost;
+		this.move(2, direction);			// update the position
 	}
 	
 	protected final void reproduce(Critter offspring, int direction) {
+		offspring.energy = (int) Math.floor(this.energy/2);		// make new critter with half health of parent
+		this.energy = (int) Math.ceil(this.energy/2);			// decrease parent's energy
+		
+		offspring.move(1, direction); 							// location is next to parent - in direction	
+		
+		babies.add(offspring);									// add child to the list of babies for this timestep
 	}
 
 	public abstract void doTimeStep();
@@ -175,6 +207,9 @@ public abstract class Critter {
 	public static void clearWorld() {
 	}
 	
+	/**
+	 * Call doTimeStep() for every critter
+	 */
 	public static void worldTimeStep() {
 	}
 	
