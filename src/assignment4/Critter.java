@@ -109,7 +109,11 @@ public abstract class Critter {
 	 * @throws InvalidCritterException
 	 */
 	public static void makeCritter(String critter_class_name) throws InvalidCritterException {
-
+		try {
+			Class.forName(critter_class_name.substring(0, 1).toUpperCase() + critter_class_name.substring(1)); 	// make a new class of the type specified
+		} catch (ClassNotFoundException e) {
+			throw new InvalidCritterException(critter_class_name);												// InvalidCritterException
+		}
 	}
 	
 	/**
