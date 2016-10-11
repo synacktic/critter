@@ -55,7 +55,12 @@ public abstract class Critter {
 	private int y_coord = getRandomInt(Params.world_height);
 	
 	private static void updateWorld(Critter that)  {
-		worldMap[that.y_coord][that.x_coord] = new Sector(that);
+		if (worldMap[that.y_coord][that.x_coord] == null) {
+			worldMap[that.y_coord][that.x_coord] = new Sector(that);
+		} else {
+			worldMap[that.y_coord][that.x_coord].neighbors.add(that);
+		}
+
 		//worldMap[that.y_coord][that.x_coord].neighbors.add(that);
 		//= new java.util.ArrayList<Critter>();
 		//System.out.printf("%s at (%d,%d)\n",worldMap[that.y_coord][that.x_coord].critter.toString(),that.x_coord,that.y_coord);
@@ -63,13 +68,16 @@ public abstract class Critter {
 	
 	private void move(int distance, int direction){
 		// update location
+		int x_old = this.x_coord;
+		int y_old = this.y_coord;
+
 		if(direction == 7 || direction == 0 || direction == 1 )	// right
 			this.x_coord += distance;		
 		if(direction == 3 || direction == 4 || direction == 5 )	// left
 			this.x_coord -= distance;		
 		if(direction == 5 || direction == 6 || direction == 7 ) // up
 			this.y_coord += distance;		
-		if(direction == 5 || direction == 6 || direction == 7 ) // down
+		if(direction == 1 || direction == 2 || direction == 3 ) // down
 			this.y_coord -= distance;
 		
 		//wrap around world	
@@ -82,6 +90,11 @@ public abstract class Critter {
 		if (this.x_coord > Params.world_width - 1) 		// wrap to left
 			this.x_coord = this.x_coord - Params.world_width;
 		
+		worldMap[y_old][x_old].neighbors.remove(this);
+		updateWorld(this);
+
+		//worldMap[this.y_coord][this.x_coord].neighbors.remove(this);
+
 		
 	}
 	
@@ -294,7 +307,7 @@ public abstract class Critter {
 					System.out.printf("-");
 				else {
 					//System.out.printf("%d %d\n",current_height,current_width);
-					if(worldMap[current_height][current_width] ==  null) {
+					if(worldMap[current_height][current_width] ==  null || worldMap[current_height][current_width].neighbors.size() == 0 ) {
 						System.out.printf(" ");
 					} else {
 						System.out.printf("%s",worldMap[current_height][current_width].neighbors.get(0).toString());
