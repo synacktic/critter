@@ -6,6 +6,8 @@
   View Component - ✓
   
   Critter Collection/World - ✓
+  
+  Algae
 
   Commmands: 
   - quit - ✓
@@ -13,11 +15,7 @@
   - step - ✓
   - stats
   - seed
-  
-  Algae
-  
-
-  
+ 
   
 ## Katya
   
