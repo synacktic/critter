@@ -82,6 +82,11 @@ public class Main {
 			} else if (myAns.equals("show")) {
 			       Critter.displayWorld();
         	} else if (myAns.equals("stats")) {
+        	} else if (myAns.equals("step")) {
+        		int count = kb.nextInt();
+        		for (int c=0;c < count; c++) {        			
+            		Critter.worldTimeStep();
+        		}
         	} else if (myAns.equals("clear")) {
         		Critter.cremateDead();
 		       //Display stuff

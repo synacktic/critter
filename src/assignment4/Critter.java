@@ -56,6 +56,8 @@ public abstract class Critter {
 	
 	private static void updateWorld(Critter that)  {
 		worldMap[that.y_coord][that.x_coord] = new Sector(that);
+		//worldMap[that.y_coord][that.x_coord].neighbors.add(that);
+		//= new java.util.ArrayList<Critter>();
 		//System.out.printf("%s at (%d,%d)\n",worldMap[that.y_coord][that.x_coord].critter.toString(),that.x_coord,that.y_coord);
 	}
 	
@@ -227,49 +229,53 @@ public abstract class Critter {
 	 */
 	public static void worldTimeStep() {
 		// do a time step for every Critter in the population
-		for(int i = 0; i < population.size(); i+=1){
-			population.get(i).doTimeStep();
+		for (Critter crit: population) {
+			crit.doTimeStep();
 		}
+		//for(int i = 0; i < population.size(); i+=1){
+			//population.get(i).doTimeStep();
+		//}
 		
 		// clear dead
 		
 		// check for encounters
-		for(int c = 0; c < Params.world_width; c += 1){ 	// columns
-			for(int r = 0; r < Params.world_height; r += 1){
-				while(worldMap[c][r].hasNext()){			// while there are still overlapping critters
-					boolean a = worldMap[c][r].critter.fight(worldMap[c][r].next.critter.toString()); // fight or flee
-					boolean b = worldMap[c][r].next.critter.fight(worldMap[c][r].critter.toString()); // fight or flee
-					
-					// if still in the same position and alive
-					if(worldMap[c][r].critter.x_coord == worldMap[c][r].next.critter.x_coord 
-							&& worldMap[c][r].critter.y_coord == worldMap[c][r].next.critter.y_coord
-							&& worldMap[c][r].critter.energy > 0 && worldMap[c][r].next.critter.energy > 0){
-
-						int roll = 0;
-						int rollA = 0; // 0 if they want to flee
-						int rollB = 0;
+		for(int c = 0; c < Params.world_height; c += 1){ 	// columns
+			for(int r = 0; r < Params.world_width; r += 1){
+					while(worldMap[c][r] != null && worldMap[c][r].hasNext()){			// while there are still overlapping critters
+						boolean a = worldMap[c][r].critter.fight(worldMap[c][r].next.critter.toString()); // fight or flee
+						boolean b = worldMap[c][r].next.critter.fight(worldMap[c][r].critter.toString()); // fight or flee
 						
-						if(a) rollA = Critter.getRandomInt(worldMap[c][r].critter.energy); 	// roll the dice if they want to fight
-						if(b) rollB = Critter.getRandomInt(worldMap[c][r].critter.energy);	
+						// if still in the same position and alive
+						if(worldMap[c][r].critter.x_coord == worldMap[c][r].next.critter.x_coord 
+								&& worldMap[c][r].critter.y_coord == worldMap[c][r].next.critter.y_coord
+								&& worldMap[c][r].critter.energy > 0 && worldMap[c][r].next.critter.energy > 0){
+	
+							int roll = 0;
+							int rollA = 0; // 0 if they want to flee
+							int rollB = 0;
 							
-						if(rollA < rollB){ // critter B wins the fight
-							worldMap[c][r].next.critter.energy += (int) Math.ceil(worldMap[c][r].critter.energy / 2); 	// add half the loser's energy to the winner
-							worldMap[c][r].critter.energy = 0; 	// kill critter A
-						}
-						if(rollA > rollB){
-							worldMap[c][r].critter.energy += (int) Math.ceil(worldMap[c][r].next.critter.energy / 2); 	// add half the loser's energy to the winner
-							worldMap[c][r].next.critter.energy = 0; 	// kill critter B
-						}
-						else
-							roll = Critter.getRandomInt(1);				// randomly decide who dies
-							if(roll == 0){
-								worldMap[c][r].next.critter.energy = 0; // kill critter B
+							if(a) rollA = Critter.getRandomInt(worldMap[c][r].critter.energy); 	// roll the dice if they want to fight
+							if(b) rollB = Critter.getRandomInt(worldMap[c][r].critter.energy);	
+								
+							if(rollA < rollB){ // critter B wins the fight
+								worldMap[c][r].next.critter.energy += (int) Math.ceil(worldMap[c][r].critter.energy / 2); 	// add half the loser's energy to the winner
+								worldMap[c][r].critter.energy = 0; 	// kill critter A
+							}
+							if(rollA > rollB){
+								worldMap[c][r].critter.energy += (int) Math.ceil(worldMap[c][r].next.critter.energy / 2); 	// add half the loser's energy to the winner
+								worldMap[c][r].next.critter.energy = 0; 	// kill critter B
 							}
 							else
-								worldMap[c][r].critter.energy = 0; 		// kill critter A
+								roll = Critter.getRandomInt(1);				// randomly decide who dies
+								if(roll == 0){
+									worldMap[c][r].next.critter.energy = 0; // kill critter B
+								}
+								else
+									worldMap[c][r].critter.energy = 0; 		// kill critter A
+						}
 					}
 				}
-			}
+			//}
 			
 		}
 	}
@@ -291,7 +297,7 @@ public abstract class Critter {
 					if(worldMap[current_height][current_width] ==  null) {
 						System.out.printf(" ");
 					} else {
-						System.out.printf("%s",worldMap[current_height][current_width].critter.toString());
+						System.out.printf("%s",worldMap[current_height][current_width].neighbors.get(0).toString());
 					}
 				}
 				
@@ -323,11 +329,22 @@ public abstract class Critter {
 		private Critter critter; // The critter here
 		private Sector prev; // The critter already in this sector
 		private Sector next; // The next critter in the sector
+		private List<Critter> neighbors;// = new java.util.ArrayList<Critter>();
 
-		protected Sector(Critter critter) {
-			this.critter = critter;
+		//worldMap[that.y_coord][that.x_coord] = 
+	//	private static List<Critter> neighbors = new java.util.ArrayList<Critter>();
+		//protected Sector() {
+			
+	//	}
+	//	protected Sector(List<Critter> neighbors) {
+	//		this.critter = critter;
+	//	}
+	protected Sector(Critter critter) {
+		this.critter = critter;
+		    neighbors = new java.util.ArrayList<Critter>();
+		    neighbors.add(critter);
 			//this.prev = prev;
-		}
+	}
 		
 		public boolean hasNext(){
 			if(this.next != null)
