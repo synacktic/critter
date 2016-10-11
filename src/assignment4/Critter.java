@@ -225,6 +225,52 @@ public abstract class Critter {
 	 * Call doTimeStep() for every critter
 	 */
 	public static void worldTimeStep() {
+		// do a time step for every Critter in the population
+		for(int i = 0; i < population.size(); i+=1){
+			population.get(i).doTimeStep();
+		}
+		
+		// clear dead
+		
+		// check for encounters
+		for(int c = 0; c < Params.world_width; c += 1){ 	// columns
+			for(int r = 0; r < Params.world_height; r += 1){
+				while(worldMap[c][r].hasNext()){			// while there are still overlapping critters
+					boolean a = worldMap[c][r].critter.fight(worldMap[c][r].next.critter.toString()); // fight or flee
+					boolean b = worldMap[c][r].next.critter.fight(worldMap[c][r].critter.toString()); // fight or flee
+					
+					// if still in the same position and alive
+					if(worldMap[c][r].critter.x_coord == worldMap[c][r].next.critter.x_coord 
+							&& worldMap[c][r].critter.y_coord == worldMap[c][r].next.critter.y_coord
+							&& worldMap[c][r].critter.energy > 0 && worldMap[c][r].next.critter.energy > 0){
+
+						int roll = 0;
+						int rollA = 0; // 0 if they want to flee
+						int rollB = 0;
+						
+						if(a) rollA = Critter.getRandomInt(worldMap[c][r].critter.energy); 	// roll the dice if they want to fight
+						if(b) rollB = Critter.getRandomInt(worldMap[c][r].critter.energy);	
+							
+						if(rollA < rollB){ // critter B wins the fight
+							worldMap[c][r].next.critter.energy += (int) Math.ceil(worldMap[c][r].critter.energy / 2); 	// add half the loser's energy to the winner
+							worldMap[c][r].critter.energy = 0; 	// kill critter A
+						}
+						if(rollA > rollB){
+							worldMap[c][r].critter.energy += (int) Math.ceil(worldMap[c][r].next.critter.energy / 2); 	// add half the loser's energy to the winner
+							worldMap[c][r].next.critter.energy = 0; 	// kill critter B
+						}
+						else
+							roll = Critter.getRandomInt(1);				// randomly decide who dies
+							if(roll == 0){
+								worldMap[c][r].next.critter.energy = 0; // kill critter B
+							}
+							else
+								worldMap[c][r].critter.energy = 0; 		// kill critter A
+					}
+				}
+			}
+			
+		}
 	}
 	
 	public static void displayWorld() {
@@ -258,14 +304,21 @@ public abstract class Critter {
 	}
 	private static class Sector {
 
-		public Critter critter; // The critter here
-		public Sector prev; // The critter already in this sector
-		public Sector next; // The next critter in the sector
+		private Critter critter; // The critter here
+		private Sector prev; // The critter already in this sector
+		private Sector next; // The next critter in the sector
 
-		public Sector(Critter critter) {
+		protected Sector(Critter critter) {
 			this.critter = critter;
 			//this.prev = prev;
-	
 		}
+		
+		public boolean hasNext(){
+			if(this.next != null)
+				return true;
+			else
+				return false;
+		}
+		
 	}
 }
