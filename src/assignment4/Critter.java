@@ -101,6 +101,7 @@ public abstract class Critter {
 	protected final void walk(int direction) {
 		this.energy -= Params.walk_energy_cost;
 		this.move(1, direction);			// update the position
+		
 	}
 	
 	protected final void run(int direction) {
@@ -256,7 +257,7 @@ public abstract class Critter {
 		// check for encounters
 		for(int c = 0; c < Params.world_height; c += 1){ 	
 			for(int r = 0; r < Params.world_width; r += 1){
-					while(worldMap[c][r].neighbors.size() > 1){			// while there are still overlapping critters
+					while(worldMap[c][r] != null && worldMap[c][r].neighbors.size() > 1){			// while there are still overlapping critters
 						Critter critA = worldMap[c][r].neighbors.get(0);
 						Critter critB = worldMap[c][r].neighbors.get(1);
 						
@@ -293,6 +294,7 @@ public abstract class Critter {
 					}
 				}
 		}
+	}
 	}
 	
 	public static void displayWorld() {

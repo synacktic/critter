@@ -76,6 +76,7 @@ public class Main {
         /* Write your code above */
         int quit = 0;
         while (quit != 1) {
+        	System.out.printf(">");
     		String myAns = kb.next();
 			if (myAns.equals("quit")) {
 				quit = 1;
