@@ -95,17 +95,24 @@ public abstract class Critter {
 
 		//worldMap[this.y_coord][this.x_coord].neighbors.remove(this);
 
-		
 	}
 	
 	protected final void walk(int direction) {
 		this.energy -= Params.walk_energy_cost;
+		if(this.energy <= 0){ 
+			worldMap[this.y_coord][this.x_coord].neighbors.remove(this);
+			population.remove(this); 
+			}
 		this.move(1, direction);			// update the position
 		
 	}
 	
 	protected final void run(int direction) {
 		this.energy -= Params.run_energy_cost;
+		if(this.energy <= 0){ 
+			worldMap[this.y_coord][this.x_coord].neighbors.remove(this);
+			population.remove(this); 
+			}
 		this.move(2, direction);			// update the position
 	}
 	
@@ -248,9 +255,13 @@ public abstract class Critter {
 	 */
 	public static void worldTimeStep() {
 		// do a time step for every Critter in the population
-		for (Critter crit: population) {
-			crit.doTimeStep();
-		}
+//		for (Critter crit: population) {
+//			crit.doTimeStep();
+//		}
+		
+		for(int i = 0; i < population.size(); i+=1){
+			 population.get(i).doTimeStep();
+		 }
 
 		// clear dead
 		
@@ -258,6 +269,7 @@ public abstract class Critter {
 		for(int c = 0; c < Params.world_height; c += 1){ 	
 			for(int r = 0; r < Params.world_width; r += 1){
 					while(worldMap[c][r] != null && worldMap[c][r].neighbors.size() > 1){			// while there are still overlapping critters
+						System.out.println("encounter!!");
 						Critter critA = worldMap[c][r].neighbors.get(0);
 						Critter critB = worldMap[c][r].neighbors.get(1);
 						
@@ -265,9 +277,10 @@ public abstract class Critter {
 						boolean b = critB.fight(critA.toString()); // fight or flee
 						
 						// if still in the same position and alive
-						if(worldMap[c][r].critter.x_coord == critB.x_coord 
+						if(critA.x_coord == critB.x_coord 
 								&& critA.y_coord == critB.y_coord
-								&& critA.energy > 0 && critB.energy > 0){
+								&& critA.energy > 0 && critB.energy > 0
+								&& a|b){
 	
 							int roll = 0;
 							int rollA = 0; // 0 if they want to flee
@@ -278,21 +291,31 @@ public abstract class Critter {
 								
 							if(rollA < rollB){ // critter B wins the fight
 								critB.energy += (int) Math.ceil(critA.energy / 2); 	// add half the loser's energy to the winner
+								System.out.println("Critter B wins!");
 								worldMap[c][r].neighbors.remove(critA);  			// kill critter A
-							}
+								population.remove(critA);
+}
 							if(rollA > rollB){
 								critA.energy += (int) Math.ceil(critB.energy / 2); 	// add half the loser's energy to the winner
+								System.out.println("Critter A wins!");
 								worldMap[c][r].neighbors.remove(critB); 		 	// kill critter B
+								population.remove(critB);
 							}
 							else
 								roll = Critter.getRandomInt(1);					// randomly decide who dies
 								if(roll == 0){
+									System.out.println("Critter A wins!");
 									worldMap[c][r].neighbors.remove(critB); 		// kill critter B
+									population.remove(critB);
 								}
 								else
-									worldMap[c][r].neighbors.remove(critA);  		// kill critter A}
+									System.out.println("Critter B wins!");
+									worldMap[c][r].neighbors.remove(critA);  		// kill critter A}									
+									population.remove(critA);
+
 					}
 				}
+			}
 		}
 	}
 	}
@@ -361,13 +384,6 @@ public abstract class Critter {
 		    neighbors = new java.util.ArrayList<Critter>();
 		    neighbors.add(critter);
 			//this.prev = prev;
-	}
-		
-		public boolean hasNext(){
-			if(this.next != null)
-				return true;
-			else
-				return false;
 		}
 		
 	}
