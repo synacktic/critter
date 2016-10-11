@@ -3,15 +3,20 @@
  
 ## Brian
 
-  View Component
+  View Component - ✓
   
-  Commmands: quit/show/step/stats
-  
-  Encounters
+  Critter Collection/World - ✓
 
+  Commmands: 
+  - quit - ✓
+  - show - ✓
+  - step - ✓
+  - stats
+  - seed
+  
   Algae
   
-  Clear World
+
   
   
 ## Katya
@@ -19,13 +24,13 @@
 
  Walk / Run - ✓
  
- Critter Collection
- 
  Reproduce - ✓
  
- Commands: seed 
+ Encounters
  
- Double Movements Handling
+ Clear World - ✓
+ 
+ Double Movements Handling in Fight/Flight decision
  
  Make Critter - ✓
  
