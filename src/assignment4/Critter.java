@@ -71,14 +71,14 @@ public abstract class Critter {
 		int x_old = this.x_coord;
 		int y_old = this.y_coord;
 
-		if(direction == 7 || direction == 0 || direction == 1 )	// right
+		if(direction == 0 || direction == 1 || direction == 7 )	// right
 			this.x_coord += distance;		
 		if(direction == 3 || direction == 4 || direction == 5 )	// left
 			this.x_coord -= distance;		
 		if(direction == 5 || direction == 6 || direction == 7 ) // up
-			this.y_coord += distance;		
+			this.y_coord -= distance;		
 		if(direction == 1 || direction == 2 || direction == 3 ) // down
-			this.y_coord -= distance;
+			this.y_coord += distance;
 		
 		//wrap around world	
 		if (this.y_coord < 0) 							// wrap to bottom
@@ -245,51 +245,48 @@ public abstract class Critter {
 		for (Critter crit: population) {
 			crit.doTimeStep();
 		}
-		//for(int i = 0; i < population.size(); i+=1){
-			//population.get(i).doTimeStep();
-		//}
-		
+
 		// clear dead
 		
 		// check for encounters
-		for(int c = 0; c < Params.world_height; c += 1){ 	// columns
+		for(int c = 0; c < Params.world_height; c += 1){ 	
 			for(int r = 0; r < Params.world_width; r += 1){
-					while(worldMap[c][r] != null && worldMap[c][r].hasNext()){			// while there are still overlapping critters
-						boolean a = worldMap[c][r].critter.fight(worldMap[c][r].next.critter.toString()); // fight or flee
-						boolean b = worldMap[c][r].next.critter.fight(worldMap[c][r].critter.toString()); // fight or flee
+					while(worldMap[c][r].neighbors.size() > 1){			// while there are still overlapping critters
+						Critter critA = worldMap[c][r].neighbors.get(0);
+						Critter critB = worldMap[c][r].neighbors.get(1);
+						
+						boolean a = critA.fight(critB.toString()); // fight or flee
+						boolean b = critB.fight(critA.toString()); // fight or flee
 						
 						// if still in the same position and alive
-						if(worldMap[c][r].critter.x_coord == worldMap[c][r].next.critter.x_coord 
-								&& worldMap[c][r].critter.y_coord == worldMap[c][r].next.critter.y_coord
-								&& worldMap[c][r].critter.energy > 0 && worldMap[c][r].next.critter.energy > 0){
+						if(worldMap[c][r].critter.x_coord == critB.x_coord 
+								&& critA.y_coord == critB.y_coord
+								&& critA.energy > 0 && critB.energy > 0){
 	
 							int roll = 0;
 							int rollA = 0; // 0 if they want to flee
 							int rollB = 0;
 							
-							if(a) rollA = Critter.getRandomInt(worldMap[c][r].critter.energy); 	// roll the dice if they want to fight
-							if(b) rollB = Critter.getRandomInt(worldMap[c][r].critter.energy);	
+							if(a) rollA = Critter.getRandomInt(critA.energy); 	// roll the dice if they want to fight
+							if(b) rollB = Critter.getRandomInt(critB.energy);	
 								
 							if(rollA < rollB){ // critter B wins the fight
-								worldMap[c][r].next.critter.energy += (int) Math.ceil(worldMap[c][r].critter.energy / 2); 	// add half the loser's energy to the winner
-								worldMap[c][r].critter.energy = 0; 	// kill critter A
+								critB.energy += (int) Math.ceil(critA.energy / 2); 	// add half the loser's energy to the winner
+								worldMap[c][r].neighbors.remove(critA);  			// kill critter A
 							}
 							if(rollA > rollB){
-								worldMap[c][r].critter.energy += (int) Math.ceil(worldMap[c][r].next.critter.energy / 2); 	// add half the loser's energy to the winner
-								worldMap[c][r].next.critter.energy = 0; 	// kill critter B
+								critA.energy += (int) Math.ceil(critB.energy / 2); 	// add half the loser's energy to the winner
+								worldMap[c][r].neighbors.remove(critB); 		 	// kill critter B
 							}
 							else
-								roll = Critter.getRandomInt(1);				// randomly decide who dies
+								roll = Critter.getRandomInt(1);					// randomly decide who dies
 								if(roll == 0){
-									worldMap[c][r].next.critter.energy = 0; // kill critter B
+									worldMap[c][r].neighbors.remove(critB); 		// kill critter B
 								}
 								else
-									worldMap[c][r].critter.energy = 0; 		// kill critter A
-						}
+									worldMap[c][r].neighbors.remove(critA);  		// kill critter A}
 					}
 				}
-			//}
-			
 		}
 	}
 	
