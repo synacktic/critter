@@ -13,6 +13,7 @@
 
 package assignment4;
 
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -255,6 +256,21 @@ public abstract class Critter {
 				System.out.printf("|");
 			System.out.printf("\n");
 		}
+	}
+	
+	public static void cremateDead() {
+		for (Iterator<Critter> criterator = population.iterator(); criterator.hasNext(); ) {
+			Critter crit = criterator.next();
+			//worldMap[crit.y_coord][crit.x_coord] = null;
+			//while (worldMap[crit.y_coord][crit.x_coord].next != null) {
+				
+			//}
+			if (crit.energy <= 0) {
+				criterator.remove();
+			}
+		}
+	
+		
 	}
 	private static class Sector {
 

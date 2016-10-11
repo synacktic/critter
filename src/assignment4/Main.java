@@ -74,6 +74,26 @@ public class Main {
         //System.out.printf("%s",Critter.run(2));
         //Critter.run(2);
         /* Write your code above */
+        int quit = 0;
+        while (quit != 1) {
+    		String myAns = kb.next();
+			if (myAns.equals("quit")) {
+				quit = 1;
+			} else if (myAns.equals("show")) {
+			       Critter.displayWorld();
+        	} else if (myAns.equals("stats")) {
+        	} else if (myAns.equals("clear")) {
+        		Critter.cremateDead();
+		       //Display stuff
+        	} else if (myAns.equals("make")) {
+        		String className = kb.next();
+        		int count = kb.nextInt();
+        		for (int c=0;c < count; c++) {        			
+        			Critter.makeCritter(className);
+        		}
+		       //Display stuff
+     	    }
+        }
         Critter.makeCritter("Craig");
         Critter.makeCritter("Craig");
         Critter.displayWorld();
