@@ -48,7 +48,7 @@ public abstract class Critter {
 	/* a one-character long string that visually depicts your critter in the ASCII interface */
 	public String toString() { return ""; }
 	
-	private int energy = 0;
+	private int energy = 10; //FIXME
 	protected int getEnergy() { return energy; }
 	
 	private int x_coord = getRandomInt(Params.world_width);
@@ -99,17 +99,18 @@ public abstract class Critter {
 	
 	protected final void walk(int direction) {
 		this.energy -= Params.walk_energy_cost;
-		if(this.energy <= 0){ 
+		if(this.energy <= 1){ //FIXME
 			worldMap[this.y_coord][this.x_coord].neighbors.remove(this);
 			population.remove(this); 
-			}
-		this.move(1, direction);			// update the position
+		} else {
+			this.move(1, direction);			// update the position
+		}
 		
 	}
 	
 	protected final void run(int direction) {
 		this.energy -= Params.run_energy_cost;
-		if(this.energy <= 0){ 
+		if(this.energy <= 0){ //FIXME 
 			worldMap[this.y_coord][this.x_coord].neighbors.remove(this);
 			population.remove(this); 
 			}
@@ -269,7 +270,7 @@ public abstract class Critter {
 		for(int c = 0; c < Params.world_height; c += 1){ 	
 			for(int r = 0; r < Params.world_width; r += 1){
 					while(worldMap[c][r] != null && worldMap[c][r].neighbors.size() > 1){			// while there are still overlapping critters
-						System.out.println("encounter!!");
+						//System.out.println("encounter!!");
 						Critter critA = worldMap[c][r].neighbors.get(0);
 						Critter critB = worldMap[c][r].neighbors.get(1);
 						
@@ -291,20 +292,19 @@ public abstract class Critter {
 								
 							if(rollA < rollB){ // critter B wins the fight
 								critB.energy += (int) Math.ceil(critA.energy / 2); 	// add half the loser's energy to the winner
-								System.out.println("Critter B wins!");
+								//System.out.println("Critter B wins!");
 								worldMap[c][r].neighbors.remove(critA);  			// kill critter A
 								population.remove(critA);
-}
-							if(rollA > rollB){
+							} else if(rollA > rollB){
 								critA.energy += (int) Math.ceil(critB.energy / 2); 	// add half the loser's energy to the winner
-								System.out.println("Critter A wins!");
+								//System.out.println("Critter A wins!");
 								worldMap[c][r].neighbors.remove(critB); 		 	// kill critter B
 								population.remove(critB);
 							}
-							else
+							else {
 								roll = Critter.getRandomInt(1);					// randomly decide who dies
 								if(roll == 0){
-									System.out.println("Critter A wins!");
+									//System.out.println("Critter A wins!");
 									worldMap[c][r].neighbors.remove(critB); 		// kill critter B
 									population.remove(critB);
 								}
@@ -312,13 +312,13 @@ public abstract class Critter {
 									System.out.println("Critter B wins!");
 									worldMap[c][r].neighbors.remove(critA);  		// kill critter A}									
 									population.remove(critA);
-
+							}
 					}
 				}
 			}
 		}
 	}
-	}
+	//}
 	
 	public static void displayWorld() {
 		//Params.world_width;
