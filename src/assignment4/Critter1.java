@@ -1,14 +1,18 @@
 package assignment4;
 
-/*
- * Example critter
+/**
+ * Decides to fight based on rolls - Fight if even, a multiple of 3, or not enough energy to walk.
+ * Waits to breed - every 10 turns as long as energy is high enough
+ * Will run in its doTimeStep
+ * @author Katya
+ *
  */
 public class Critter1 extends Critter {
 	
 	@Override
 	public String toString() { return "1"; }
 	
-	private static final int GENE_TOTAL = 24;
+	private static final int GENE_TOTAL = 30;
 	private int[] genes = new int[8];
 	private int dir;
 	private int longevity;
@@ -22,16 +26,24 @@ public class Critter1 extends Critter {
 	
 	public boolean fight(String not_used) { 
 		// decide if wants to flee or fight
-		int roll = Critter.getRandomInt(10);
-		if(roll == 3) 		// lucky number 3, we stand a chance!
+		int roll = Critter.getRandomInt(33);
+		if(roll%3 == 0) 		// lucky number 3, FIGHT!
 			return true;
 		else if(roll%2 == 0) 
-			return true;	// even fight
+			return true;		// even fight
 		else if(this.getEnergy() > Params.walk_energy_cost){
-			return false; 	// run away!!
+			roll = Critter.getRandomInt(GENE_TOTAL);
+			int turn = 0;
+			while (getGenes()[turn] <= roll) {
+				roll = roll - getGenes()[turn];
+				turn = turn + 1;
+			}
+			assert(turn < 8);	
+			dir = ((dir + turn) % 8 + 333)%8;
+			return false; 	// turn in a direction to run away!!
 			}
 		else 
-			return true; 	// need to try to fight...
+			return true; 	// guess we fight...
 		}
 
 	@Override
@@ -39,7 +51,7 @@ public class Critter1 extends Critter {
 		/* take one step forward */
 		run(dir);
 		
-		if (longevity % 5 == 0 && this.getEnergy() > Params.run_energy_cost*Params.walk_energy_cost) {	// reproduce every timesteps while have enough health
+		if (longevity % 10 == 0 && this.getEnergy() > 200) {	// reproduce every timesteps while have enough health
 			Critter1 child = new Critter1();
 			for (int k = 0; k < 8; k += 1) {
 				child.getGenes()[k] = this.getGenes()[k];
@@ -63,7 +75,7 @@ public class Critter1 extends Critter {
 		}
 		assert(turn < 8);
 		
-		dir = (dir + turn) % 8;
+		dir = ((dir + turn) % 8 + 333)%8;
 		
 		longevity += 1;	// increase longevity with each time step
 	}

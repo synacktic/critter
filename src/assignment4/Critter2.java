@@ -2,6 +2,8 @@ package assignment4;
 
 /**
  * This critter will refuse to fight its own kind. 
+ * Breeds randomly - if random number is divisible by 19
+ * 
  * @author Katya
  *
  */
@@ -33,7 +35,7 @@ public class Critter2 extends Critter {
 		/* take one step forward */
 		walk(dir);
 		
-		if (getEnergy() > 150) {
+		if (Critter.getRandomInt(3000)%19 == 0) {
 			Critter2 child = new Critter2();
 			for (int k = 0; k < 8; k += 1) {
 				child.getGenes()[k] = this.getGenes()[k];
