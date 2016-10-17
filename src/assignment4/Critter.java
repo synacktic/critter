@@ -141,6 +141,15 @@ public abstract class Critter {
 		}	
 	}
 	
+	private static boolean isInstance(Object o, String className) {
+	    try {
+	        Class clazz = Class.forName(className);
+	        return clazz.isInstance(o);
+	    } catch (ClassNotFoundException ex) {
+	        return false;
+	    }
+	}
+	
 	/**
 	 * Gets a list of critters of a specific type.
 	 * @param critter_class_name What kind of Critter is to be listed.  Unqualified class name.
@@ -149,19 +158,15 @@ public abstract class Critter {
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
-		String class_name = myPackage + "." + critter_class_name.substring(0, 1).toUpperCase() + critter_class_name.substring(1);
-		try {
-			Object newCritter = Class.forName(class_name).newInstance(); // get an instance of the critter 
-			// if Critter is an instance of critter_class_name, add it to the list
-			for (Critter crit: population) {
-				if(crit.toString().equals(newCritter.toString())  ){
-					System.out.println("Yo!");
-					result.add(crit);
-				}
-			}			
-		} catch (ClassNotFoundException e) { throw new InvalidCritterException(class_name);
-		}	
 
+		String class_name = myPackage + "." + critter_class_name.substring(0, 1).toUpperCase() + critter_class_name.substring(1);	
+		
+		// if Critter is an instance of critter_class_name, add it to the list
+		for (Critter crit: population) {
+			if(isInstance(crit, class_name))
+				result.add(crit);
+			}	
+		
 		return result;
 	}
 	public static void statGlue() {
