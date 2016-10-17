@@ -377,10 +377,11 @@ public abstract class Critter {
 							
 							if(a) rollA = Critter.getRandomInt(critA.energy); 	// roll the dice if they want to fight
 							if(b) rollB = Critter.getRandomInt(critB.energy);	
-								
+							if (rollA == rollB)
+							System.out.printf("%d %d\n",rollA,rollB);
+
 							if(rollA < rollB){ // critter B wins the fight
 								critB.energy += (int) Math.ceil(critA.energy / 2); 	// add half the loser's energy to the winner
-								//System.out.printf("%d %d\n",a,b);
 								worldMap[c][r].neighbors.remove(critA);  			// kill critter A
 								population.remove(critA);
 							} else if(rollA > rollB){
@@ -390,14 +391,14 @@ public abstract class Critter {
 								population.remove(critB);
 							}
 							else {
-								roll = Critter.getRandomInt(1);					// randomly decide who dies
+								roll = Critter.getRandomInt(2);					// randomly decide who dies
 								if(roll == 0){
 									//System.out.println("Critter A wins!");
 									worldMap[c][r].neighbors.remove(critB); 		// kill critter B
 									population.remove(critB);
 								}
 								else
-									System.out.println("Critter B wins!");
+									//System.out.println("Critter B wins!");
 									worldMap[c][r].neighbors.remove(critA);  		// kill critter A}									
 									population.remove(critA);
 							}
