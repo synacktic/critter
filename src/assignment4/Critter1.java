@@ -12,8 +12,8 @@ public class Critter1 extends Critter {
 	@Override
 	public String toString() { return "1"; }
 	
-	private static final int GENE_TOTAL = 30;
-	private int[] genes = new int[8];
+	private static final int GENE_TOTAL = 24;
+	private int[] genes = new int[24];
 	private int dir;
 	private int longevity;
 	
@@ -31,7 +31,7 @@ public class Critter1 extends Critter {
 			return true;
 		else if(roll%2 == 0) 
 			return true;		// even fight
-		else if(this.getEnergy() > Params.walk_energy_cost){
+		else if(this.getEnergy() > Params.run_energy_cost + 1){
 			roll = Critter.getRandomInt(GENE_TOTAL);
 			int turn = 0;
 			while (getGenes()[turn] <= roll) {
@@ -39,7 +39,7 @@ public class Critter1 extends Critter {
 				turn = turn + 1;
 			}
 			assert(turn < 8);	
-			dir = ((dir + turn) % 8 + 333)%8;
+			dir = (dir + turn + 333) % 8;
 			return false; 	// turn in a direction to run away!!
 			}
 		else 
@@ -67,7 +67,7 @@ public class Critter1 extends Critter {
 		}
 		
 		/* pick a new direction based on our genes */
-		int roll = Critter.getRandomInt(GENE_TOTAL);
+		int roll = Critter.getRandomInt(GENE_TOTAL - 1);
 		int turn = 0;
 		while (getGenes()[turn] <= roll) {
 			roll = roll - getGenes()[turn];
@@ -75,7 +75,7 @@ public class Critter1 extends Critter {
 		}
 		assert(turn < 8);
 		
-		dir = ((dir + turn) % 8 + 333)%8;
+		dir = (dir + turn) % 8;
 		
 		longevity += 1;	// increase longevity with each time step
 	}
