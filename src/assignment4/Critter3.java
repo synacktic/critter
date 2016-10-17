@@ -26,7 +26,7 @@ public class Critter3 extends Critter {
 		/* take one step forward */
 		walk(dir);
 		
-		if (getEnergy() > 150) {
+		if (getEnergy() > 200) { // Don't breed until strong and make strong babies!
 			Critter3 child = new Critter3();
 			for (int k = 0; k < 8; k += 1) {
 				child.genes[k] = this.genes[k];

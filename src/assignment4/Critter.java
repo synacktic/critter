@@ -48,7 +48,7 @@ public abstract class Critter {
 	/* a one-character long string that visually depicts your critter in the ASCII interface */
 	public String toString() { return ""; }
 	
-	private int energy = 10; //FIXME
+	private int energy = Params.start_energy; 
 	protected int getEnergy() { return energy; }
 	
 	private int x_coord;
@@ -278,8 +278,7 @@ public abstract class Critter {
 //			 population.get(i).doTimeStep();
 //		 }
 
-		// check for encounters
-	    encounter();
+	
 		// clear dead
 		Iterator<Critter> alive = population.iterator();
 	      while(alive.hasNext()) {
@@ -290,7 +289,8 @@ public abstract class Critter {
 	          }
 	       }
 		
-	
+	  	// check for encounters
+		    encounter();
 	    
 	    // add babies to population and clear babies
 	    for(Critter baby : babies){
