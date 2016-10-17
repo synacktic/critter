@@ -1,9 +1,24 @@
+/* CRITTERS Critter.java
+ * EE422C Project 4 submission by
+ * Katya Malyavina
+ * ym5356
+ * 16465
+ * Brian Sutherland
+ * bcs2433
+ * 16445
+ * Slip days used: 0
+ * Fall 2016
+ * GitHub Repository: https://github.com/synacktic/critter
+ */
+
 package assignment4;
 
 /**
  * Decides to fight based on rolls - Fight if even, a multiple of 3, or not enough energy to walk.
- * Waits to breed - every 10 turns as long as energy is high enough
- * Will run in its doTimeStep
+ * Waits to breed - every 5 timesteps as long as energy is high enough
+ * Run in its doTimeStep
+ * More genes! 
+ * 
  * @author Katya
  *
  */
@@ -51,7 +66,7 @@ public class Critter1 extends Critter {
 		/* take one step forward */
 		run(dir);
 		
-		if (longevity % 10 == 0 && this.getEnergy() > 200) {	// reproduce every timesteps while have enough health
+		if (longevity % 5 == 0 && this.getEnergy() > 200) {	// reproduce every timesteps while have enough health
 			Critter1 child = new Critter1();
 			for (int k = 0; k < 8; k += 1) {
 				child.getGenes()[k] = this.getGenes()[k];
@@ -75,7 +90,7 @@ public class Critter1 extends Critter {
 		}
 		assert(turn < 8);
 		
-		dir = (dir + turn) % 8;
+		dir = (dir + turn + 333) % 8;
 		
 		longevity += 1;	// increase longevity with each time step
 	}
