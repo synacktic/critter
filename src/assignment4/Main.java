@@ -83,6 +83,7 @@ public class Main {
 			} else if (myAns.equals("show")) {
 			       Critter.displayWorld();
         	} else if (myAns.equals("stats")) {
+        		Critter.statGlue();
         	} else if (myAns.equals("step")) {
         		int count = kb.nextInt();
         		for (int c=0;c < count; c++) {        			

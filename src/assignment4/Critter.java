@@ -153,11 +153,14 @@ public abstract class Critter {
 		return result;
 	}
 	
+	public static void statGlue() {
+		runStats(population);
+	}
 	/**
 	 * Prints out how many Critters of each type there are on the board.
 	 * @param critters List of Critters.
 	 */
-	public static void runStats(List<Critter> critters) {
+		public static void runStats(List<Critter> critters) {
 		System.out.print("" + critters.size() + " critters as follows -- ");
 		java.util.Map<String, Integer> critter_count = new java.util.HashMap<String, Integer>();
 		for (Critter crit : critters) {
@@ -266,6 +269,9 @@ public abstract class Critter {
 		
 		// check for encounters
 	      encounter();
+	  	for (int c = 0; c<Params.refresh_algae_count; c++) {
+			Critter.makeCritter("Algae");
+		}
 	}
 	//}
 	
@@ -299,7 +305,7 @@ public abstract class Critter {
 		}
 	}
 	
-	private static void encounter(){
+	private static void encounter() {
 		for(int c = 0; c < Params.world_height; c += 1){ 	
 			for(int r = 0; r < Params.world_width; r += 1){
 					while(worldMap[c][r] != null && worldMap[c][r].neighbors.size() > 1){			// while there are still overlapping critters
@@ -355,9 +361,7 @@ public abstract class Critter {
 				}
 			}
 		}
-		for (int c = 0; c<Params.refresh_algae_count; c++) {
-			Critter.makeCritter("Algae");
-		}
+	
 	}
 	
 	public static void cremateDead() {
