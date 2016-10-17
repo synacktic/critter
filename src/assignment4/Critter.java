@@ -99,21 +99,11 @@ public abstract class Critter {
 	
 	protected final void walk(int direction) {
 		this.energy -= Params.walk_energy_cost;
-		if(this.energy <= 1){ //FIXME
-			worldMap[this.y_coord][this.x_coord].neighbors.remove(this);
-			population.remove(this); 
-		} else {
-			this.move(1, direction);			// update the position
-		}
-		
+		this.move(1, direction);			// update the position
 	}
 	
 	protected final void run(int direction) {
 		this.energy -= Params.run_energy_cost;
-		if(this.energy <= 0){ //FIXME 
-			worldMap[this.y_coord][this.x_coord].neighbors.remove(this);
-			population.remove(this); 
-			}
 		this.move(2, direction);			// update the position
 	}
 	
@@ -148,8 +138,7 @@ public abstract class Critter {
 		} catch (InstantiationException e) { throw new InvalidCritterException(class_name);
 		} catch (IllegalAccessException e) { throw new InvalidCritterException(class_name);
 		} catch (ClassNotFoundException e) { throw new InvalidCritterException(class_name);
-		}
-		
+		}	
 	}
 	
 	/**
@@ -256,15 +245,23 @@ public abstract class Critter {
 	 */
 	public static void worldTimeStep() {
 		// do a time step for every Critter in the population
-//		for (Critter crit: population) {
-//			crit.doTimeStep();
-//		}
+		for (Critter crit: population) {
+			crit.doTimeStep();
+		}
 		
-		for(int i = 0; i < population.size(); i+=1){
-			 population.get(i).doTimeStep();
-		 }
+//		for(int i = 0; i < population.size(); i+=1){
+//			 population.get(i).doTimeStep();
+//		 }
 
 		// clear dead
+		Iterator<Critter> alive = population.iterator();
+	      while(alive.hasNext()) {
+	          Critter next = alive.next();
+	          if(next.getEnergy() <= 0){
+	  			worldMap[next.y_coord][next.x_coord].neighbors.remove(next);
+	        	alive.remove();
+	          }
+	       }
 		
 		// check for encounters
 		for(int c = 0; c < Params.world_height; c += 1){ 	
