@@ -264,6 +264,41 @@ public abstract class Critter {
 	       }
 		
 		// check for encounters
+	      encounter();
+	}
+	//}
+	
+	public static void displayWorld() {
+		//Params.world_width;
+		//Params.world_height;
+		for (int current_height = -1; current_height <= Params.world_height; current_height++ ) {
+			if (current_height == -1 || current_height == Params.world_height)
+				System.out.printf("+");
+			else 
+				System.out.printf("|");
+			
+			for (int current_width = 0; current_width < Params.world_width; current_width++ ) {
+				if (current_height == -1 || current_height == Params.world_height)
+					System.out.printf("-");
+				else {
+					//System.out.printf("%d %d\n",current_height,current_width);
+					if(worldMap[current_height][current_width] ==  null || worldMap[current_height][current_width].neighbors.size() == 0 ) {
+						System.out.printf(" ");
+					} else {
+						System.out.printf("%s",worldMap[current_height][current_width].neighbors.get(0).toString());
+					}
+				}
+				
+			}
+			if (current_height == -1 || current_height == Params.world_height)
+				System.out.printf("+");
+			else 
+				System.out.printf("|");
+			System.out.printf("\n");
+		}
+	}
+	
+	private static void encounter(){
 		for(int c = 0; c < Params.world_height; c += 1){ 	
 			for(int r = 0; r < Params.world_width; r += 1){
 					while(worldMap[c][r] != null && worldMap[c][r].neighbors.size() > 1){			// while there are still overlapping critters
@@ -315,37 +350,6 @@ public abstract class Critter {
 			}
 		}
 	}
-	//}
-	
-	public static void displayWorld() {
-		//Params.world_width;
-		//Params.world_height;
-		for (int current_height = -1; current_height <= Params.world_height; current_height++ ) {
-			if (current_height == -1 || current_height == Params.world_height)
-				System.out.printf("+");
-			else 
-				System.out.printf("|");
-			
-			for (int current_width = 0; current_width < Params.world_width; current_width++ ) {
-				if (current_height == -1 || current_height == Params.world_height)
-					System.out.printf("-");
-				else {
-					//System.out.printf("%d %d\n",current_height,current_width);
-					if(worldMap[current_height][current_width] ==  null || worldMap[current_height][current_width].neighbors.size() == 0 ) {
-						System.out.printf(" ");
-					} else {
-						System.out.printf("%s",worldMap[current_height][current_width].neighbors.get(0).toString());
-					}
-				}
-				
-			}
-			if (current_height == -1 || current_height == Params.world_height)
-				System.out.printf("+");
-			else 
-				System.out.printf("|");
-			System.out.printf("\n");
-		}
-	}
 	
 	public static void cremateDead() {
 		for (Iterator<Critter> criterator = population.iterator(); criterator.hasNext(); ) {
@@ -364,8 +368,6 @@ public abstract class Critter {
 	private static class Sector {
 
 		private Critter critter; // The critter here
-		private Sector prev; // The critter already in this sector
-		private Sector next; // The next critter in the sector
 		private List<Critter> neighbors;// = new java.util.ArrayList<Critter>();
 
 		//worldMap[that.y_coord][that.x_coord] = 
@@ -376,11 +378,10 @@ public abstract class Critter {
 	//	protected Sector(List<Critter> neighbors) {
 	//		this.critter = critter;
 	//	}
-	protected Sector(Critter critter) {
+	private Sector(Critter critter) {
 		this.critter = critter;
 		    neighbors = new java.util.ArrayList<Critter>();
 		    neighbors.add(critter);
-			//this.prev = prev;
 		}
 		
 	}
