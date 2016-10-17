@@ -110,7 +110,9 @@ public abstract class Critter {
 	protected final void reproduce(Critter offspring, int direction) {
 		offspring.energy = (int) Math.floor(this.energy/2);		// make new critter with half health of parent
 		this.energy = (int) Math.ceil(this.energy/2);			// decrease parent's energy
-		
+		//System.out.println("New Baby!");
+		updateWorld((Critter) offspring);						//Add to world to avoid move errors
+
 		offspring.move(1, direction); 							// location is next to parent - in direction	
 		
 		babies.add(offspring);									// add child to the list of babies for this timestep
@@ -169,9 +171,7 @@ public abstract class Critter {
 		
 		return result;
 	}
-	public static void statGlue() {
-		runStats(population);
-	}
+
 	/**
 	 * Prints out how many Critters of each type there are on the board.
 	 * @param critters List of Critters.
@@ -273,6 +273,8 @@ public abstract class Critter {
 //			 population.get(i).doTimeStep();
 //		 }
 
+		// check for encounters
+	    encounter();
 		// clear dead
 		Iterator<Critter> alive = population.iterator();
 	      while(alive.hasNext()) {
@@ -283,8 +285,7 @@ public abstract class Critter {
 	          }
 	       }
 		
-		// check for encounters
-	    encounter();
+	
 	    
 	    // add babies to population and clear babies
 	    for(Critter baby : babies){
@@ -339,13 +340,30 @@ public abstract class Critter {
 						
 						boolean a = critA.fight(critB.toString()); // fight or flee
 						boolean b = critB.fight(critA.toString()); // fight or flee
-						
+						// If there is algae, the non algae eats it and gets all its health...
+						if (critA.toString().equals("@") && !critB.toString().equals("@") ) {
+							critB.energy += critA.energy;
+							critA.energy = 0;
+							worldMap[critA.y_coord][critA.x_coord].neighbors.remove(critA);
+							population.remove(critA);
+
+						}
+						else if (critB.toString().equals("@") && !critA.toString().equals("@")) {
+							critA.energy += critB.energy;
+							critB.energy = 0;
+							population.remove(critB);
+							worldMap[critB.y_coord][critB.x_coord].neighbors.remove(critB);
+							population.remove(critB);
+
+						}
 						// if still in the same position and alive
-						if(critA.x_coord == critB.x_coord 
+
+						else if(critA.x_coord == critB.x_coord 
 								&& critA.y_coord == critB.y_coord
 								&& critA.energy > 0 && critB.energy > 0
 								&& a|b){
-	
+							//System.out.printf("%s vs %s\n",critA.toString(),critB.toString());
+
 							int roll = 0;
 							int rollA = 0; // 0 if they want to flee
 							int rollB = 0;

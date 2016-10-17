@@ -74,6 +74,12 @@ public class Main {
         //System.out.printf("%s",Critter.run(2));
         //Critter.run(2);
         /* Write your code above */
+    	for (int c=0;c < 25; c++) {        			
+			Critter.makeCritter("Craig");
+		}
+    	for (int c=0;c < 100; c++) {        			
+			Critter.makeCritter("Algae");
+		}
         int quit = 0;
         while (quit != 1) {
         	System.out.printf(">");
@@ -83,10 +89,9 @@ public class Main {
 				quit = 1;
 			} else if (myAns.equals("show")) {
 			       Critter.displayWorld();
-			} else if (myAns.equals("get")) {
-				Critter.getInstances("Craig");
-        	} else if (myAns.equals("stats")) {
-        		Critter.statGlue();
+			} else if (myAns.equals("stats")) {
+        		String className = kb.next();
+				Critter.runStats(Critter.getInstances(className));
         	} else if (myAns.equals("step")) {
         		int count = kb.nextInt();
         		for (int c=0;c < count; c++) {        			
@@ -104,9 +109,9 @@ public class Main {
 		       //Display stuff
      	    }
         }
-        Critter.makeCritter("Craig");
-        Critter.makeCritter("Craig");
-        Critter.displayWorld();
+        //Critter.makeCritter("Craig");
+       // Critter.makeCritter("Craig");
+        //Critter.displayWorld();
 
 
         System.out.flush();
