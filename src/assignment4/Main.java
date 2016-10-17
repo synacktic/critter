@@ -78,10 +78,13 @@ public class Main {
         while (quit != 1) {
         	System.out.printf(">");
     		String myAns = kb.next();
+    		//Critter.g
 			if (myAns.equals("quit")) {
 				quit = 1;
 			} else if (myAns.equals("show")) {
 			       Critter.displayWorld();
+			} else if (myAns.equals("get")) {
+				Critter.getInstances("Craig");
         	} else if (myAns.equals("stats")) {
         		Critter.statGlue();
         	} else if (myAns.equals("step")) {

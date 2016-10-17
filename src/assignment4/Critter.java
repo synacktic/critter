@@ -151,11 +151,11 @@ public abstract class Critter {
 		List<Critter> result = new java.util.ArrayList<Critter>();
 		String class_name = myPackage + "." + critter_class_name.substring(0, 1).toUpperCase() + critter_class_name.substring(1);
 		try {
-			Object critterClass = Class.forName(class_name).newInstance(); // get an instance of the critter 
-			
+			Object newCritter = Class.forName(class_name).newInstance(); // get an instance of the critter 
 			// if Critter is an instance of critter_class_name, add it to the list
 			for (Critter crit: population) {
-				if(crit instanceof critterClass){
+				if(crit.toString().equals(newCritter.toString())  ){
+					System.out.println("Yo!");
 					result.add(crit);
 				}
 			}			
@@ -164,7 +164,9 @@ public abstract class Critter {
 
 		return result;
 	}
-	
+	public static void statGlue() {
+		runStats(population);
+	}
 	/**
 	 * Prints out how many Critters of each type there are on the board.
 	 * @param critters List of Critters.
