@@ -13,7 +13,7 @@ public class Critter2 extends Critter {
 	public String toString() { return "2"; }
 	
 	private static final int GENE_TOTAL = 16;
-	private int[] genes = new int[8];
+	private int[] genes = new int[16];
 	private int dir;
 	
 	public Critter2() {
