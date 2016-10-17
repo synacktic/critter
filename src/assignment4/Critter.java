@@ -99,21 +99,11 @@ public abstract class Critter {
 	
 	protected final void walk(int direction) {
 		this.energy -= Params.walk_energy_cost;
-		if(this.energy <= 1){ //FIXME
-			worldMap[this.y_coord][this.x_coord].neighbors.remove(this);
-			population.remove(this); 
-		} else {
-			this.move(1, direction);			// update the position
-		}
-		
+		this.move(1, direction);			// update the position
 	}
 	
 	protected final void run(int direction) {
 		this.energy -= Params.run_energy_cost;
-		if(this.energy <= 0){ //FIXME 
-			worldMap[this.y_coord][this.x_coord].neighbors.remove(this);
-			population.remove(this); 
-			}
 		this.move(2, direction);			// update the position
 	}
 	
@@ -148,8 +138,7 @@ public abstract class Critter {
 		} catch (InstantiationException e) { throw new InvalidCritterException(class_name);
 		} catch (IllegalAccessException e) { throw new InvalidCritterException(class_name);
 		} catch (ClassNotFoundException e) { throw new InvalidCritterException(class_name);
-		}
-		
+		}	
 	}
 	
 	/**
@@ -257,17 +246,60 @@ public abstract class Critter {
 	 */
 	public static void worldTimeStep() throws InvalidCritterException {
 		// do a time step for every Critter in the population
-//		for (Critter crit: population) {
-//			crit.doTimeStep();
-//		}
+		for (Critter crit: population) {
+			crit.doTimeStep();
+		}
 		
-		for(int i = 0; i < population.size(); i+=1){
-			 population.get(i).doTimeStep();
-		 }
+//		for(int i = 0; i < population.size(); i+=1){
+//			 population.get(i).doTimeStep();
+//		 }
 
 		// clear dead
+		Iterator<Critter> alive = population.iterator();
+	      while(alive.hasNext()) {
+	          Critter next = alive.next();
+	          if(next.getEnergy() <= 0){
+	  			worldMap[next.y_coord][next.x_coord].neighbors.remove(next);
+	        	alive.remove();
+	          }
+	       }
 		
 		// check for encounters
+	      encounter();
+	}
+	//}
+	
+	public static void displayWorld() {
+		//Params.world_width;
+		//Params.world_height;
+		for (int current_height = -1; current_height <= Params.world_height; current_height++ ) {
+			if (current_height == -1 || current_height == Params.world_height)
+				System.out.printf("+");
+			else 
+				System.out.printf("|");
+			
+			for (int current_width = 0; current_width < Params.world_width; current_width++ ) {
+				if (current_height == -1 || current_height == Params.world_height)
+					System.out.printf("-");
+				else {
+					//System.out.printf("%d %d\n",current_height,current_width);
+					if(worldMap[current_height][current_width] ==  null || worldMap[current_height][current_width].neighbors.size() == 0 ) {
+						System.out.printf(" ");
+					} else {
+						System.out.printf("%s",worldMap[current_height][current_width].neighbors.get(0).toString());
+					}
+				}
+				
+			}
+			if (current_height == -1 || current_height == Params.world_height)
+				System.out.printf("+");
+			else 
+				System.out.printf("|");
+			System.out.printf("\n");
+		}
+	}
+	
+	private static void encounter(){
 		for(int c = 0; c < Params.world_height; c += 1){ 	
 			for(int r = 0; r < Params.world_width; r += 1){
 					while(worldMap[c][r] != null && worldMap[c][r].neighbors.size() > 1){			// while there are still overlapping critters
@@ -327,37 +359,6 @@ public abstract class Critter {
 			Critter.makeCritter("Algae");
 		}
 	}
-	//}
-	
-	public static void displayWorld() {
-		//Params.world_width;
-		//Params.world_height;
-		for (int current_height = -1; current_height <= Params.world_height; current_height++ ) {
-			if (current_height == -1 || current_height == Params.world_height)
-				System.out.printf("+");
-			else 
-				System.out.printf("|");
-			
-			for (int current_width = 0; current_width < Params.world_width; current_width++ ) {
-				if (current_height == -1 || current_height == Params.world_height)
-					System.out.printf("-");
-				else {
-					//System.out.printf("%d %d\n",current_height,current_width);
-					if(worldMap[current_height][current_width] ==  null || worldMap[current_height][current_width].neighbors.size() == 0 ) {
-						System.out.printf(" ");
-					} else {
-						System.out.printf("%s",worldMap[current_height][current_width].neighbors.get(0).toString());
-					}
-				}
-				
-			}
-			if (current_height == -1 || current_height == Params.world_height)
-				System.out.printf("+");
-			else 
-				System.out.printf("|");
-			System.out.printf("\n");
-		}
-	}
 	
 	public static void cremateDead() {
 		for (Iterator<Critter> criterator = population.iterator(); criterator.hasNext(); ) {
@@ -376,8 +377,6 @@ public abstract class Critter {
 	private static class Sector {
 
 		private Critter critter; // The critter here
-		private Sector prev; // The critter already in this sector
-		private Sector next; // The next critter in the sector
 		private List<Critter> neighbors;// = new java.util.ArrayList<Critter>();
 
 		//worldMap[that.y_coord][that.x_coord] = 
@@ -388,11 +387,10 @@ public abstract class Critter {
 	//	protected Sector(List<Critter> neighbors) {
 	//		this.critter = critter;
 	//	}
-	protected Sector(Critter critter) {
+	private Sector(Critter critter) {
 		this.critter = critter;
 		    neighbors = new java.util.ArrayList<Critter>();
 		    neighbors.add(critter);
-			//this.prev = prev;
 		}
 		
 	}
