@@ -1,11 +1,27 @@
+/* CRITTERS Critter.java
+ * EE422C Project 4 submission by
+ * Katya Malyavina
+ * ym5356
+ * 16465
+ * Brian Sutherland
+ * bcs2433
+ * 16445
+ * Slip days used: 0
+ * Fall 2016
+ * GitHub Repository: https://github.com/synacktic/critter
+ */
+
 package assignment4;
 
-/*
+/**
  * Each Critter class must behave differently when modeled. Each Crit-
 ter class must be in its own .java file. At the top of the java file, you must include a par-
 agraph description in the comments that explains how this Critter class behaves in the
 world. The description should be sufficient for the teaching assistant to easily determine
 how each Critter class you create is different from every other Critter class.
+ * 
+ * @author Brian
+ *
  */
 public class Critter4 extends Critter {
 	
@@ -25,11 +41,11 @@ public class Critter4 extends Critter {
 	
 	public boolean fight(String other) { 
 
-		//if (getEnergy() > 75 || getEnergy() < 10) { // Lover not a fighter, or possibly too tired.
-		//	return false;
-		//} else {
+		if (getEnergy() > 75 || getEnergy() < 10) { // Lover not a fighter, or possibly too tired.
+			return false;
+		} else {
 			return true; 
-		//}
+		}
 		}
 
 	@Override
