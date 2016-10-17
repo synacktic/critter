@@ -8,7 +8,7 @@ public class Critter3 extends Critter {
 	@Override
 	public String toString() { return "3"; }
 	
-	private static final int GENE_TOTAL = 24;
+	private static final int GENE_TOTAL = 128;
 	private int[] genes = new int[8];
 	private int dir;
 	

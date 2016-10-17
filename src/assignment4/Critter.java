@@ -401,7 +401,9 @@ public abstract class Critter {
 	private static boolean checkOverlap(){
 		for(int c = 0; c < Params.world_height; c += 1){ 	
 			for(int r = 0; r < Params.world_width; r += 1){
-				if(worldMap[c][r].neighbors.size()>1) return true;
+				if (worldMap[c][r] != null) {
+					if(worldMap[c][r].neighbors.size()>1) return true;
+				}
 			}
 		}
 		return false;
