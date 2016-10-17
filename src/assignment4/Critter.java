@@ -257,9 +257,9 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
-		for(int i = 0; i < Params.world_width; i += 1){
-			for(int k = 0; i < Params.world_height; k+= 1){
-				worldMap[i][k].neighbors = null;
+		for(int i = 0; i < Params.world_height; i += 1){
+			for(int k = 0; k < Params.world_width; k+= 1){
+					worldMap[i][k] = null;
 			}
 		}
 	}
