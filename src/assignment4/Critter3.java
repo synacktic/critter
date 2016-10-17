@@ -19,7 +19,9 @@ public class Critter3 extends Critter {
 		dir = Critter.getRandomInt(8);
 	}
 	
-	public boolean fight(String not_used) { return true; }
+	public boolean fight(String other) { 
+		return true;
+	}
 
 	@Override
 	public void doTimeStep() {

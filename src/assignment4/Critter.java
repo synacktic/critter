@@ -347,25 +347,7 @@ public abstract class Critter {
 						
 						boolean a = critA.fight(critB.toString()); // fight or flee
 						boolean b = critB.fight(critA.toString()); // fight or flee
-						// If there is algae, the non algae eats it and gets all its health...
-						if (critA.toString().equals("@") && !critB.toString().equals("@") ) {
-							critB.energy += critA.energy;
-							critA.energy = 0;
-							worldMap[critA.y_coord][critA.x_coord].neighbors.remove(critA);
-							population.remove(critA);
-
-						}
-						else if (critB.toString().equals("@") && !critA.toString().equals("@")) {
-							critA.energy += critB.energy;
-							critB.energy = 0;
-							population.remove(critB);
-							worldMap[critB.y_coord][critB.x_coord].neighbors.remove(critB);
-							population.remove(critB);
-
-						}
-						// if still in the same position and alive
-
-						else if(critA.x_coord == critB.x_coord 
+						if(critA.x_coord == critB.x_coord 
 								&& critA.y_coord == critB.y_coord
 								&& critA.energy > 0 && critB.energy > 0
 								&& a|b){
@@ -377,8 +359,8 @@ public abstract class Critter {
 							
 							if(a) rollA = Critter.getRandomInt(critA.energy); 	// roll the dice if they want to fight
 							if(b) rollB = Critter.getRandomInt(critB.energy);	
-							if (rollA == rollB)
-							System.out.printf("%d %d\n",rollA,rollB);
+							//if (rollA == rollB)
+							//System.out.printf("%d %d\n",rollA,rollB);
 
 							if(rollA < rollB){ // critter B wins the fight
 								critB.energy += (int) Math.ceil(critA.energy / 2); 	// add half the loser's energy to the winner

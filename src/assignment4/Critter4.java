@@ -23,7 +23,8 @@ public class Critter4 extends Critter {
 		dir = Critter.getRandomInt(8);
 	}
 	
-	public boolean fight(String not_used) { 
+	public boolean fight(String other) { 
+
 		if (getEnergy() > 75 || getEnergy() < 10) { // Lover not a fighter, or possibly too tired.
 			return false;
 		} else {
