@@ -292,7 +292,9 @@ public abstract class Critter {
 	       }
 		
 	  	// check for encounters
+	      while(checkOverlap()){
 		    encounter();
+	      }
 	    
 	    // add babies to population and clear babies
 	    for(Critter baby : babies){
@@ -396,20 +398,15 @@ public abstract class Critter {
 
 	}
 	
-	public static void cremateDead() {
-		for (Iterator<Critter> criterator = population.iterator(); criterator.hasNext(); ) {
-			Critter crit = criterator.next();
-			//worldMap[crit.y_coord][crit.x_coord] = null;
-			//while (worldMap[crit.y_coord][crit.x_coord].next != null) {
-				
-			//}
-			if (crit.energy <= 0) {
-				criterator.remove();
+	private static boolean checkOverlap(){
+		for(int c = 0; c < Params.world_height; c += 1){ 	
+			for(int r = 0; r < Params.world_width; r += 1){
+				if(worldMap[c][r].neighbors.size()>1) return true;
 			}
 		}
-	
-		
+		return false;
 	}
+	
 	private static class Sector {
 
 		private Critter critter; // The critter here
