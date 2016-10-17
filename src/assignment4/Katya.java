@@ -27,8 +27,17 @@ public class Katya extends Critter {
 			return true;
 		else if(roll%2 == 0) 
 			return true;	// even fight
-		else if(this.getEnergy() > Params.walk_energy_cost)
-			return false; 	// run away!!
+		else if(this.getEnergy() > Params.walk_energy_cost){
+			roll = Critter.getRandomInt(GENE_TOTAL);
+			int turn = 0;
+			while (getGenes()[turn] <= roll) {
+				roll = roll - getGenes()[turn];
+				turn = turn + 1;
+			}
+			assert(turn < 8);	
+			dir = (dir + turn) % 8;
+			return false; 	// turn in a direction to run away!!
+			}
 		else 
 			return true; 	// need to try to fight...
 		}
