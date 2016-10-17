@@ -253,8 +253,9 @@ public abstract class Critter {
 	
 	/**
 	 * Call doTimeStep() for every critter
+	 * @throws InvalidCritterException 
 	 */
-	public static void worldTimeStep() {
+	public static void worldTimeStep() throws InvalidCritterException {
 		// do a time step for every Critter in the population
 //		for (Critter crit: population) {
 //			crit.doTimeStep();
@@ -313,9 +314,17 @@ public abstract class Critter {
 									worldMap[c][r].neighbors.remove(critA);  		// kill critter A}									
 									population.remove(critA);
 							}
+					} else {
+						//Flee
+						critA.walk(Critter.getRandomInt(8));
+						critB.walk(Critter.getRandomInt(8));
+						
 					}
 				}
 			}
+		}
+		for (int c = 0; c<Params.refresh_algae_count; c++) {
+			Critter.makeCritter("Algae");
 		}
 	}
 	//}
