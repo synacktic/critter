@@ -257,6 +257,8 @@ public abstract class Critter {
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
+		population = new java.util.ArrayList<Critter>();;
+		babies = new java.util.ArrayList<Critter>();
 		for(int i = 0; i < Params.world_height; i += 1){
 			for(int k = 0; k < Params.world_width; k+= 1){
 					worldMap[i][k] = null;
@@ -378,7 +380,7 @@ public abstract class Critter {
 								
 							if(rollA < rollB){ // critter B wins the fight
 								critB.energy += (int) Math.ceil(critA.energy / 2); 	// add half the loser's energy to the winner
-								//System.out.println("Critter B wins!");
+								//System.out.printf("%d %d\n",a,b);
 								worldMap[c][r].neighbors.remove(critA);  			// kill critter A
 								population.remove(critA);
 							} else if(rollA > rollB){

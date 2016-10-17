@@ -74,7 +74,7 @@ public class Main {
         //System.out.printf("%s",Critter.run(2));
         //Critter.run(2);
         /* Write your code above */
-    /*	for (int c=0;c < 25; c++) {        			
+    	for (int c=0;c < 25; c++) {        			
 			Critter.makeCritter("Craig");
 			Critter.makeCritter("Critter1");
 			Critter.makeCritter("Critter2");
@@ -84,7 +84,7 @@ public class Main {
 		}
     	for (int c=0;c < 100; c++) {        			
 			Critter.makeCritter("Algae");
-		}*/
+		}
         int quit = 0;
         while (quit != 1) {
         	System.out.printf(">");
