@@ -1,8 +1,22 @@
+/* CRITTERS Critter.java
+ * EE422C Project 4 submission by
+ * Katya Malyavina
+ * ym5356
+ * 16465
+ * Brian Sutherland
+ * bcs2433
+ * 16445
+ * Slip days used: 0
+ * Fall 2016
+ * GitHub Repository: https://github.com/synacktic/critter
+ */
+
 package assignment4;
 
 /**
- * This critter will refuse to fight its own kind. 
+ * This critter will refuse to fight its own kind.
  * Breeds randomly - if random number is divisible by 19
+ * Twice as many genes
  * 
  * @author Katya
  *
@@ -35,7 +49,7 @@ public class Critter2 extends Critter {
 		/* take one step forward */
 		walk(dir);
 		
-		if (Critter.getRandomInt(3000)%19 == 0) {
+		if (Critter.getRandomInt(2000)%19 == 0) {
 			Critter2 child = new Critter2();
 			for (int k = 0; k < 8; k += 1) {
 				child.getGenes()[k] = this.getGenes()[k];
