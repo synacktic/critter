@@ -149,18 +149,27 @@ public abstract class Critter {
 	 */
 	public static List<Critter> getInstances(String critter_class_name) throws InvalidCritterException {
 		List<Critter> result = new java.util.ArrayList<Critter>();
-	
+		String class_name = myPackage + "." + critter_class_name.substring(0, 1).toUpperCase() + critter_class_name.substring(1);
+		try {
+			Object critterClass = Class.forName(class_name).newInstance(); // get an instance of the critter 
+			
+			// if Critter is an instance of critter_class_name, add it to the list
+			for (Critter crit: population) {
+				if(crit instanceof critterClass){
+					result.add(crit);
+				}
+			}			
+		} catch (ClassNotFoundException e) { throw new InvalidCritterException(class_name);
+		}	
+
 		return result;
 	}
 	
-	public static void statGlue() {
-		runStats(population);
-	}
 	/**
 	 * Prints out how many Critters of each type there are on the board.
 	 * @param critters List of Critters.
 	 */
-		public static void runStats(List<Critter> critters) {
+	public static void runStats(List<Critter> critters) {
 		System.out.print("" + critters.size() + " critters as follows -- ");
 		java.util.Map<String, Integer> critter_count = new java.util.HashMap<String, Integer>();
 		for (Critter crit : critters) {
@@ -268,12 +277,20 @@ public abstract class Critter {
 	       }
 		
 		// check for encounters
-	      encounter();
-	  	for (int c = 0; c<Params.refresh_algae_count; c++) {
-			Critter.makeCritter("Algae");
+	    encounter();
+	    
+	    // add babies to population and clear babies
+	    for(Critter baby : babies){
+	    	population.add(baby);
+	    }
+	    babies = new java.util.ArrayList<Critter>();
+	    
+	    // refresh algae 
+		for (int c = 0; c<Params.refresh_algae_count; c++) {
+				Critter.makeCritter("Algae");
 		}
 	}
-	//}
+
 	
 	public static void displayWorld() {
 		//Params.world_width;
@@ -305,7 +322,7 @@ public abstract class Critter {
 		}
 	}
 	
-	private static void encounter() {
+	private static void encounter(){
 		for(int c = 0; c < Params.world_height; c += 1){ 	
 			for(int r = 0; r < Params.world_width; r += 1){
 					while(worldMap[c][r] != null && worldMap[c][r].neighbors.size() > 1){			// while there are still overlapping critters
@@ -361,7 +378,7 @@ public abstract class Critter {
 				}
 			}
 		}
-	
+
 	}
 	
 	public static void cremateDead() {
