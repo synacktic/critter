@@ -51,8 +51,8 @@ public abstract class Critter {
 	private int energy = 10; //FIXME
 	protected int getEnergy() { return energy; }
 	
-	private int x_coord = getRandomInt(Params.world_width);
-	private int y_coord = getRandomInt(Params.world_height);
+	private int x_coord;
+	private int y_coord;
 	
 	private static void updateWorld(Critter that)  {
 		if (worldMap[that.y_coord][that.x_coord] == null) {
@@ -111,6 +111,8 @@ public abstract class Critter {
 		offspring.energy = (int) Math.floor(this.energy/2);		// make new critter with half health of parent
 		this.energy = (int) Math.ceil(this.energy/2);			// decrease parent's energy
 		//System.out.println("New Baby!");
+		offspring.x_coord = this.x_coord;
+		offspring.y_coord = this.y_coord;
 		updateWorld((Critter) offspring);						//Add to world to avoid move errors
 
 		offspring.move(1, direction); 							// location is next to parent - in direction	
@@ -135,6 +137,9 @@ public abstract class Critter {
 		String class_name = myPackage + "." + critter_class_name.substring(0, 1).toUpperCase() + critter_class_name.substring(1);
 		try {
 			Object newCritter = Class.forName(class_name).newInstance();// get an instance of the critter 
+			((Critter) newCritter).x_coord = getRandomInt(Params.world_width);
+			((Critter) newCritter).y_coord = getRandomInt(Params.world_height);
+
 			population.add((Critter) newCritter);						// add to population list
 			updateWorld((Critter) newCritter);
 		} catch (InstantiationException e) { throw new InvalidCritterException(class_name);
