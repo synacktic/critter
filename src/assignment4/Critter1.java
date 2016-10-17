@@ -3,7 +3,7 @@ package assignment4;
 /*
  * Example critter
  */
-public class Katya extends Critter {
+public class Critter1 extends Critter {
 	
 	@Override
 	public String toString() { return "K"; }
@@ -13,7 +13,7 @@ public class Katya extends Critter {
 	private int dir;
 	private int longevity;
 	
-	public Katya() {
+	public Critter1() {
 		for (int k = 0; k < 8; k += 1) {
 			getGenes()[k] = GENE_TOTAL / 8;
 		}
@@ -28,15 +28,7 @@ public class Katya extends Critter {
 		else if(roll%2 == 0) 
 			return true;	// even fight
 		else if(this.getEnergy() > Params.walk_energy_cost){
-			roll = Critter.getRandomInt(GENE_TOTAL);
-			int turn = 0;
-			while (getGenes()[turn] <= roll) {
-				roll = roll - getGenes()[turn];
-				turn = turn + 1;
-			}
-			assert(turn < 8);	
-			dir = (dir + turn) % 8;
-			return false; 	// turn in a direction to run away!!
+			return false; 	// run away!!
 			}
 		else 
 			return true; 	// need to try to fight...
@@ -48,7 +40,7 @@ public class Katya extends Critter {
 		run(dir);
 		
 		if (longevity % 5 == 0 && this.getEnergy() > Params.run_energy_cost*Params.walk_energy_cost) {	// reproduce every timesteps while have enough health
-			Katya child = new Katya();
+			Critter1 child = new Critter1();
 			for (int k = 0; k < 8; k += 1) {
 				child.getGenes()[k] = this.getGenes()[k];
 			}
@@ -76,23 +68,23 @@ public class Katya extends Critter {
 		longevity += 1;	// increase longevity with each time step
 	}
 
-	public static void runStats(java.util.List<Critter> Katyas) {
+	public static void runStats(java.util.List<Critter> Critter1s) {
 		int total_straight = 0;
 		int total_left = 0;
 		int total_right = 0;
 		int total_back = 0;
-		for (Object obj : Katyas) {
-			Katya c = (Katya) obj;
+		for (Object obj : Critter1s) {
+			Critter1 c = (Critter1) obj;
 			total_straight += c.getGenes()[0];
 			total_right += c.getGenes()[1] + c.getGenes()[2] + c.getGenes()[3];
 			total_back += c.getGenes()[4];
 			total_left += c.getGenes()[5] + c.getGenes()[6] + c.getGenes()[7];
 		}
-		System.out.print("" + Katyas.size() + " total Katyas    ");
-		System.out.print("" + total_straight / (GENE_TOTAL * 0.01 * Katyas.size()) + "% straight   ");
-		System.out.print("" + total_back / (GENE_TOTAL * 0.01 * Katyas.size()) + "% back   ");
-		System.out.print("" + total_right / (GENE_TOTAL * 0.01 * Katyas.size()) + "% right   ");
-		System.out.print("" + total_left / (GENE_TOTAL * 0.01 * Katyas.size()) + "% left   ");
+		System.out.print("" + Critter1s.size() + " total Critter1s    ");
+		System.out.print("" + total_straight / (GENE_TOTAL * 0.01 * Critter1s.size()) + "% straight   ");
+		System.out.print("" + total_back / (GENE_TOTAL * 0.01 * Critter1s.size()) + "% back   ");
+		System.out.print("" + total_right / (GENE_TOTAL * 0.01 * Critter1s.size()) + "% right   ");
+		System.out.print("" + total_left / (GENE_TOTAL * 0.01 * Critter1s.size()) + "% left   ");
 		System.out.println();
 	}
 
