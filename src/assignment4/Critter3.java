@@ -1,14 +1,35 @@
+
+/* CRITTERS Critter.java
+ * EE422C Project 4 submission by
+ * Katya Malyavina
+ * ym5356
+ * 16465
+ * Brian Sutherland
+ * bcs2433
+ * 16445
+ * Slip days used: 0
+ * Fall 2016
+ * GitHub Repository: https://github.com/synacktic/critter
+ */
+
 package assignment4;
 
-/*
- * Example critter
+/**
+ * Each Critter class must behave differently when modeled. Each Crit-
+ter class must be in its own .java file. At the top of the java file, you must include a par-
+agraph description in the comments that explains how this Critter class behaves in the
+world. The description should be sufficient for the teaching assistant to easily determine
+how each Critter class you create is different from every other Critter class.
+ * 
+ * @author Brian
+ *
  */
 public class Critter3 extends Critter {
 	
 	@Override
 	public String toString() { return "3"; }
 	
-	private static final int GENE_TOTAL = 128;
+	private static final int GENE_TOTAL = 24;
 	private int[] genes = new int[8];
 	private int dir;
 	

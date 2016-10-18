@@ -1,15 +1,16 @@
-/* CRITTERS Main.java
+/* CRITTERS Critter.java
  * EE422C Project 4 submission by
- * Replace <...> with your actual data.
- * <Student1 Name>
- * <Student1 EID>
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
- * Slip days used: <0>
+ * Katya Malyavina
+ * ym5356
+ * 16465
+ * Brian Sutherland
+ * bcs2433
+ * 16445
+ * Slip days used: 0
  * Fall 2016
+ * GitHub Repository: https://github.com/synacktic/critter
  */
+
 package assignment4; // cannot be in default package
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -144,11 +145,7 @@ public class Main {
 		       //Display stuff
      	    }
         }
-        //Critter.makeCritter("Craig");
-       // Critter.makeCritter("Craig");
-        //Critter.displayWorld();
-
-
+ 
         System.out.flush();
 
     }
