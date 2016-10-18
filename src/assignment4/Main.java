@@ -98,41 +98,76 @@ public class Main {
     		String myAns = ls.next();
     		//Critter.g
 			if (myAns.equals("quit")) {
-				quit = 1;
+				try {
+					if (ls.hasNext())
+						throw new IllegalArgumentException();
+					quit = 1;
+				} catch (IllegalArgumentException e) {
+	    			System.out.printf("error processing: %s\n",myLine);
+	    		}
+				
 			} else if (myAns.equals("show")) {
-			       Critter.displayWorld();
+				try {
+					if (ls.hasNext())
+						throw new IllegalArgumentException();
+					  Critter.displayWorld();
+				} catch (IllegalArgumentException e) {
+	    			System.out.printf("error processing: %s\n",myLine);
+	    		}
+			     
 			} else if (myAns.equals("stats")) {
+				
 				try {
 	        		String className = ls.next();
+					if (ls.hasNext())
+						throw new IllegalArgumentException();
 					Critter.runStats(Critter.getInstances(className));
 				} catch (InvalidCritterException e) {
 	    			System.out.printf("error processing: %s\n",myLine);
+	    		} catch (IllegalArgumentException e) {
+	    			System.out.printf("error processing: %s\n",myLine);
 	    		}
         	} else if (myAns.equals("step")) {
+        		
         		try { 
         			int count = ls.nextInt();
+        			if (ls.hasNext())
+						throw new IllegalArgumentException();
             		for (int c=0;c < count; c++) {        			
                 		Critter.worldTimeStep();
             		}
         		} catch (InputMismatchException e) {
         			System.out.printf("error processing: %s\n",myLine);
-        		}
-        		finally {}
+        		} catch (IllegalArgumentException e) {
+	    			System.out.printf("error processing: %s\n",myLine);
+	    		}
         		
         	} else if (myAns.equals("seed")) {
         		try {
 	        		int seed = ls.nextInt();
+	        		if (ls.hasNext())
+						throw new IllegalArgumentException();
 	        		Critter.setSeed(seed);
 	        	} catch (InputMismatchException e) {
 	    			System.out.printf("error processing: %s\n",myLine);
+	    		} catch (IllegalArgumentException e) {
+	    			System.out.printf("error processing: %s\n",myLine);
 	    		}
         	} else if (myAns.equals("clear")) {
-        		Critter.clearWorld();
+        		try {
+					if (ls.hasNext())
+						throw new IllegalArgumentException();
+	        		Critter.clearWorld();
+				} catch (IllegalArgumentException e) {
+	    			System.out.printf("error processing: %s\n",myLine);
+	    		}
 		       //Display stuff
         	} else if (myAns.equals("make")) {
         		try {
 	        		String className = ls.next();
 	        		int count = ls.nextInt();
+	        		if (ls.hasNext())
+						throw new IllegalArgumentException();
 	        		for (int c=0;c < count; c++) {        			
 	        			Critter.makeCritter(className);
 	        		}
@@ -140,9 +175,12 @@ public class Main {
 		    			System.out.printf("error processing: %s\n",myLine);
         			} catch (InvalidCritterException e) {
         				System.out.printf("error processing: %s\n",myLine);
-	        		}
+	        		} catch (IllegalArgumentException e) {
+		    			System.out.printf("error processing: %s\n",myLine);
+		    		}
         	
-		       //Display stuff
+     	    } else {
+     	    	System.out.printf("invalid command: %s\n", myLine);
      	    }
         }
  
