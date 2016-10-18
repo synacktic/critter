@@ -7,14 +7,14 @@
   
   Critter Collection/World - ✓
   
-  Algae
+  Algae - ✓
 
   Commmands: 
   - quit - ✓
   - show - ✓
   - step - ✓
-  - stats
-  - seed
+  - stats - ✓
+  - seed - ✓
  
   
 ## Katya
@@ -24,12 +24,10 @@
  
  Reproduce - ✓
  
- Encounters
+ Encounters - ✓
  
  Clear World - ✓
- 
- Double Movements Handling in Fight/Flight decision
- 
+  
  Make Critter - ✓
  
  
