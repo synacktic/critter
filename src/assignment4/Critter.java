@@ -359,8 +359,8 @@ public abstract class Critter {
 							int rollA = 0; // 0 if they want to flee
 							int rollB = 0;
 							
-							if(a) rollA = Critter.getRandomInt(critA.energy); 	// roll the dice if they want to fight
-							if(b) rollB = Critter.getRandomInt(critB.energy);	
+							if(a && critA.toString() != "@") rollA = Critter.getRandomInt(critA.energy); 	// roll the dice if they want to fight
+							if(b && critB.toString() != "@") rollB = Critter.getRandomInt(critB.energy);	
 							//if (rollA == rollB)
 							//System.out.printf("%d %d\n",rollA,rollB);
 
