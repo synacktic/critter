@@ -25,11 +25,11 @@ public class Critter4 extends Critter {
 	
 	public boolean fight(String other) { 
 
-		//if (getEnergy() > 75 || getEnergy() < 10) { // Lover not a fighter, or possibly too tired.
-		//	return false;
-		//} else {
+		if (getEnergy() < 75) { // Lover not a fighter
+			return false;
+		} else {
 			return true; 
-		//}
+		}
 		}
 
 	@Override

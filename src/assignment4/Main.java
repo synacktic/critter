@@ -11,6 +11,7 @@
  * Fall 2016
  */
 package assignment4; // cannot be in default package
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.*;
 
@@ -74,46 +75,72 @@ public class Main {
         //System.out.printf("%s",Critter.run(2));
         //Critter.run(2);
         /* Write your code above */
-    	for (int c=0;c < 25; c++) {        			
+	    for (int c=0;c < 25; c++) {        			
 			Critter.makeCritter("Craig");
 			Critter.makeCritter("Critter1");
-			Critter.makeCritter("Critter2");
 			Critter.makeCritter("Critter3");
 			Critter.makeCritter("Critter4");
+			if (Critter.getRandomInt(5) == 1)
+				Critter.makeCritter("Critter2");
+
 
 		}
+
     	for (int c=0;c < 100; c++) {        			
 			Critter.makeCritter("Algae");
 		}
         int quit = 0;
         while (quit != 1) {
         	System.out.printf(">");
-    		String myAns = kb.next();
+    		String myLine = kb.nextLine();
+    		Scanner ls = new Scanner(myLine);
+    		String myAns = ls.next();
     		//Critter.g
 			if (myAns.equals("quit")) {
 				quit = 1;
 			} else if (myAns.equals("show")) {
 			       Critter.displayWorld();
 			} else if (myAns.equals("stats")) {
-        		String className = kb.next();
-				Critter.runStats(Critter.getInstances(className));
+				try {
+	        		String className = ls.next();
+					Critter.runStats(Critter.getInstances(className));
+				} catch (InvalidCritterException e) {
+	    			System.out.printf("error processing: %s\n",myLine);
+	    		}
         	} else if (myAns.equals("step")) {
-        		int count = kb.nextInt();
-        		for (int c=0;c < count; c++) {        			
-            		Critter.worldTimeStep();
+        		try { 
+        			int count = ls.nextInt();
+            		for (int c=0;c < count; c++) {        			
+                		Critter.worldTimeStep();
+            		}
+        		} catch (InputMismatchException e) {
+        			System.out.printf("error processing: %s\n",myLine);
         		}
+        		finally {}
+        		
         	} else if (myAns.equals("seed")) {
-        		int seed = kb.nextInt();
-        		Critter.setSeed(seed);
+        		try {
+	        		int seed = ls.nextInt();
+	        		Critter.setSeed(seed);
+	        	} catch (InputMismatchException e) {
+	    			System.out.printf("error processing: %s\n",myLine);
+	    		}
         	} else if (myAns.equals("clear")) {
         		Critter.clearWorld();
 		       //Display stuff
         	} else if (myAns.equals("make")) {
-        		String className = kb.next();
-        		int count = kb.nextInt();
-        		for (int c=0;c < count; c++) {        			
-        			Critter.makeCritter(className);
-        		}
+        		try {
+	        		String className = ls.next();
+	        		int count = ls.nextInt();
+	        		for (int c=0;c < count; c++) {        			
+	        			Critter.makeCritter(className);
+	        		}
+	        		} catch (InputMismatchException e) {
+		    			System.out.printf("error processing: %s\n",myLine);
+        			} catch (InvalidCritterException e) {
+        				System.out.printf("error processing: %s\n",myLine);
+	        		}
+        	
 		       //Display stuff
      	    }
         }
@@ -125,4 +152,5 @@ public class Main {
         System.out.flush();
 
     }
+    
 }
