@@ -162,22 +162,6 @@ public abstract class Critter {
 	}
 	
 	/**
-	 * Test if object is an instance of a given class
-	 * @param o The object to be tested
-	 * @param className The class we are looking for
-	 * @return true if the object class is the same as what is specified in className, false otherwise
-	 * @throws ClassNotFoundException
-	 */
-	private static boolean isInstance(Object o, String className) {
-	    try {
-	        Class clazz = Class.forName(className);
-	        return clazz.isInstance(o);
-	    } catch (ClassNotFoundException ex) {
-	        return false;
-	    }
-	}
-	
-	/**
 	 * Gets a list of critters of a specific type.
 	 * @param critter_class_name What kind of Critter is to be listed.  Unqualified class name.
 	 * @return List of Critters.
@@ -187,12 +171,18 @@ public abstract class Critter {
 		List<Critter> result = new java.util.ArrayList<Critter>();
 
 		String class_name = myPackage + "." + critter_class_name.substring(0, 1).toUpperCase() + critter_class_name.substring(1);	
+	    try {
+		Class critterClass = Class.forName(class_name);
 		
-		// if Critter is an instance of critter_class_name, add it to the list
 		for (Critter crit: population) {
-			if(isInstance(crit, class_name))
+			// if Critter is an instance of critter_class_name, add it to the list
+			if(critterClass.isInstance(crit))
 				result.add(crit);
-			}	
+			}
+
+	    } catch (ClassNotFoundException ex) {
+	        throw new InvalidCritterException(class_name);
+	    }
 		
 		return result;
 	}
