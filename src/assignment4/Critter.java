@@ -319,7 +319,7 @@ public abstract class Critter {
 	      while(checkOverlap()){
 		    encounter();
 	      }
-	    
+	      clearFlees();
 	    // add babies to population and clear babies
 	    for(Critter baby : babies){
 	    	population.add(baby);
@@ -452,6 +452,19 @@ public abstract class Critter {
 			}
 		}
 		return false;
+	}
+	/**
+	 * See if there are more than critter occupy any sector
+	 */
+	private static void clearFlees(){
+		for(int c = 0; c < Params.world_height; c += 1){ 	
+			for(int r = 0; r < Params.world_width; r += 1){
+				if (worldMap[c][r] != null) {
+					for (Critter crit: worldMap[c][r].neighbors)
+						crit.hasFlees = false;
+				}
+			}
+		}
 	}
 	/**
 	 * Sectors for the critters to live in.
