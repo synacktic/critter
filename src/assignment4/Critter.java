@@ -376,17 +376,19 @@ public abstract class Critter {
 						//System.out.println("encounter!!");
 						Critter critA = worldMap[c][r].neighbors.get(0);
 						Critter critB = worldMap[c][r].neighbors.get(1);
-						boolean a;
-						boolean b;
-						if (critA.hasFlees) 
-							a = true;
-						else 
-							a = critA.fight(critB.toString()); // fight or flee
+						//Params.walk_energy_cost;
+						boolean a = critA.fight(critB.toString());
+						boolean b = critB.fight(critA.toString());
 						
-						if (critB.hasFlees)
+						if (!a && critA.hasFlees) {
+							critA.energy -= Params.walk_energy_cost;
+							a = true;
+						}
+						
+						if (!b && critB.hasFlees) {
+							critB.energy -= Params.walk_energy_cost;
 							b = true;
-						else
-							b = critB.fight(critA.toString()); // fight or flee
+						}
 						
 						if (a == false)
 							critA.hasFlees = true;
