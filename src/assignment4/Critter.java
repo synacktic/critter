@@ -127,6 +127,8 @@ public abstract class Critter {
 	 * 
 	 */
 	protected final void reproduce(Critter offspring, int direction) {
+		if (this.energy < Params.min_reproduce_energy)
+			return;
 		offspring.energy = (int) Math.floor(this.energy/2);		// make new critter with half health of parent
 		this.energy = (int) Math.ceil(this.energy/2);			// decrease parent's energy
 		//System.out.println("New Baby!");
@@ -161,9 +163,9 @@ public abstract class Critter {
 
 			population.add((Critter) newCritter);						// add to population list
 			updateWorld((Critter) newCritter);
-		} catch (InstantiationException e) { throw new InvalidCritterException(class_name);
-		} catch (IllegalAccessException e) { throw new InvalidCritterException(class_name);
-		} catch (ClassNotFoundException e) { throw new InvalidCritterException(class_name);
+		} catch (InstantiationException e) { throw new InvalidCritterException("");
+		} catch (IllegalAccessException e) { throw new InvalidCritterException("");
+		} catch (ClassNotFoundException e) { throw new InvalidCritterException("");
 		}	
 	}
 	

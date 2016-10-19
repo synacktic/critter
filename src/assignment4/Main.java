@@ -16,6 +16,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.NoSuchElementException;
 import java.lang.reflect.Method;
 
 
@@ -99,65 +100,97 @@ public class Main {
     		Scanner ls = new Scanner(myLine);
     		String myAns = ls.next();
     		//Critter.g
+
 			if (myAns.equals("quit")) {
-				quit = 1;
-			} else if (myAns.equals("show")) {
-			       Critter.displayWorld();
-			} else if (myAns.equals("stats")) {
-        		String className = ls.next();	
 				try {
+					if (ls.hasNext())
+						throw new IllegalArgumentException();
+					quit = 1;
+				} catch (IllegalArgumentException e) {
+	    			procError(myLine);
+	    		}
+				
+			} else if (myAns.equals("show")) {
+				try {
+					if (ls.hasNext())
+						throw new IllegalArgumentException();
+					  Critter.displayWorld();
+				} catch (IllegalArgumentException e) {
+	    			procError(myLine);
+	    		}
+			} else if (myAns.equals("stats")) {
+				try {
+	        			String className = ls.next();	
 						Class critter = Class.forName(myPackage + "." + className);						
 						Method stats = critter.getMethod("runStats", java.util.List.class);
 						stats.invoke(null, Critter.getInstances(className));
 					}
-						catch (NoSuchMethodException e)		{throw new InvalidCritterException("");} 
-						catch (IllegalAccessException e) 	{throw new InvalidCritterException("");} 
-						catch (InvocationTargetException e) {throw new InvalidCritterException("");}
-						catch (ClassNotFoundException e) 	{throw new InvalidCritterException("");}
-				
-						catch (InvalidCritterException e) {
-							System.out.printf("error processing: %s\n",myLine);
-							}
-        	} else if (myAns.equals("step")) {
+						catch (NoSuchMethodException e)		{procError(myLine);} 
+						catch (IllegalAccessException e) 	{procError(myLine);} 
+						catch (InvocationTargetException e) {procError(myLine);}
+						catch (ClassNotFoundException e) 	{procError(myLine);}
+						catch (NoSuchElementException e)    {procError(myLine);}
+						catch (InvalidCritterException e)   {procError(myLine);}
+			} else if (myAns.equals("step")) {
+        		
         		try { 
         			int count = ls.nextInt();
+        			if (ls.hasNext())
+						throw new IllegalArgumentException();
             		for (int c=0;c < count; c++) {        			
                 		Critter.worldTimeStep();
             		}
-        		} catch (InputMismatchException e) {
-        			System.out.printf("error processing: %s\n",myLine);
-        		}
-        		finally {}
+        		} 
+        		catch (InputMismatchException e)   {procError(myLine);}
+        		catch (IllegalArgumentException e) {procError(myLine);}
         		
         	} else if (myAns.equals("seed")) {
         		try {
 	        		int seed = ls.nextInt();
+	        		if (ls.hasNext())
+						throw new IllegalArgumentException();
 	        		Critter.setSeed(seed);
 	        	} catch (InputMismatchException e) {
-	    			System.out.printf("error processing: %s\n",myLine);
+	    			procError(myLine);
+	    		} catch (IllegalArgumentException e) {
+	    			procError(myLine);
 	    		}
         	} else if (myAns.equals("clear")) {
-        		Critter.clearWorld();
+        		try {
+					if (ls.hasNext())
+						throw new IllegalArgumentException();
+	        		Critter.clearWorld();
+				} catch (IllegalArgumentException e) {
+	    			procError(myLine);
+	    		}
 		       //Display stuff
         	} else if (myAns.equals("make")) {
         		try {
 	        		String className = ls.next();
 	        		int count = ls.nextInt();
+	        		if (ls.hasNext())
+						throw new IllegalArgumentException();
 	        		for (int c=0;c < count; c++) {        			
 	        			Critter.makeCritter(className);
 	        		}
 	        		} catch (InputMismatchException e) {
-		    			System.out.printf("error processing: %s\n",myLine);
+		    			procError(myLine);
         			} catch (InvalidCritterException e) {
-        				System.out.printf("error processing: %s\n",myLine);
-	        		}
-        	
-		       //Display stuff
+        				procError(myLine);
+	        		} catch (IllegalArgumentException e) {
+		    			procError(myLine);
+		    		}
+            } else {
+     	    	System.out.printf("invalid command: %s\n", myLine);
      	    }
         }
  
+        
         System.out.flush();
 
+    }
+    public static void procError(String line) {
+		System.out.printf("error processing: %s\n",line);
     }
     
 }
