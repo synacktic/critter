@@ -30,7 +30,6 @@ public abstract class Critter {
 	private static Sector[][] worldMap = new Sector[Params.world_height][Params.world_width];
 	
 
-	//private static Sector[0][1] = new Critter[SIZE][SIZE]
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
 	static {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
@@ -53,7 +52,7 @@ public abstract class Critter {
 	
 	private int x_coord;
 	private int y_coord;
-	private boolean hasFlees = false;
+    protected boolean hasFlees = false;
 	/**
 	 * Add a critter to the world map
 	 * @param that The critter to add
@@ -64,10 +63,6 @@ public abstract class Critter {
 		} else {
 			worldMap[that.y_coord][that.x_coord].neighbors.add(that);
 		}
-
-		//worldMap[that.y_coord][that.x_coord].neighbors.add(that);
-		//= new java.util.ArrayList<Critter>();
-		//System.out.printf("%s at (%d,%d)\n",worldMap[that.y_coord][that.x_coord].critter.toString(),that.x_coord,that.y_coord);
 	}
 	/**
 	 * Move a critter around in the world
@@ -101,8 +96,6 @@ public abstract class Critter {
 		worldMap[y_old][x_old].neighbors.remove(this);
 		updateWorld(this);
 
-		//worldMap[this.y_coord][this.x_coord].neighbors.remove(this);
-
 	}
 	/**
 	 * Call direction to move a single step
@@ -131,7 +124,6 @@ public abstract class Critter {
 			return;
 		offspring.energy = (int) Math.floor(this.energy/2);		// make new critter with half health of parent
 		this.energy = (int) Math.ceil(this.energy/2);			// decrease parent's energy
-		//System.out.println("New Baby!");
 		offspring.x_coord = this.x_coord;
 		offspring.y_coord = this.y_coord;
 		updateWorld((Critter) offspring);						//Add to world to avoid move errors
@@ -342,8 +334,6 @@ public abstract class Critter {
 	 * Print the worldMap to the console with a nice border
 	 */
 	public static void displayWorld() {
-		//Params.world_width;
-		//Params.world_height;
 		for (int current_height = -1; current_height <= Params.world_height; current_height++ ) {
 			if (current_height == -1 || current_height == Params.world_height)
 				System.out.printf("+");
@@ -377,10 +367,8 @@ public abstract class Critter {
 		for(int c = 0; c < Params.world_height; c += 1){ 	
 			for(int r = 0; r < Params.world_width; r += 1){
 					while(worldMap[c][r] != null && worldMap[c][r].neighbors.size() > 1){			// while there are still overlapping critters
-						//System.out.println("encounter!!");
 						Critter critA = worldMap[c][r].neighbors.get(0);
 						Critter critB = worldMap[c][r].neighbors.get(1);
-						//Params.walk_energy_cost;
 						boolean a = critA.fight(critB.toString());
 						boolean b = critB.fight(critA.toString());
 						
@@ -403,7 +391,6 @@ public abstract class Critter {
 								&& critA.y_coord == critB.y_coord
 								&& critA.energy > 0 && critB.energy > 0
 								&& a|b){
-							//System.out.printf("%s vs %s\n",critA.toString(),critB.toString());
 
 							int roll = 0;
 							int rollA = 0; // 0 if they want to flee
@@ -411,8 +398,6 @@ public abstract class Critter {
 							
 							if(a && critA.toString() != "@") rollA = Critter.getRandomInt(critA.energy); 	// roll the dice if they want to fight
 							if(b && critB.toString() != "@") rollB = Critter.getRandomInt(critB.energy);	
-							//if (rollA == rollB)
-							//System.out.printf("%d %d\n",rollA,rollB);
 
 							if(rollA < rollB){ // critter B wins the fight
 								critB.energy += (int) Math.ceil(critA.energy / 2); 	// add half the loser's energy to the winner
@@ -420,19 +405,16 @@ public abstract class Critter {
 								population.remove(critA);
 							} else if(rollA > rollB){
 								critA.energy += (int) Math.ceil(critB.energy / 2); 	// add half the loser's energy to the winner
-								//System.out.println("Critter A wins!");
 								worldMap[c][r].neighbors.remove(critB); 		 	// kill critter B
 								population.remove(critB);
 							}
 							else {
 								roll = Critter.getRandomInt(2);					// randomly decide who dies
 								if(roll == 0){
-									//System.out.println("Critter A wins!");
 									worldMap[c][r].neighbors.remove(critB); 		// kill critter B
 									population.remove(critB);
 								}
 								else
-									//System.out.println("Critter B wins!");
 									worldMap[c][r].neighbors.remove(critA);  		// kill critter A}									
 									population.remove(critA);
 							}
@@ -480,7 +462,7 @@ public abstract class Critter {
 	private static class Sector {
 
 		private Critter critter; // The critter here
-		private List<Critter> neighbors;// = new java.util.ArrayList<Critter>();
+		private List<Critter> neighbors;// For critters that share the same address
 
 	
 		private Sector(Critter critter) {

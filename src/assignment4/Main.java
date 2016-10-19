@@ -75,10 +75,7 @@ public class Main {
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
         
-        //System.out.println("GLHF");
-        //System.out.printf("%s",Critter.run(2));
-        //Critter.run(2);
-        /* Write your code above */
+      
 	    for (int c=0;c < 25; c++) {        			
 			Critter.makeCritter("Craig");
 			Critter.makeCritter("Critter1");
@@ -163,7 +160,6 @@ public class Main {
 				} catch (IllegalArgumentException e) {
 	    			procError(myLine);
 	    		}
-		       //Display stuff
         	} else if (myAns.equals("make")) {
         		try {
 	        		String className = ls.next();
@@ -185,7 +181,8 @@ public class Main {
      	    }
         }
  
-        
+        /* Write your code above */
+       
         System.out.flush();
 
     }

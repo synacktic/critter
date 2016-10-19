@@ -14,12 +14,12 @@
 package assignment4;
 
 /**
- * Each Critter class must behave differently when modeled. Each Crit-
-ter class must be in its own .java file. At the top of the java file, you must include a par-
-agraph description in the comments that explains how this Critter class behaves in the
-world. The description should be sufficient for the teaching assistant to easily determine
-how each Critter class you create is different from every other Critter class.
- * 
+ * Does not fight if it can bread instead
+ * Always eat 
+ * Does not move too often, unless it runs from a fight
+ * Breeds at a lower energy level
+ * Sometimes mutates its genes twice as fast
+ *  don't run if it already moved this time around
  * @author Brian
  *
  */
@@ -40,9 +40,14 @@ public class Critter4 extends Critter {
 	}
 	
 	public boolean fight(String other) { 
-
+		
 		if (getEnergy() < 75) { // Lover not a fighter
-			return false;
+			if(other == "@")
+				return true;
+			else if (this.hasFlees == true )
+				return true;
+			else
+				return false;
 		} else {
 			return true; 
 		}
@@ -51,7 +56,8 @@ public class Critter4 extends Critter {
 	@Override
 	public void doTimeStep() {
 		/* take one step forward */
-		walk(dir);
+		if (Critter.getRandomInt(8) == 4) // Stopping to smell the roses
+			walk(dir);
 		
 		if (getEnergy() > 75) { // Breeds twice as fast
 			Critter4 child = new Critter4();

@@ -15,12 +15,12 @@
 package assignment4;
 
 /**
- * Each Critter class must behave differently when modeled. Each Crit-
-ter class must be in its own .java file. At the top of the java file, you must include a par-
-agraph description in the comments that explains how this Critter class behaves in the
-world. The description should be sufficient for the teaching assistant to easily determine
-how each Critter class you create is different from every other Critter class.
  * 
+ * Breeds at a high energy level to make strong children
+ * Only attack its own every other time
+ * Simplified genetic code
+ * Does not move unless it has to
+ * don't run if it already ran this time around
  * @author Brian
  *
  */
@@ -29,7 +29,7 @@ public class Critter3 extends Critter {
 	@Override
 	public String toString() { return "3"; }
 	
-	private static final int GENE_TOTAL = 24;
+	private static final int GENE_TOTAL = 8;
 	private int[] genes = new int[8];
 	private int dir;
 	
@@ -41,15 +41,22 @@ public class Critter3 extends Critter {
 	}
 	
 	public boolean fight(String other) { 
-		return true;
+		if(other == this.toString()){
+			if (Critter.getRandomInt(2) == 1)  // be nicer to its own kind
+				if (this.hasFlees == true )// unless it ran already
+					return true;
+				else
+					return false; 
+		}
+		return true; 
+
 	}
 
 	@Override
 	public void doTimeStep() {
-		/* take one step forward */
-		walk(dir);
+	
 		
-		if (getEnergy() > 200) { // Don't breed until strong and make strong babies!
+		if (getEnergy() > 300) { // Don't breed until strong and make strong babies!
 			Critter3 child = new Critter3();
 			for (int k = 0; k < 8; k += 1) {
 				child.genes[k] = this.genes[k];
