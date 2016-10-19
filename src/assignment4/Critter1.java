@@ -14,10 +14,10 @@
 package assignment4;
 
 /**
- * Decides to fight based on rolls - Fight if even, a multiple of 3, or not enough energy to walk.
+ * Decides to fight based on random rolls - fight if roll is even, a multiple of 3, or not enough energy to walk
  * Waits to breed - every 5 timesteps as long as energy is high enough
- * Run in its doTimeStep
- * More genes! 
+ * Run on odd random rolls in its doTimeStep
+ * Less likely to fight its own kind
  * 
  * @author Katya
  *
@@ -39,7 +39,12 @@ public class Critter1 extends Critter {
 		dir = Critter.getRandomInt(8);
 	}
 	
-	public boolean fight(String not_used) { 
+	public boolean fight(String opponent) { 
+		if(opponent == "1"){	// less likely to fight its own kind
+			if(Critter.getRandomInt(33)%3 == 0)
+				return false;
+		}
+		
 		// decide if wants to flee or fight
 		int roll = Critter.getRandomInt(33);
 		if(roll%3 == 0) 		// lucky number 3, FIGHT!
@@ -64,7 +69,8 @@ public class Critter1 extends Critter {
 	@Override
 	public void doTimeStep() {
 		/* take one step forward */
-		run(dir);
+		if(Critter.getRandomInt(10)%2 != 0)
+			run(dir);
 		
 		if (longevity % 5 == 0 && this.getEnergy() > 200) {	// reproduce every timesteps while have enough health
 			Critter1 child = new Critter1();
