@@ -74,25 +74,9 @@ public class Main {
 
         /* Do not alter the code above for your submission. */
         /* Write your code below. */
-        
-      
-	    for (int c=0;c < 25; c++) {        			
-			Critter.makeCritter("Craig");
-			Critter.makeCritter("Critter1");
-			Critter.makeCritter("Critter3");
-			Critter.makeCritter("Critter4");
-			//if (Critter.getRandomInt(5) == 1)
-				Critter.makeCritter("Critter2");
-
-
-		}
-
-    	for (int c=0;c < 100; c++) {        			
-			Critter.makeCritter("Algae");
-		}
+  
         int quit = 0;
         while (quit != 1) {
-        	System.out.printf(">");
     		String myLine = kb.nextLine();
     		Scanner ls = new Scanner(myLine);
     		String myAns = ls.next();
