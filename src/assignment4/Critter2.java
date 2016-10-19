@@ -15,8 +15,8 @@ package assignment4;
 
 /**
  * This critter will refuse to fight its own kind.
+ * Walks only if it has enough energy
  * Breeds randomly - if random number is divisible by 19
- * Twice as many genes
  * 
  * @author Katya
  *
@@ -47,7 +47,8 @@ public class Critter2 extends Critter {
 	@Override
 	public void doTimeStep() {
 		/* take one step forward */
-		walk(dir);
+		if(this.getEnergy() > Params.walk_energy_cost)
+			walk(dir);
 		
 		if (Critter.getRandomInt(2000)%19 == 0) {
 			Critter2 child = new Critter2();
@@ -58,9 +59,9 @@ public class Critter2 extends Critter {
 			while (child.getGenes()[g] == 0) {
 				g = Critter.getRandomInt(8);
 			}
-			child.getGenes()[g] -= 1;
+			child.getGenes()[g] -= 2;
 			g = Critter.getRandomInt(8);
-			child.getGenes()[g] += 1;
+			child.getGenes()[g] += 3;
 			reproduce(child, Critter.getRandomInt(8));
 		}
 		
