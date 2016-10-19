@@ -1,4 +1,4 @@
-/* CRITTERS Critter.java
+/* CRITTERS Main.java
  * EE422C Project 4 submission by
  * Katya Malyavina
  * ym5356

@@ -1,5 +1,4 @@
-
-/* CRITTERS Critter.java
+/* CRITTERS Critter3.java
  * EE422C Project 4 submission by
  * Katya Malyavina
  * ym5356
@@ -54,7 +53,6 @@ public class Critter3 extends Critter {
 
 	@Override
 	public void doTimeStep() {
-	
 		
 		if (getEnergy() > 300) { // Don't breed until strong and make strong babies!
 			Critter3 child = new Critter3();
