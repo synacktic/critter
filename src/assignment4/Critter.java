@@ -53,7 +53,11 @@ public abstract class Critter {
 	
 	private int x_coord;
 	private int y_coord;
-	
+	private boolean hasFlees = false;
+	/**
+	 * Add a critter to the world map
+	 * @param that The critter to add
+	 */
 	private static void updateWorld(Critter that)  {
 		if (worldMap[that.y_coord][that.x_coord] == null) {
 			worldMap[that.y_coord][that.x_coord] = new Sector(that);
@@ -65,7 +69,11 @@ public abstract class Critter {
 		//= new java.util.ArrayList<Critter>();
 		//System.out.printf("%s at (%d,%d)\n",worldMap[that.y_coord][that.x_coord].critter.toString(),that.x_coord,that.y_coord);
 	}
-	
+	/**
+	 * Move a critter around in the world
+	 * @param distance How many steps to move
+	 * @param direction The direction to move in
+	 */
 	private void move(int distance, int direction){
 		// update location
 		int x_old = this.x_coord;
@@ -96,17 +104,28 @@ public abstract class Critter {
 		//worldMap[this.y_coord][this.x_coord].neighbors.remove(this);
 
 	}
-	
+	/**
+	 * Call direction to move a single step
+	 * @param direction The direction to go
+	 */
 	protected final void walk(int direction) {
 		this.energy -= Params.walk_energy_cost;
 		this.move(1, direction);			// update the position
 	}
-	
+	/**
+	 *  Call direction to move a two steps
+	 * @param direction The direction to go
+	 */
 	protected final void run(int direction) {
 		this.energy -= Params.run_energy_cost;
 		this.move(2, direction);			// update the position
 	}
-	
+	/**
+	 * setup offspring to reflect its parent and send it off to another place
+	 * @param offspring The already initialized offspring
+	 * @param direction The direction the offspring will be sent
+	 * 
+	 */
 	protected final void reproduce(Critter offspring, int direction) {
 		offspring.energy = (int) Math.floor(this.energy/2);		// make new critter with half health of parent
 		this.energy = (int) Math.ceil(this.energy/2);			// decrease parent's energy
@@ -148,6 +167,13 @@ public abstract class Critter {
 		}	
 	}
 	
+	/**
+	 * Test if object is an instance of a given class
+	 * @param o The object to be tested
+	 * @param className The class we are looking for
+	 * @return true if the object class is the same as what is specified in className, false otherwise
+	 * @throws ClassNotFoundException
+	 */
 	private static boolean isInstance(Object o, String className) {
 	    try {
 	        Class clazz = Class.forName(className);
@@ -254,6 +280,8 @@ public abstract class Critter {
 	}
 
 	/**
+	 */
+	/**
 	 * Clear the world of all critters, dead and alive
 	 */
 	public static void clearWorld() {
@@ -276,10 +304,6 @@ public abstract class Critter {
 			crit.doTimeStep();
 		}
 		
-//		for(int i = 0; i < population.size(); i+=1){
-//			 population.get(i).doTimeStep();
-//		 }
-
 	
 		// clear dead
 		Iterator<Critter> alive = population.iterator();
@@ -308,7 +332,9 @@ public abstract class Critter {
 		}
 	}
 
-	
+	/**
+	 * Print the worldMap to the console with a nice border
+	 */
 	public static void displayWorld() {
 		//Params.world_width;
 		//Params.world_height;
@@ -338,7 +364,9 @@ public abstract class Critter {
 			System.out.printf("\n");
 		}
 	}
-	
+	/**
+	 * Search the world for any creatures that need to fight, make them fight
+	 */
 	private static void encounter(){
 		for(int c = 0; c < Params.world_height; c += 1){ 	
 			for(int r = 0; r < Params.world_width; r += 1){
@@ -346,9 +374,23 @@ public abstract class Critter {
 						//System.out.println("encounter!!");
 						Critter critA = worldMap[c][r].neighbors.get(0);
 						Critter critB = worldMap[c][r].neighbors.get(1);
+						boolean a;
+						boolean b;
+						if (critA.hasFlees) 
+							a = true;
+						else 
+							a = critA.fight(critB.toString()); // fight or flee
 						
-						boolean a = critA.fight(critB.toString()); // fight or flee
-						boolean b = critB.fight(critA.toString()); // fight or flee
+						if (critB.hasFlees)
+							b = true;
+						else
+							b = critB.fight(critA.toString()); // fight or flee
+						
+						if (a == false)
+							critA.hasFlees = true;
+						if (b == false)
+							critB.hasFlees = true;
+						
 						if(critA.x_coord == critB.x_coord 
 								&& critA.y_coord == critB.y_coord
 								&& critA.energy > 0 && critB.energy > 0
@@ -398,6 +440,9 @@ public abstract class Critter {
 
 	}
 	
+	/**
+	 * See if there are more than critter occupy any sector
+	 */
 	private static boolean checkOverlap(){
 		for(int c = 0; c < Params.world_height; c += 1){ 	
 			for(int r = 0; r < Params.world_width; r += 1){
@@ -408,25 +453,20 @@ public abstract class Critter {
 		}
 		return false;
 	}
-	
+	/**
+	 * Sectors for the critters to live in.
+	 */
 	private static class Sector {
 
 		private Critter critter; // The critter here
 		private List<Critter> neighbors;// = new java.util.ArrayList<Critter>();
 
-		//worldMap[that.y_coord][that.x_coord] = 
-	//	private static List<Critter> neighbors = new java.util.ArrayList<Critter>();
-		//protected Sector() {
-			
-	//	}
-	//	protected Sector(List<Critter> neighbors) {
-	//		this.critter = critter;
-	//	}
-	private Sector(Critter critter) {
-		this.critter = critter;
-		    neighbors = new java.util.ArrayList<Critter>();
-		    neighbors.add(critter);
-		}
+	
+		private Sector(Critter critter) {
+			this.critter = critter;
+			    neighbors = new java.util.ArrayList<Critter>();
+			    neighbors.add(critter);
+			}
 		
 	}
 }

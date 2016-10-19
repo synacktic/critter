@@ -81,7 +81,7 @@ public class Main {
 			Critter.makeCritter("Critter1");
 			Critter.makeCritter("Critter3");
 			Critter.makeCritter("Critter4");
-			if (Critter.getRandomInt(5) == 1)
+			//if (Critter.getRandomInt(5) == 1)
 				Critter.makeCritter("Critter2");
 
 
