@@ -1,6 +1,14 @@
 package assignment5;
 
 import java.util.List;
+
+//import assignment5.Critter.CritterShape;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+//import javafx.scene.shape.Triangle;
+
+import javafx.scene.shape.Shape;
+
 import java.util.Iterator;
 
 public abstract class Critter {
@@ -32,7 +40,27 @@ public abstract class Critter {
 	public javafx.scene.paint.Color viewFillColor() { return viewColor(); }
 	
 	public abstract CritterShape viewShape(); 
-	
+	static Shape getIcon(CritterShape shape,javafx.scene.paint.Color line,javafx.scene.paint.Color fill) {
+		Shape s = null;
+		int size = 50;
+		
+		switch(shape) {
+		//	public CritterShape viewShape() { return CritterShape.SQUARE; }
+
+		//viewShape()
+		case CIRCLE: s = new Circle(size/2); 
+			s.setFill(fill); break;
+		case SQUARE: s = new Rectangle(size, size); 
+			s.setFill(fill); break;
+		//case TRIANGLE: s = new Triangle(size, size); 
+		//s.setFill(fill); break;
+		default:
+			break;
+		}
+		// set the outline of the shape
+		s.setStroke(line); // outline
+		return s;
+	}
 	
 
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
@@ -344,6 +372,8 @@ public abstract class Critter {
 	 * Print the worldMap to the console with a nice border
 	 */
 	public static void displayWorld() {
+		//Main.grid.getChildren().clear(); // clean up grid.
+		//System.out.printf("H: %d W: %d\n",Params.world_height,Params.world_width);
 		for (int current_height = -1; current_height <= Params.world_height; current_height++ ) {
 			if (current_height == -1 || current_height == Params.world_height)
 				System.out.printf("+");
@@ -359,6 +389,18 @@ public abstract class Critter {
 						System.out.printf(" ");
 					} else {
 						System.out.printf("%s",worldMap[current_height][current_width].neighbors.get(0).toString());
+						//CritterShape i = worldMap[current_height][current_width].neighbors.get(0).viewShape();
+						//CritterShape s = 
+						Shape s = getIcon(
+								worldMap[current_height][current_width].neighbors.get(0).viewShape(),
+								worldMap[current_height][current_width].neighbors.get(0).viewOutlineColor(),
+								worldMap[current_height][current_width].neighbors.get(0).viewFillColor()
+								);
+								//viewShape()
+								//worldMap[current_height][current_width].neighbors.get(0).viewShape();
+						//CritterShape
+						//Shape r;
+						Main.grid.add(s, current_width, current_height);
 					}
 				}
 				

@@ -132,8 +132,10 @@ public class Critter1 extends Critter {
 	}
 	
 	@Override
-	public CritterShape viewShape() { return CritterShape.SQUARE; }
+	public CritterShape viewShape() { return CritterShape.CIRCLE; }
 
 	@Override
-	public javafx.scene.paint.Color viewOutlineColor() { return javafx.scene.paint.Color.PINK; }
+	public javafx.scene.paint.Color viewOutlineColor() { return javafx.scene.paint.Color.BLACK; }
+	public javafx.scene.paint.Color viewFillColor() { return javafx.scene.paint.Color.PINK; }
+
 }

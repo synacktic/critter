@@ -23,7 +23,7 @@ public class Painter {
 	 */
 	static Shape getIcon(int shapeIndex) {
 		Shape s = null;
-		int size = 100;
+		int size = 4;
 		
 		switch(shapeIndex) {
 		case 0: s = new Rectangle(size, size); 
@@ -40,7 +40,7 @@ public class Painter {
 	 * Paints the shape on a grid.
 	 */
 	public static void paint() {
-		Main.grid.getChildren().clear(); // clean up grid.
+		//Main.grid.getChildren().clear(); // clean up grid.
 		for (int i = 0; i <= 1; i++) {
 			Shape s = getIcon(i);	// convert the index to an icon.
 			Main.grid.add(s, i, i); // add the shape to the grid.

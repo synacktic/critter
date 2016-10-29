@@ -107,8 +107,9 @@ public class Critter2 extends Critter {
 		this.genes = genes;
 	}
 	@Override
-	public CritterShape viewShape() { return CritterShape.SQUARE; }
+	public CritterShape viewShape() { return CritterShape.CIRCLE; }
 
 	@Override
-	public javafx.scene.paint.Color viewOutlineColor() { return javafx.scene.paint.Color.ORANGE; }
+	public javafx.scene.paint.Color viewOutlineColor() { return javafx.scene.paint.Color.BLACK; }
+	public javafx.scene.paint.Color viewFillColor() { return javafx.scene.paint.Color.ORANGE; }
 }
