@@ -189,7 +189,7 @@ public abstract class Critter {
 
 		String class_name = myPackage + "." + critter_class_name.substring(0, 1).toUpperCase() + critter_class_name.substring(1);	
 	    try {
-		Class critterClass = Class.forName(class_name);
+		Class<?> critterClass = Class.forName(class_name);
 		
 		for (Critter crit: population) {
 			// if Critter is an instance of critter_class_name, add it to the list
@@ -476,7 +476,7 @@ public abstract class Critter {
 
 	
 		private Sector(Critter critter) {
-			this.critter = critter;
+			//this.critter = critter;
 			    neighbors = new java.util.ArrayList<Critter>();
 			    neighbors.add(critter);
 			}
