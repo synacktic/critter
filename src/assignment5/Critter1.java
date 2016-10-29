@@ -11,7 +11,7 @@
  * GitHub Repository: https://github.com/synacktic/critter
  */
 
-package assignment4;
+package assignment5;
 
 /**
  * Decides to fight based on random rolls - fight if roll is even, a multiple of 3, or not enough energy to walk

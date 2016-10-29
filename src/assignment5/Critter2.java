@@ -11,7 +11,7 @@
  * GitHub Repository: https://github.com/synacktic/critter
  */
 
-package assignment4;
+package assignment5;
 
 /**
  * This critter will refuse to fight its own kind.

@@ -469,7 +469,7 @@ public abstract class Critter {
 	 */
 	private static class Sector {
 
-		private Critter critter; // The critter here
+		//private Critter critter; // The critter here
 		private List<Critter> neighbors;// For critters that share the same address
 
 	
