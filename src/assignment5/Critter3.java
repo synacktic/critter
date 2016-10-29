@@ -13,6 +13,8 @@
 
 package assignment5;
 
+import assignment5.Critter.CritterShape;
+
 /**
  * 
  * Breeds at a high energy level to make strong children
@@ -100,4 +102,9 @@ public class Critter3 extends Critter {
 		System.out.print("" + total_left / (GENE_TOTAL * 0.01 * threes.size()) + "% left   ");
 		System.out.println();
 	}
+	@Override
+	public CritterShape viewShape() { return CritterShape.SQUARE; }
+
+	@Override
+	public javafx.scene.paint.Color viewOutlineColor() { return javafx.scene.paint.Color.RED; }
 }

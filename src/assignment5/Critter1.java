@@ -13,6 +13,8 @@
 
 package assignment5;
 
+import assignment5.Critter.CritterShape;
+
 /**
  * Decides to fight based on random rolls - fight if roll is even, a multiple of 3, or not enough energy to walk
  * Waits to breed - every 5 timesteps as long as energy is high enough
@@ -128,4 +130,10 @@ public class Critter1 extends Critter {
 	public void setGenes(int[] genes) {
 		this.genes = genes;
 	}
+	
+	@Override
+	public CritterShape viewShape() { return CritterShape.SQUARE; }
+
+	@Override
+	public javafx.scene.paint.Color viewOutlineColor() { return javafx.scene.paint.Color.PINK; }
 }

@@ -13,6 +13,8 @@
 
 package assignment5;
 
+import assignment5.Critter.CritterShape;
+
 /**
  * Does not fight if it can bread instead
  * Always eat 
@@ -109,4 +111,9 @@ public class Critter4 extends Critter {
 		System.out.print("" + total_left / (GENE_TOTAL * 0.01 * fours.size()) + "% left   ");
 		System.out.println();
 	}
+	@Override
+	public CritterShape viewShape() { return CritterShape.SQUARE; }
+
+	@Override
+	public javafx.scene.paint.Color viewOutlineColor() { return javafx.scene.paint.Color.PURPLE; }
 }

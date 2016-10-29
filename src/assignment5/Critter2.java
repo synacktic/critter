@@ -13,6 +13,8 @@
 
 package assignment5;
 
+import assignment5.Critter.CritterShape;
+
 /**
  * This critter will refuse to fight its own kind.
  * Walks only if it has enough energy
@@ -104,4 +106,9 @@ public class Critter2 extends Critter {
 	public void setGenes(int[] genes) {
 		this.genes = genes;
 	}
+	@Override
+	public CritterShape viewShape() { return CritterShape.SQUARE; }
+
+	@Override
+	public javafx.scene.paint.Color viewOutlineColor() { return javafx.scene.paint.Color.ORANGE; }
 }
