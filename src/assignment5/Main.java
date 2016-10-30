@@ -13,6 +13,10 @@
 
 package assignment5;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
+import java.util.NoSuchElementException;
+
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,6 +33,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+	
+//    private static String myPackage;	// package of Critter file.  Critter cannot be in default pkg.
+//
+//    static {
+//        myPackage = Critter.class.getPackage().toString().split(" ")[1];
+//    }
 	
 	static GridPane ui = new GridPane();			// align controls and world
 	static GridPane grid = new GridPane();			// critter world
@@ -69,71 +79,93 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {	//*** Need to take out the "throws Exception" before submitting I think
 			makeSomeCritters();
 	    	
+			// initialize layout
+	        primaryStage.setTitle("Critters");
+	        
 	        controls.setVgap(10);
 	        controls.setHgap(10);
+			grid.setGridLinesVisible(true);			
 	        ui.setPadding(new Insets(10, 10, 30, 10));
-	        	        	        
-	        controls.add(new Label("Add Critter"), 0, 0);
-	        controls.add(critterAddList, 0, 1);
-	        critterAddList.setPrefWidth(150);
-	        critterAddList.setPromptText("Select a Critter...");
-	        addAmount.setPrefWidth(30);
-	        controls.add(addAmount, 1, 1);
-	       	addAmount.setPromptText("#");
-	        controls.add(add, 2, 1);
-	        
-	        // Step Controls
-	        controls.add(new Label("Time Step"), 0, 2);
-	        controls.add(slider, 0, 3);
-	        slider.setPrefWidth(150);
-	        slider.setShowTickMarks(true);
-	        slider.setShowTickLabels(true);
-	        controls.add(stepAmount, 1, 3);
-	        stepAmount.setPrefWidth(30);
-	        stepAmount.setPromptText("#");
-	        stepAmount.valueProperty().bindBidirectional(slider.valueProperty()); 	// to do: make the textfield editable outside slider shit
-	        controls.add(step, 2, 3);
-	        
-	        // Run Stats Controls
-	        controls.add(new Label("Run Stats"), 0, 4);
-	        controls.add(critterStatsList, 0, 5);
-	        critterStatsList.setPrefWidth(150);
-	        critterStatsList.setPromptText("Select a Critter...");
-	        controls.add(runStats, 1, 5);
-	        controls.add(statsText, 0, 6);
-	        
-	        // Quit & Clear
-	        controls.add(clear, 0, 8);
-	        controls.add(quit, 0, 9);
-	        
 	        ui.getColumnConstraints().add(new ColumnConstraints(300));
 	        ui.add(controls, 0, 0);
 	        ui.add(grid, 1, 0);
-
-			grid.setGridLinesVisible(true);
-	        primaryStage.setTitle("Critters");
-	     
+	        
+	        // Add Critter Controls
+	        controls.add(new Label("Add Critter"), 0, 0);			// title lable
+	        controls.add(critterAddList, 0, 1);						// combobox
+	        critterAddList.setPrefWidth(150);						
+	        critterAddList.setPromptText("Select a Critter...");	// prompt
+	        addAmount.setPrefWidth(30);								
+	        controls.add(addAmount, 1, 1);							// input field
+	       	addAmount.setPromptText("#");							// prompt
+	        controls.add(add, 2, 1);								// button
+	        
 		       add.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
-
+//		            	int count = addAmount.getValue();
+//		            	
+//		            	for (int c = 0;c < count; c++) {        			
+//		        			try {		            	
+//		        				String className = ""; //critterAddList.getSelectedItem().toString();
+//								Critter.makeCritter(className);
+//							} catch (InvalidCritterException e) {}
+//		        		}
 		            }            
 		        });	
 		       
+	        // Step Controls
+	        controls.add(new Label("Time Step"), 0, 2);				// title lable
+	        controls.add(slider, 0, 3);								// slider
+	        slider.setPrefWidth(150);								
+	        slider.setShowTickMarks(true);							
+	        slider.setShowTickLabels(true);							
+	        controls.add(stepAmount, 1, 3);							// input field
+	        stepAmount.setPrefWidth(30);							
+	        stepAmount.setPromptText("#");							// prompt
+	        stepAmount.valueProperty().bindBidirectional(slider.valueProperty()); // bind amount box to slider
+	        controls.add(step, 2, 3);								// button
+
 		       step.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
-
+//		            	for (int c=0;c < stepAmount.getValue(); c++) {        			
+//	                		try {
+//								Critter.worldTimeStep();
+//							} catch (InvalidCritterException e) {}
+//	            		}
 		            }            
 		        });	
 		       
+	        // Run Stats Controls
+	        controls.add(new Label("Run Stats"), 0, 4);				// title lable
+	        controls.add(critterStatsList, 0, 5);					// combobox
+	        critterStatsList.setPrefWidth(150);				
+	        critterStatsList.setPromptText("Select a Critter...");	// prompt
+	        controls.add(statsText, 0, 6);							// textbox
+	        controls.add(runStats, 1, 5);							// button
+
 		       runStats.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
-
-		            }            
+//		            	try {
+//		        			String className  = ""; //critterAddList.getSelectedItem().toString();
+//							Class critter = Class.forName(myPackage + "." + className);						
+//							Method stats = critter.getMethod("runStats", java.util.List.class);
+//							stats.invoke(null, Critter.getInstances(className));
+//						}
+//							catch (NoSuchMethodException e)		{} 
+//							catch (IllegalAccessException e) 	{} 
+//							catch (InvocationTargetException e) {}
+//							catch (ClassNotFoundException e) 	{}
+//							catch (NoSuchElementException e)    {}
+//							catch (InvalidCritterException e)   {}
+		            }
 		        });	
 		       
+	        // Clear
+	        controls.add(clear, 0, 8);								// button
+	        
 		       clear.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
@@ -141,7 +173,10 @@ public class Main extends Application {
 		            	Critter.displayWorld();
 		            }            
 		        });		
-		       
+		     
+		    // Quit   
+	        controls.add(quit, 0, 9);								// button
+	        
 		       quit.setOnAction(new EventHandler<ActionEvent>() {   	   
 		            @Override
 		            public void handle(ActionEvent event) {
@@ -160,12 +195,12 @@ public class Main extends Application {
 	        
 	}
 }
-/*
-public class Main {
 
-	public static void main(String[] args) {
-		// launch(args);
-	}
+//public class Main {
+//
+//	public static void main(String[] args) {
+//		 launch(args);
+//	}
+//
+//}
 
-}
-*/
