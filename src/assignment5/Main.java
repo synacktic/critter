@@ -40,6 +40,7 @@ public class Main extends Application {
 	static Button addButton = new Button("Add");
 	static Button step = new Button("Step");
 	static Button runStats = new Button("Run Stats");
+	static Button clear = new Button("Clear World");
 	static Button quit = new Button("Quit");
 	private ComboBox<Critter> critterAddList = new ComboBox(critters);
 	private ComboBox<Critter> critterStatsList = new ComboBox(critters);
@@ -63,6 +64,9 @@ public class Main extends Application {
 				Critter.makeCritter("Algae");
 			}
  
+	        Critter.displayWorld();
+
+	
 	        ui.setVgap(10);
 	        ui.setHgap(10);
 	        ui.setPadding(new Insets(10, 10, 30, 10));
@@ -87,7 +91,8 @@ public class Main extends Application {
 	        ui.add(runStats, 2, 5);
 	        ui.add(statsText, 0, 6);
 	        
-	        ui.add(quit, 0, 7);
+	        ui.add(clear, 0, 7);
+	        ui.add(quit, 0, 8);
 	        
 			grid.setGridLinesVisible(true);
 	        primaryStage.setTitle("Skitters");
@@ -103,13 +108,8 @@ public class Main extends Application {
 			
 	        StackPane root = new StackPane();
 
-			Scene scene = new Scene(root, Params.world_width*51,Params.world_height*51 );
-			//primaryStage.setScene(scene);
-			
-			//primaryStage.show();
-	        Critter.displayWorld();
+			Scene scene = new Scene(root, Params.world_width*5,Params.world_height*5 );			
 
-			//Scene scene = new Scene(root, 1000, 1000);
 	        root.getChildren().add(grid);
 	        root.getChildren().add(ui);
  
