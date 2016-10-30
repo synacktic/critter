@@ -19,14 +19,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -35,12 +36,11 @@ public class Main extends Application {
 	static GridPane ui = new GridPane();
 	static GridPane grid = new GridPane();
 	static GridPane controls = new GridPane(); 		// for aligning ui elements
-	static int WIDTH = 700;
 	
 	private ObservableList<Critter> critters;
 	
 	// display elements
-	static Button addButton = new Button("Add");
+	static Button add = new Button("Add");
 	static Button step = new Button("Step");
 	static Button runStats = new Button("Run Stats");
 	static Button clear = new Button("Clear World");
@@ -68,14 +68,15 @@ public class Main extends Application {
 			}
 	        controls.setVgap(10);
 	        controls.setHgap(10);
-	        controls.setPadding(new Insets(10, 10, 30, 10));
+	        ui.setPadding(new Insets(10, 10, 30, 10));
 	        	        	        
 	        controls.add(new Label("Add Critter"), 0, 0);
 	        controls.add(critterAddList, 0, 1);
-	       // ui.add(addAmount, 1, 1);
-	        //addAmount.setPromptText("#");
+	        //controls.add(addAmount, 1, 1);
+	       	//addAmount.setPromptText("#");
 
-	        controls.add(addButton, 2, 1);
+
+	        controls.add(add, 2, 1);
 
 	        controls.add(new Label("Time Step"), 0, 2);
 	        controls.add(slider, 0, 3);
@@ -89,28 +90,57 @@ public class Main extends Application {
 	        controls.add(runStats, 2, 5);
 	        controls.add(statsText, 0, 6);
 	        
-	        controls.add(clear, 0, 7);
-	        controls.add(quit, 0, 8);
+	        controls.add(clear, 0, 8);
+	        controls.add(quit, 0, 9);
 	        
 	        ui.getColumnConstraints().add(new ColumnConstraints(250));
 	        ui.add(controls, 0, 0);
 	        ui.add(grid, 1, 0);
 
 			grid.setGridLinesVisible(true);
-	        primaryStage.setTitle("Skitters");
-			
-		       quit.setOnAction(new EventHandler<ActionEvent>() {
-		    	   
+	        primaryStage.setTitle("Critters");
+	     
+		       add.setOnAction(new EventHandler<ActionEvent>() {  		    	   
+		            @Override
+		            public void handle(ActionEvent event) {
+
+		            }            
+		        });	
+		       
+		       step.setOnAction(new EventHandler<ActionEvent>() {  		    	   
+		            @Override
+		            public void handle(ActionEvent event) {
+
+		            }            
+		        });	
+		       
+		       runStats.setOnAction(new EventHandler<ActionEvent>() {  		    	   
+		            @Override
+		            public void handle(ActionEvent event) {
+
+		            }            
+		        });	
+		       
+		       clear.setOnAction(new EventHandler<ActionEvent>() {  		    	   
+		            @Override
+		            public void handle(ActionEvent event) {
+		            	Critter.clearWorld();
+		            	Critter.displayWorld();
+		            }            
+		        });		
+		       
+		       quit.setOnAction(new EventHandler<ActionEvent>() {   	   
 		            @Override
 		            public void handle(ActionEvent event) {
 		            	System.exit(1);
-		            }
-		            
+		            }	            
 		        });
+		       
+
 			
 	        Critter.displayWorld();
 
-			Scene scene = new Scene(ui, WIDTH, 400);		
+			Scene scene = new Scene(ui, 710, 410);		
  
 	        primaryStage.setScene(scene);
 	        primaryStage.show();
