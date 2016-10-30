@@ -31,8 +31,9 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 	
+	static GridPane ui = new GridPane();
 	static GridPane grid = new GridPane();
-	static GridPane ui = new GridPane(); 		// for aligning ui elements
+	static GridPane controls = new GridPane(); 		// for aligning ui elements
 	
 	private ObservableList<Critter> critters;
 	
@@ -64,36 +65,35 @@ public class Main extends Application {
 				Critter.makeCritter("Algae");
 			}
  
-	        Critter.displayWorld();
-
-	
-	        ui.setVgap(10);
-	        ui.setHgap(10);
-	        ui.setPadding(new Insets(10, 10, 30, 10));
-	        ui.add(grid, 4, 0);
+	        controls.setVgap(10);
+	        controls.setHgap(10);
+	        controls.setPadding(new Insets(10, 10, 30, 10));
 	        
-	        ui.add(new Label("Add Critter"), 0, 0);
-	        ui.add(critterAddList, 0, 1);
+	        controls.add(new Label("Add Critter"), 0, 0);
+	        controls.add(critterAddList, 0, 1);
 	        //ui.add(addAmount, 1, 1);
 	        //addAmount.setPromptText("#");
 
-	        ui.add(addButton, 2, 1);
+	        controls.add(addButton, 2, 1);
 
-	        ui.add(new Label("Time Step"), 0, 2);
-	        ui.add(slider, 0, 3);
+	        controls.add(new Label("Time Step"), 0, 2);
+	        controls.add(slider, 0, 3);
 	       //ui.add(stepAmount, 1, 3);
 	       //stepAmount.setPromptText("#");
 
-	        ui.add(step, 2, 3);
+	        controls.add(step, 2, 3);
 	        
-	        ui.add(new Label("Run Stats"), 0, 4);
-	        ui.add(critterStatsList, 0, 5);
-	        ui.add(runStats, 2, 5);
-	        ui.add(statsText, 0, 6);
+	        controls.add(new Label("Run Stats"), 0, 4);
+	        controls.add(critterStatsList, 0, 5);
+	        controls.add(runStats, 2, 5);
+	        controls.add(statsText, 0, 6);
 	        
-	        ui.add(clear, 0, 7);
-	        ui.add(quit, 0, 8);
+	        controls.add(clear, 0, 7);
+	        controls.add(quit, 0, 8);
 	        
+	        ui.add(controls, 0, 0);
+	        ui.add(grid, 1, 0);
+
 			grid.setGridLinesVisible(true);
 	        primaryStage.setTitle("Skitters");
 			
@@ -106,12 +106,12 @@ public class Main extends Application {
 		            
 		        });
 			
-	        StackPane root = new StackPane();
+	        Critter.displayWorld();
 
-			Scene scene = new Scene(root, Params.world_width*5,Params.world_height*5 );			
+			Scene scene = new Scene(ui, Params.world_width*5,Params.world_height*5 );		
 
-	        root.getChildren().add(grid);
-	        root.getChildren().add(ui);
+
+
  
 	        primaryStage.setScene(scene);
 	        primaryStage.show();
