@@ -99,7 +99,6 @@ public class Main extends Application {
 	        critterAddList.setPromptText("Select a Critter...");	// prompt
 	        addAmount.setPrefWidth(30);								
 	        controls.add(addAmount, 1, 1);							// input field
-	       	addAmount.setPromptText("#");							// prompt
 	        controls.add(add, 2, 1);								// button
 	        
 		       add.setOnAction(new EventHandler<ActionEvent>() {  		    	   
@@ -125,7 +124,6 @@ public class Main extends Application {
 	        slider.setShowTickLabels(true);							
 	        controls.add(stepAmount, 1, 4);							// input field
 	        stepAmount.setPrefWidth(30);							
-	        stepAmount.setPromptText("#");							// prompt
 	        stepAmount.valueProperty().bindBidirectional(slider.valueProperty()); // bind amount box to slider
 	        controls.add(step, 2, 4);								// button
 	        controls.add(stepNum, 2, 3);
