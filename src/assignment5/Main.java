@@ -115,16 +115,16 @@ public class Main extends Application {
 		        });	
 		       
 	        // Step Controls
-	        controls.add(new Label("Time Step"), 0, 2);				// title lable
-	        controls.add(slider, 0, 3);								// slider
+	        controls.add(new Label("Time Step"), 0, 3);				// title lable
+	        controls.add(slider, 0, 4);								// slider
 	        slider.setPrefWidth(150);								
 	        slider.setShowTickMarks(true);							
 	        slider.setShowTickLabels(true);							
-	        controls.add(stepAmount, 1, 3);							// input field
+	        controls.add(stepAmount, 1, 4);							// input field
 	        stepAmount.setPrefWidth(30);							
 	        stepAmount.setPromptText("#");							// prompt
 	        stepAmount.valueProperty().bindBidirectional(slider.valueProperty()); // bind amount box to slider
-	        controls.add(step, 2, 3);								// button
+	        controls.add(step, 2, 4);								// button
 
 		       step.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
@@ -138,12 +138,12 @@ public class Main extends Application {
 		        });	
 		       
 	        // Run Stats Controls
-	        controls.add(new Label("Run Stats"), 0, 4);				// title lable
-	        controls.add(critterStatsList, 0, 5);					// combobox
+	        controls.add(new Label("Run Stats"), 0, 6);				// title lable
+	        controls.add(critterStatsList, 0, 7);					// combobox
 	        critterStatsList.setPrefWidth(150);				
 	        critterStatsList.setPromptText("Select a Critter...");	// prompt
-	        controls.add(statsText, 0, 6);							// textbox
-	        controls.add(runStats, 1, 5);							// button
+	        controls.add(statsText, 0, 8);							// textbox
+	        controls.add(runStats, 1, 7);							// button
 
 		       runStats.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
@@ -164,7 +164,7 @@ public class Main extends Application {
 		        });	
 		       
 	        // Clear
-	        controls.add(clear, 0, 8);								// button
+	        controls.add(clear, 0, 10);								// button
 	        
 		       clear.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
@@ -175,7 +175,7 @@ public class Main extends Application {
 		        });		
 		     
 		    // Quit   
-	        controls.add(quit, 0, 9);								// button
+	        controls.add(quit, 0, 11);								// button
 	        
 		       quit.setOnAction(new EventHandler<ActionEvent>() {   	   
 		            @Override
