@@ -321,7 +321,7 @@ public abstract class Critter {
 		babies = new java.util.ArrayList<Critter>();
 		for(int i = 0; i < Params.world_height; i += 1){
 			for(int k = 0; k < Params.world_width; k+= 1){
-				if (worldMap[i][k] != null && worldMap[i][k].neighbors.get(0).sNode != null)
+				if (worldMap[i][k] != null && worldMap[i][k].neighbors.size()>0 && worldMap[i][k].neighbors.get(0).sNode != null)
 					Main.grid.getChildren().remove(worldMap[i][k].neighbors.get(0).sNode);
 				worldMap[i][k] = null;
 			}
