@@ -62,7 +62,7 @@ public abstract class Critter {
 		return s;
 	}
 	
-
+	private Shape sNode;
 	// Gets the package name.  This assumes that Critter and its subclasses are all in the same package.
     private static String myPackage;
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
@@ -134,7 +134,7 @@ public abstract class Critter {
 			this.x_coord = Params.world_width - 1;
 		if (this.x_coord > Params.world_width - 1) 		// wrap to left
 			this.x_coord = this.x_coord - Params.world_width;
-		
+		Main.grid.getChildren().remove(this.sNode);
 		worldMap[y_old][x_old].neighbors.remove(this);
 		updateWorld(this);
 
@@ -346,6 +346,7 @@ public abstract class Critter {
 	      while(alive.hasNext()) {
 	          Critter next = alive.next();
 	          if(next.getEnergy() <= 0){
+				Main.grid.getChildren().remove(next.sNode);
 	  			worldMap[next.y_coord][next.x_coord].neighbors.remove(next);
 	        	alive.remove();
 	          }
@@ -391,7 +392,7 @@ public abstract class Critter {
 						System.out.printf("%s",worldMap[current_height][current_width].neighbors.get(0).toString());
 						//CritterShape i = worldMap[current_height][current_width].neighbors.get(0).viewShape();
 						//CritterShape s = 
-						Shape s = getIcon(
+						worldMap[current_height][current_width].neighbors.get(0).sNode = getIcon(
 								worldMap[current_height][current_width].neighbors.get(0).viewShape(),
 								worldMap[current_height][current_width].neighbors.get(0).viewOutlineColor(),
 								worldMap[current_height][current_width].neighbors.get(0).viewFillColor()
@@ -400,7 +401,7 @@ public abstract class Critter {
 								//worldMap[current_height][current_width].neighbors.get(0).viewShape();
 						//CritterShape
 						//Shape r;
-						Main.grid.add(s, current_width, current_height);
+						Main.grid.add(worldMap[current_height][current_width].neighbors.get(0).sNode, current_width, current_height);
 					}
 				}
 				
@@ -453,20 +454,24 @@ public abstract class Critter {
 
 							if(rollA < rollB){ // critter B wins the fight
 								critB.energy += (int) Math.ceil(critA.energy / 2); 	// add half the loser's energy to the winner
+								Main.grid.getChildren().remove(critA.sNode);
 								worldMap[c][r].neighbors.remove(critA);  			// kill critter A
 								population.remove(critA);
 							} else if(rollA > rollB){
 								critA.energy += (int) Math.ceil(critB.energy / 2); 	// add half the loser's energy to the winner
+								Main.grid.getChildren().remove(critB.sNode);
 								worldMap[c][r].neighbors.remove(critB); 		 	// kill critter B
 								population.remove(critB);
 							}
 							else {
 								roll = Critter.getRandomInt(2);					// randomly decide who dies
 								if(roll == 0){
+									Main.grid.getChildren().remove(critB.sNode);
 									worldMap[c][r].neighbors.remove(critB); 		// kill critter B
 									population.remove(critB);
 								}
 								else
+									Main.grid.getChildren().remove(critA.sNode);
 									worldMap[c][r].neighbors.remove(critA);  		// kill critter A}									
 									population.remove(critA);
 							}
