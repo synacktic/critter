@@ -390,17 +390,16 @@ public abstract class Critter {
 						System.out.printf(" ");
 					} else {
 						System.out.printf("%s",worldMap[current_height][current_width].neighbors.get(0).toString());
-						//CritterShape i = worldMap[current_height][current_width].neighbors.get(0).viewShape();
-						//CritterShape s = 
-						worldMap[current_height][current_width].neighbors.get(0).sNode = getIcon(
+
+						if (worldMap[current_height][current_width].neighbors.get(0).sNode == null)
+							worldMap[current_height][current_width].neighbors.get(0).sNode = getIcon(
 								worldMap[current_height][current_width].neighbors.get(0).viewShape(),
 								worldMap[current_height][current_width].neighbors.get(0).viewOutlineColor(),
 								worldMap[current_height][current_width].neighbors.get(0).viewFillColor()
 								);
-								//viewShape()
-								//worldMap[current_height][current_width].neighbors.get(0).viewShape();
-						//CritterShape
-						//Shape r;
+						else
+							Main.grid.getChildren().remove(worldMap[current_height][current_width].neighbors.get(0).sNode);
+						
 						Main.grid.add(worldMap[current_height][current_width].neighbors.get(0).sNode, current_width, current_height);
 					}
 				}
