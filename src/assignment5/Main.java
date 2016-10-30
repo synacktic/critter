@@ -174,7 +174,9 @@ public class Main extends Application {
 //							catch (ClassNotFoundException e) 	{}
 //							catch (NoSuchElementException e)    {}
 //							catch (InvalidCritterException e)   {}
-		            }
+				Critter.displayWorld();
+
+			    }
 		        });	
 		       
 	        // Clear
