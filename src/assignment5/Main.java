@@ -138,11 +138,24 @@ public class Main extends Application {
 		        });	
 		       
 	        // Run Stats Controls
+//		       - Do you have the ability for the user to invoke their runStats method? 
+//		       - Do you have a panel where the results of runStats is continuously being displayed 
+//		         	(updated whenever the view is updated)? 
+//		       - Can the user select which critter class(es) have their runStats methods updated? 
+//		       - By default is theCritter.runStats base class method invoked each time the view is updated?
 	        controls.add(new Label("Run Stats"), 0, 6);				// title lable
 	        controls.add(critterStatsList, 0, 7);					// combobox
 	        critterStatsList.setPrefWidth(150);				
 	        critterStatsList.setPromptText("Select a Critter...");	// prompt
 	        controls.add(statsText, 0, 8);							// textbox
+	        // sample output in statsText
+		        /*
+		         * CritterName1
+		         * [CritterName1 runStats output]
+		         * 
+		         * CritterName2
+		         * [CritterName2 runStats output]
+		         */
 	        controls.add(runStats, 1, 7);							// button
 
 		       runStats.setOnAction(new EventHandler<ActionEvent>() {  		    	   
