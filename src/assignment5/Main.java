@@ -12,7 +12,6 @@
  */
 
 package assignment5;
-import java.awt.TextField;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -21,8 +20,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -72,28 +71,30 @@ public class Main extends Application {
 	        	        	        
 	        controls.add(new Label("Add Critter"), 0, 0);
 	        controls.add(critterAddList, 0, 1);
-	        //controls.add(addAmount, 1, 1);
-	       	//addAmount.setPromptText("#");
+	        addAmount.setPrefWidth(30);
+	        controls.add(addAmount, 1, 1);
+	       	addAmount.setPromptText("#");
 
 
 	        controls.add(add, 2, 1);
 
 	        controls.add(new Label("Time Step"), 0, 2);
 	        controls.add(slider, 0, 3);
-	       //ui.add(stepAmount, 1, 3);
-	       //stepAmount.setPromptText("#");
+	        controls.add(stepAmount, 1, 3);
+	        stepAmount.setPrefWidth(30);
+	        stepAmount.setPromptText("#");
 
 	        controls.add(step, 2, 3);
 	        
 	        controls.add(new Label("Run Stats"), 0, 4);
 	        controls.add(critterStatsList, 0, 5);
-	        controls.add(runStats, 2, 5);
+	        controls.add(runStats, 1, 5);
 	        controls.add(statsText, 0, 6);
 	        
 	        controls.add(clear, 0, 8);
 	        controls.add(quit, 0, 9);
 	        
-	        ui.getColumnConstraints().add(new ColumnConstraints(250));
+	        ui.getColumnConstraints().add(new ColumnConstraints(300));
 	        ui.add(controls, 0, 0);
 	        ui.add(grid, 1, 0);
 
