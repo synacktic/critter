@@ -59,6 +59,8 @@ public class Main extends Application {
 	private IntField stepAmount = new IntField(1);
 	private Slider slider = new Slider(0, 50, 1);
 	private Text statsText = new Text("");
+	private Integer stepnumber = 0;
+	private Label stepNum = new Label("Step: " + stepnumber);
 
 	public static void makeSomeCritters() throws Exception{
 		   for (int c=0;c < 25; c++) {        			
@@ -111,6 +113,7 @@ public class Main extends Application {
 //								Critter.makeCritter(className);
 //							} catch (InvalidCritterException e) {}
 //		        		}
+		            	Critter.displayWorld();
 		            }            
 		        });	
 		       
@@ -125,14 +128,17 @@ public class Main extends Application {
 	        stepAmount.setPromptText("#");							// prompt
 	        stepAmount.valueProperty().bindBidirectional(slider.valueProperty()); // bind amount box to slider
 	        controls.add(step, 2, 4);								// button
+	        controls.add(stepNum, 2, 3);
 
 		       step.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
 		            	for (int c=0;c < stepAmount.getValue(); c++) {        			
 	                		try {
+	                			stepnumber++;
+	                			stepNum.setText("Step: " + stepnumber);
 								Critter.worldTimeStep();
-				            			Critter.displayWorld();
+				            	Critter.displayWorld();
 							} catch (InvalidCritterException e) {}
 	            		}
 		            }            
@@ -174,9 +180,7 @@ public class Main extends Application {
 //							catch (ClassNotFoundException e) 	{}
 //							catch (NoSuchElementException e)    {}
 //							catch (InvalidCritterException e)   {}
-				Critter.displayWorld();
-
-			    }
+		            }
 		        });	
 		       
 	        // Clear
