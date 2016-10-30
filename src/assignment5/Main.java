@@ -132,7 +132,7 @@ public class Main extends Application {
 		            	for (int c=0;c < stepAmount.getValue(); c++) {        			
 	                		try {
 								Critter.worldTimeStep();
-				            	//Critter.displayWorld();
+				            			Critter.displayWorld();
 							} catch (InvalidCritterException e) {}
 	            		}
 		            }            
