@@ -24,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -34,6 +35,7 @@ public class Main extends Application {
 	static GridPane ui = new GridPane();
 	static GridPane grid = new GridPane();
 	static GridPane controls = new GridPane(); 		// for aligning ui elements
+	static int WIDTH = 700;
 	
 	private ObservableList<Critter> critters;
 	
@@ -64,14 +66,13 @@ public class Main extends Application {
 	    	for (int c=0;c < 100; c++) {        			
 				Critter.makeCritter("Algae");
 			}
- 
 	        controls.setVgap(10);
 	        controls.setHgap(10);
 	        controls.setPadding(new Insets(10, 10, 30, 10));
-	        
+	        	        	        
 	        controls.add(new Label("Add Critter"), 0, 0);
 	        controls.add(critterAddList, 0, 1);
-	        //ui.add(addAmount, 1, 1);
+	       // ui.add(addAmount, 1, 1);
 	        //addAmount.setPromptText("#");
 
 	        controls.add(addButton, 2, 1);
@@ -91,6 +92,7 @@ public class Main extends Application {
 	        controls.add(clear, 0, 7);
 	        controls.add(quit, 0, 8);
 	        
+	        ui.getColumnConstraints().add(new ColumnConstraints(250));
 	        ui.add(controls, 0, 0);
 	        ui.add(grid, 1, 0);
 
@@ -108,10 +110,7 @@ public class Main extends Application {
 			
 	        Critter.displayWorld();
 
-			Scene scene = new Scene(ui, Params.world_width*5,Params.world_height*5 );		
-
-
-
+			Scene scene = new Scene(ui, WIDTH, 400);		
  
 	        primaryStage.setScene(scene);
 	        primaryStage.show();
