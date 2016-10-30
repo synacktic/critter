@@ -129,11 +129,12 @@ public class Main extends Application {
 		       step.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
-//		            	for (int c=0;c < stepAmount.getValue(); c++) {        			
-//	                		try {
-//								Critter.worldTimeStep();
-//							} catch (InvalidCritterException e) {}
-//	            		}
+		            	for (int c=0;c < stepAmount.getValue(); c++) {        			
+	                		try {
+								Critter.worldTimeStep();
+				            	//Critter.displayWorld();
+							} catch (InvalidCritterException e) {}
+	            		}
 		            }            
 		        });	
 		       
