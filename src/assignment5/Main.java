@@ -17,6 +17,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import java.util.NoSuchElementException;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -53,6 +55,7 @@ public class Main extends Application {
 	static Button runStats = new Button("Stats");
 	static Button clear = new Button("Clear World");
 	static Button quit = new Button("Quit");
+	static Button animate = new Button("Animate Steps");
 	private ComboBox<Critter> critterAddList = new ComboBox(allCritters);
 	private ComboBox<Critter> critterStatsList = new ComboBox(activeCritters);
 	private IntField addAmount = new IntField(0);
@@ -126,6 +129,7 @@ public class Main extends Application {
 	        stepAmount.setPrefWidth(30);							
 	        stepAmount.valueProperty().bindBidirectional(slider.valueProperty()); // bind amount box to slider
 	        controls.add(step, 2, 4);								// button
+	        controls.add(animate, 0, 5);
 	        controls.add(stepNum, 2, 3);
 
 		       step.setOnAction(new EventHandler<ActionEvent>() {  		    	   
@@ -136,9 +140,34 @@ public class Main extends Application {
 	                			stepnumber++;
 	                			stepNum.setText("Step: " + stepnumber);
 								Critter.worldTimeStep();
+				            	//Critter.displayWorld();
+							} catch (InvalidCritterException e) {}
+	            		}
+		            }            
+		        });	
+		       
+		       animate.setOnAction(new EventHandler<ActionEvent>() {  		    	   
+		            @Override
+		            public void handle(ActionEvent event) {
+	                	add.setDisable(true);
+	                	step.setDisable(true);	
+	                	
+	                	Timeline ani = new Timeline();
+	                	 
+	                	// need to make this a keyframe action thing
+	                	for (int c=0;c < stepAmount.getValue(); c++) {        			
+	                		try {
+	                			stepnumber++;
+	                			stepNum.setText("Step: " + stepnumber);
+								Critter.worldTimeStep();
 				            	Critter.displayWorld();
 							} catch (InvalidCritterException e) {}
 	            		}
+	                	
+	                	ani.play();
+
+	                	add.setDisable(false);
+	                	step.setDisable(false);
 		            }            
 		        });	
 		       
@@ -148,11 +177,11 @@ public class Main extends Application {
 //		         	(updated whenever the view is updated)? 
 //		       - Can the user select which critter class(es) have their runStats methods updated? 
 //		       - By default is theCritter.runStats base class method invoked each time the view is updated?
-	        controls.add(new Label("Run Stats"), 0, 6);				// title lable
-	        controls.add(critterStatsList, 0, 7);					// combobox
+	        controls.add(new Label("Run Stats"), 0, 7);				// title lable
+	        controls.add(critterStatsList, 0, 8);					// combobox
 	        critterStatsList.setPrefWidth(150);				
 	        critterStatsList.setPromptText("Select a Critter...");	// prompt
-	        controls.add(statsText, 0, 8);							// textbox
+	        controls.add(statsText, 0, 7);							// textbox
 	        // sample output in statsText
 		        /*
 		         * CritterName1
@@ -161,7 +190,7 @@ public class Main extends Application {
 		         * CritterName2
 		         * [CritterName2 runStats output]
 		         */
-	        controls.add(runStats, 1, 7);							// button
+	        controls.add(runStats, 1, 8);							// button
 
 		       runStats.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
@@ -182,18 +211,18 @@ public class Main extends Application {
 		        });	
 		       
 	        // Clear
-	        controls.add(clear, 0, 10);								// button
+	        controls.add(clear, 0, 11);								// button
 	        
 		       clear.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
 		            	Critter.clearWorld();
-		            	Critter.displayWorld();
+		            	//Critter.displayWorld();
 		            }            
 		        });		
 		     
 		    // Quit   
-	        controls.add(quit, 0, 11);								// button
+	        controls.add(quit, 0, 12);								// button
 	        
 		       quit.setOnAction(new EventHandler<ActionEvent>() {   	   
 		            @Override
