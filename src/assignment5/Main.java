@@ -127,7 +127,7 @@ public class Main extends Application {
 	        slider.setShowTickLabels(true);							
 	        controls.add(stepAmount, 1, 4);							// input field
 	        stepAmount.setPrefWidth(30);							
-	        stepAmount.valueProperty().bindBidirectional(slider.valueProperty()); // bind amount box to slider
+	        stepAmount.valueProperty().bind(slider.valueProperty()); // bind amount box to slider
 	        controls.add(step, 2, 4);								// button
 	        controls.add(animate, 0, 5);
 	        controls.add(stepNum, 2, 3);
@@ -152,7 +152,7 @@ public class Main extends Application {
 	                	add.setDisable(true);
 	                	step.setDisable(true);	
 	                	
-	                	Timeline ani = new Timeline();
+	                	Timeline animation = new Timeline();
 	                	 
 	                	// need to make this a keyframe action thing
 	                	for (int c=0;c < stepAmount.getValue(); c++) {        			
@@ -164,7 +164,7 @@ public class Main extends Application {
 							} catch (InvalidCritterException e) {}
 	            		}
 	                	
-	                	ani.play();
+	                	animation.play();
 
 	                	add.setDisable(false);
 	                	step.setDisable(false);
