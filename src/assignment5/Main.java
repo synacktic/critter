@@ -16,6 +16,7 @@ package assignment5;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -74,7 +75,7 @@ public class Main extends Application {
 				Critter.makeCritter("Algae");
 			}
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {	//*** Need to take out the "throws Exception" before submitting I think
 			makeSomeCritters();
