@@ -170,14 +170,14 @@ public class Main extends Application {
 		       add.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
-//		            	int count = addAmount.getValue();
-//		            	
-//		            	for (int c = 0;c < count; c++) {        			
-//		        			try {		            	
-//		        				String className = ""; //critterAddList.getSelectedItem().toString();
-//								Critter.makeCritter(className);
-//							} catch (InvalidCritterException e) {}
-//		        		}
+		            	int count = addAmount.getValue();
+		            	System.out.println(count);
+		            	for (int c = 0;c < count; c++) {        			
+		        			try {		            	
+		        				String className = critterAddList.getValue();
+								Critter.makeCritter(className);
+							} catch (InvalidCritterException e) {}
+		        		}
 		            	Critter.displayWorld();
 		            }            
 		        });	
