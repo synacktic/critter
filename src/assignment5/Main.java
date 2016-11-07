@@ -70,7 +70,7 @@ public class Main extends Application {
 	private ComboBox<String> critterStatsList;
 	static Button setSeed = new Button("Seed");
 	private TextField seedAmount = new TextField();
-	private IntField addAmount = new IntField(0);
+	private IntField addAmount = new IntField(1);
 	private IntField stepAmount = new IntField(1);
 	private Slider slider = new Slider(0, 50, 1);
 	private Text statsText = new Text("");
@@ -166,16 +166,26 @@ public class Main extends Application {
 	        addAmount.setPrefWidth(30);								
 	        controls.add(addAmount, 1, 4);							// input field
 	        controls.add(add, 2, 4);								// button
-	        
+	        /*addAmount.setOnAction(new EventHandler<ActionEvent>(){
+	        	@Override
+	            public void handle(ActionEvent event) {
+	        		//addAmount = new IntField(addAmount.getValue());
+	        		System.out.println(addAmount.getValue());
+	        	}
+	        });*/
 		       add.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
+		            	System.out.println(addAmount.getValue());
+
 		            	int count = addAmount.getValue();
 		            	System.out.println(count);
 		            	for (int c = 0;c < count; c++) {        			
 		        			try {		            	
 		        				String className = critterAddList.getValue();
-								Critter.makeCritter(className);
+		        				if (className != null) 
+		        					Critter.makeCritter(className);
+		  
 							} catch (InvalidCritterException e) {}
 		        		}
 		            	Critter.displayWorld();
