@@ -14,13 +14,16 @@
 package assignment5;
 
 import java.lang.reflect.Method;
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -47,9 +50,10 @@ public class Main extends Application {
 	static GridPane grid = new GridPane();			// critter world
 	static GridPane controls = new GridPane(); 		// for aligning control elements
 	
-	private ObservableList<Critter> allCritters;	// list of all critter classes you can make
-	private ObservableList<Critter> activeCritters;	// list of all critter types currently on the board
-
+	//private ObservableList<Critter> allCritters;	// list of all critter classes you can make
+	//private ObservableList<Critter> activeCritters;	// list of all critter types currently on the board
+	private ObservableList<String> allCritters;	// list of all critter classes you can make
+	private ObservableList<String> activeCritters;	// list of all critter types currently on the board
 	// display elements
 	static Button add = new Button("Add");
 	static Button step = new Button("Step");
@@ -57,8 +61,11 @@ public class Main extends Application {
 	static Button clear = new Button("Clear World");
 	static Button quit = new Button("Quit");
 	static Button animate = new Button("Animate Steps");
-	private ComboBox<Critter> critterAddList = new ComboBox(allCritters);
-	private ComboBox<Critter> critterStatsList = new ComboBox(activeCritters);
+	
+	//private ComboBox<Critter> critterAddList = new ComboBox(allCritters);
+	//private ComboBox<Critter> critterStatsList = new ComboBox(activeCritters);
+	private ComboBox<String> critterAddList;
+	private ComboBox<String> critterStatsList;
 	private IntField addAmount = new IntField(0);
 	private IntField stepAmount = new IntField(1);
 	private Slider slider = new Slider(0, 50, 1);
@@ -80,11 +87,51 @@ public class Main extends Application {
 				Critter.makeCritter("Algae");
 			}
 	}
+	public void populatePulldowns() throws IllegalAccessException, ClassNotFoundException {
+		   String myPackage = Critter.class.getPackage().toString().split(" ")[1];
+	        System.out.printf("%s\n", myPackage);
 
+
+			//File folder = new File(myPackage);
+			File folder = new File("bin/"+myPackage);
+
+			File[] listOfFiles = folder.listFiles();
+			//FXCollections.observableArrayList() myCrits;
+			List<String> myCrit = new java.util.ArrayList<String>();
+		    for (int i = 0; i < listOfFiles.length; i++) {
+		      if (listOfFiles[i].isFile()) {
+		    	  String myClass = listOfFiles[i].toString();
+		    	  String[] myParts = myClass.split("/");
+		    	  myClass = myParts[myParts.length-1];
+		    	  myParts = myClass.split(".class");
+		    	  myClass = myParts[0];
+		    	  String class_name = myPackage + "." + myClass;
+		    	  System.out.println(class_name);
+		    		try {
+		    			Critter newCritter = (Critter) Class.forName(class_name).newInstance();
+				      // critterStatsList.getItems().addAll(newCritter);
+		    		myCrit.add(myClass);
+		    			
+				       //allCritters.add("Craig");
+		    		} catch (ClassCastException e) { // This is fine, just ignore what won't cast.
+		    		} catch (InstantiationException e) { // This also gets thrown on non-critters
+		    		}	
+
+		      }
+		    }
+			allCritters = 
+				    FXCollections.observableArrayList(
+				        myCrit
+			);
+		    critterAddList = new ComboBox(allCritters);
+		    critterStatsList = new ComboBox(allCritters);
+
+
+	}
 	@Override
 	public void start(Stage primaryStage) throws Exception {	//*** Need to take out the "throws Exception" before submitting I think
 			makeSomeCritters();
-	    	
+			populatePulldowns();
 			// initialize layout
 	        primaryStage.setTitle("Critters");
 	        
@@ -182,6 +229,7 @@ public class Main extends Application {
 	        controls.add(critterStatsList, 0, 8);					// combobox
 	        critterStatsList.setPrefWidth(150);				
 	        critterStatsList.setPromptText("Select a Critter...");	// prompt
+	     
 	        controls.add(statsText, 0, 7);							// textbox
 	        // sample output in statsText
 		        /*
