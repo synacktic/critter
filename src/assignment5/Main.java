@@ -18,10 +18,8 @@ import java.lang.reflect.Method;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.Console;
 import java.io.File;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -52,6 +50,7 @@ public class Main extends Application {
 	
 	static GridPane ui = new GridPane();			// align controls and world
 	static GridPane grid = new GridPane();			// critter world
+	static GridPane statsArea = new GridPane();
 	static GridPane controls = new GridPane(); 		// for aligning control elements
 	
 	private ObservableList<String> allCritters;	// list of all critter classes you can make
@@ -143,15 +142,18 @@ public class Main extends Application {
 	        primaryStage.setTitle("Critters");
 
 	        System.setOut(ps);
-	        System.setErr(ps);
 	        
 	        controls.setVgap(10);
 	        controls.setHgap(10);
+	        ui.setVgap(15);
+	        statsArea.setVgap(5);
+	        statsArea.setHgap(10);
 			grid.setGridLinesVisible(true);			
-	        ui.setPadding(new Insets(10, 10, 30, 10));
-	        ui.getColumnConstraints().add(new ColumnConstraints(300));
-	        ui.add(controls, 0, 0);
-	        ui.add(grid, 1, 0);
+	        ui.setPadding(new Insets(20, 10, 30, 10));
+	        ui.getColumnConstraints().add(new ColumnConstraints(260));
+	        ui.add(controls, 0, 0, 1, 2);
+	        ui.add(statsArea, 1, 0);
+	        ui.add(grid, 1, 1);
 	        
 	        
 	        // Set seed controls
@@ -286,15 +288,11 @@ public class Main extends Application {
 //		         	(updated whenever the view is updated)? 
 //		       - Can the user select which critter class(es) have their runStats methods updated? 
 //		       - By default is theCritter.runStats base class method invoked each time the view is updated?
-	        controls.add(new Label("Run Stats"), 0, 10);				// title lable
-	        controls.add(critterStatsList, 0, 11);					// combobox
+	        statsArea.add(new Label("Run Stats"), 0, 0);				// title lable
+	        statsArea.add(critterStatsList, 0, 1);					// combobox
 	        critterStatsList.setPrefWidth(130);				
 	        critterStatsList.setPromptText("Select a Critter...");	// prompt
-
-	        controls.add(statsText, 0, 12, 3, 3);					// textbox
-	        statsText.setPrefWidth(270);
-	        statsText.setPrefHeight(100);
-	        controls.add(runStats, 1, 11);							// button
+	        statsArea.add(runStats, 1, 1);							// button
 		       runStats.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
@@ -311,8 +309,14 @@ public class Main extends Application {
 		            }
 		        });	
 		       
+	        statsArea.add(statsText, 2, 1);					// textbox
+	       // statsText.setPrefWidth(270);
+	        statsText.setPrefHeight(20);
+	        statsText.setWrapText(true);
+
+		       
 	        // Clear
-	        controls.add(clear, 0, 17);								// button        
+	        controls.add(clear, 0, 10);								// button        
 		       clear.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
@@ -322,7 +326,7 @@ public class Main extends Application {
 		        });		
 		     
 		    // Quit   
-	        controls.add(quit, 0, 18);								// button	        
+	        controls.add(quit, 0, 12);								// button	        
 		       quit.setOnAction(new EventHandler<ActionEvent>() {   	   
 		            @Override
 		            public void handle(ActionEvent event) {
