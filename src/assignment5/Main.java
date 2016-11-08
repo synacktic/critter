@@ -15,6 +15,7 @@ package assignment5;
 
 import java.lang.reflect.Method;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -33,11 +34,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -55,7 +56,7 @@ public class Main extends Application {
 	//private ObservableList<Critter> allCritters;	// list of all critter classes you can make
 	//private ObservableList<Critter> activeCritters;	// list of all critter types currently on the board
 	private ObservableList<String> allCritters;	// list of all critter classes you can make
-	private ObservableList<String> activeCritters;	// list of all critter types currently on the board
+	
 	// display elements
 	static Button add = new Button("Add");
 	static Button step = new Button("Step");
@@ -70,8 +71,8 @@ public class Main extends Application {
 	private ComboBox<String> critterStatsList;
 	static Button setSeed = new Button("Seed");
 	private TextField seedAmount = new TextField();
-	private IntField addAmount = new IntField(1);
-	private IntField stepAmount = new IntField(1);
+	private TextField addAmount = new TextField();
+	private TextField stepAmount = new TextField();
 	private Slider slider = new Slider(0, 50, 1);
 	private Text statsText = new Text("");
 	private Text seed = new Text("No seed set");
@@ -92,22 +93,25 @@ public class Main extends Application {
 				Critter.makeCritter("Algae");
 			}
 	}
-	
-	public void populatePulldowns() throws IllegalAccessException, ClassNotFoundException {
+
+    
+	public void populatePulldowns() throws IllegalAccessException, ClassNotFoundException, IOException {
+		String pwd = new File( "." ).getCanonicalPath();
+	    System.out.printf("Working Directory: %s\n", pwd);
+	    
 		   String myPackage = Critter.class.getPackage().toString().split(" ")[1];
 	        System.out.printf("%s\n", myPackage);
 
-
 			//File folder = new File(myPackage);
-			File folder = new File("bin/"+myPackage);
-
+	        File folder = new File("bin"+File.separator+myPackage);
+	        
 			File[] listOfFiles = folder.listFiles();
 			//FXCollections.observableArrayList() myCrits;
 			List<String> myCrit = new java.util.ArrayList<String>();
 		    for (int i = 0; i < listOfFiles.length; i++) {
 		      if (listOfFiles[i].isFile()) {
 		    	  String myClass = listOfFiles[i].toString();
-		    	  String[] myParts = myClass.split("/");
+		    	  String[] myParts = myClass.split("\\" + File.separator);
 		    	  myClass = myParts[myParts.length-1];
 		    	  myParts = myClass.split(".class");
 		    	  myClass = myParts[0];
@@ -129,8 +133,8 @@ public class Main extends Application {
 				    FXCollections.observableArrayList(
 				        myCrit
 			);
-		    critterAddList = new ComboBox(allCritters);
-		    critterStatsList = new ComboBox(allCritters);
+		    critterAddList = new ComboBox<String>(allCritters);
+		    critterStatsList = new ComboBox<String>(allCritters);
 
 
 	}
@@ -156,15 +160,40 @@ public class Main extends Application {
 	        controls.add(seedAmount, 0, 1);
 	        controls.add(setSeed, 1, 1);
 	        controls.add(seed, 0, 2);
-	        seed.setFill(Color.GRAY);	        
-	        
+	        seed.setFill(Color.GRAY);
+	        seedAmount.setPromptText("Seed #");
+	        seed.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+	            @Override public void handle(KeyEvent keyEvent) {
+		              if (!"0123456789".contains(keyEvent.getCharacter())) {
+		                keyEvent.consume();
+		              }
+		            }
+		          });
+	        setSeed.setOnAction(new EventHandler<ActionEvent>() {  		    	   
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	seed.setText("Seed set to: " + seedAmount.getText());
+	            	Critter.setSeed(Integer.parseInt(seedAmount.getText()));
+	            }            
+	        });	
+
 	        // Add Critter Controls
 	        controls.add(new Label("Add Critter"), 0, 3);			// title lable
 	        controls.add(critterAddList, 0, 4);						// combobox
 	        critterAddList.setPrefWidth(150);						
 	        critterAddList.setPromptText("Select a Critter...");	// prompt
 	        addAmount.setPrefWidth(30);								
-	        controls.add(addAmount, 1, 4);							// input field
+	        controls.add(addAmount, 1, 4);	
+	        addAmount.setPromptText("#");
+	        addAmount.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+	            @Override public void handle(KeyEvent keyEvent) {
+	              if (!"0123456789".contains(keyEvent.getCharacter())) {
+	                keyEvent.consume();
+	              }
+	            }
+	          });
+	        
+	        // input field
 	        controls.add(add, 2, 4);								// button
 	        /*addAmount.setOnAction(new EventHandler<ActionEvent>(){
 	        	@Override
@@ -176,9 +205,9 @@ public class Main extends Application {
 		       add.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
-		            	System.out.println(addAmount.getValue());
+		            	System.out.println(Integer.parseInt(addAmount.getText()));
 
-		            	int count = addAmount.getValue();
+		            	int count = Integer.parseInt(addAmount.getText());
 		            	System.out.println(count);
 		            	for (int c = 0;c < count; c++) {        			
 		        			try {		            	
@@ -199,8 +228,16 @@ public class Main extends Application {
 	        slider.setShowTickMarks(true);							
 	        slider.setShowTickLabels(true);							
 	        controls.add(stepAmount, 1, 7);							// input field
-	        stepAmount.setPrefWidth(30);							
-	        stepAmount.valueProperty().bindBidirectional(slider.valueProperty()); // bind amount box to slider
+	        stepAmount.setPrefWidth(30);	
+	        stepAmount.setPromptText("#");
+	        stepAmount.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+	        	  @Override public void handle(KeyEvent keyEvent) {
+	        	    if (!"0123456789".contains(keyEvent.getCharacter())) {
+	        	      keyEvent.consume();
+	        	    }
+	        	  }
+	        	});
+	       // stepAmount.valueProperty().bindBidirectional(slider.valueProperty()); // bind amount box to slider
 	        controls.add(step, 2, 7);								// button
 	        controls.add(animate, 0, 8);
 	        controls.add(stepNum, 2, 6);
@@ -208,7 +245,7 @@ public class Main extends Application {
 		       step.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
-		            	for (int c=0;c < stepAmount.getValue(); c++) {        			
+		            	for (int c=0;c < Integer.parseInt(stepAmount.getText()); c++) {        			
 	                		try {
 	                			stepnumber++;
 	                			stepNum.setText("Step: " + stepnumber);
@@ -228,7 +265,7 @@ public class Main extends Application {
 	                	Timeline animation = new Timeline();
 	                	 
 	                	// need to make this a keyframe action thing
-	                	for (int c=0;c < stepAmount.getValue(); c++) {        			
+	                	for (int c=0;c < Integer.parseInt(stepAmount.getText()); c++) {        			
 	                		try {
 	                			stepnumber++;
 	                			stepNum.setText("Step: " + stepnumber);
