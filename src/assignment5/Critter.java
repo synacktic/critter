@@ -76,7 +76,79 @@ public abstract class Critter {
 		myPackage = Critter.class.getPackage().toString().split(" ")[1];
 	}
 	
-    protected String look(int direction, boolean steps) {return "";}
+	// return what critter it sees
+    protected String look(int direction, boolean steps) {
+    	this.energy -= Params.look_energy_cost; // pay energy cost
+    	
+		switch (direction){
+			case 0: // 0: (1,0) 
+				if(worldMap[x_coord + 1][y_coord] != null) {
+					return worldMap[x_coord + 1][y_coord].neighbors.get(0).toString();					
+				}
+				else if (worldMap[x_coord + 2][y_coord] != null){
+					return worldMap[x_coord + 2][y_coord].neighbors.get(0).toString();
+				}
+				break;
+			case 1: // 1: (1,-1)
+				if(worldMap[x_coord + 1][y_coord - 1] != null) {
+					return worldMap[x_coord + 1][y_coord - 1].neighbors.get(0).toString();					
+				}
+				else if (worldMap[x_coord + 2][y_coord - 2] != null){
+					return worldMap[x_coord + 2][y_coord - 2].neighbors.get(0).toString();
+				}
+				break;
+			case 2: // 2: (0,-1)
+				if(worldMap[x_coord][y_coord - 1] != null) {
+					return worldMap[x_coord][y_coord - 1].neighbors.get(0).toString();					
+				}
+				else if (worldMap[x_coord][y_coord - 2] != null){
+					return worldMap[x_coord][y_coord - 2].neighbors.get(0).toString();
+				}
+				break;
+			case 3: // 3: (-1,-1)
+				if(worldMap[x_coord - 1][y_coord - 1] != null) {
+					return worldMap[x_coord - 1][y_coord - 1].neighbors.get(0).toString();					
+				}
+				else if (worldMap[x_coord - 2][y_coord - 2] != null){
+					return worldMap[x_coord - 2][y_coord - 2].neighbors.get(0).toString();
+				}
+				break;
+			case 4: // 4: (-1,0)
+				if(worldMap[x_coord - 1][y_coord] != null) {
+					return worldMap[x_coord - 1][y_coord].neighbors.get(0).toString();					
+				}
+				else if (worldMap[x_coord - 2][y_coord] != null){
+					return worldMap[x_coord - 2][y_coord].neighbors.get(0).toString();
+				}
+				break;
+			case 5: // 5: (-1,1)
+				if(worldMap[x_coord - 1][y_coord + 1] != null) {
+					return worldMap[x_coord - 1][y_coord + 1].neighbors.get(0).toString();					
+				}
+				else if (worldMap[x_coord - 2][y_coord + 2] != null){
+					return worldMap[x_coord - 2][y_coord + 2].neighbors.get(0).toString();
+				}
+				break;
+			case 6: // 6: (0,1)
+				if(worldMap[x_coord][y_coord + 1] != null) {
+					return worldMap[x_coord][y_coord + 1].neighbors.get(0).toString();					
+				}
+				else if (worldMap[x_coord][y_coord + 2] != null){
+					return worldMap[x_coord][y_coord + 2].neighbors.get(0).toString();
+				}
+				break;
+			case 7: // 7: (1,1)
+				if(worldMap[x_coord + 1][y_coord + 1] != null) {
+					return worldMap[x_coord + 1][y_coord + 1].neighbors.get(0).toString();					
+				}
+				else if (worldMap[x_coord + 2][y_coord + 2] != null){
+					return worldMap[x_coord + 2][y_coord + 2].neighbors.get(0).toString();
+				}
+				break;
+			}
+    	
+    	return null;
+    }
 
 	private static java.util.Random rand = new java.util.Random();
 	public static int getRandomInt(int max) {
@@ -232,9 +304,7 @@ public abstract class Critter {
 		
 		return result;
 	}/*import assignment4.Critter;
-	import assignment4.InvalidCritterException;
-	import assignment4.Params;
-	import assignment4.Critter.Sector;*/
+
 
 	/**
 	 * Prints out how many Critters of each type there are on the board.
@@ -327,8 +397,6 @@ public abstract class Critter {
 				worldMap[i][k] = null;
 			}
 		}
-		
-
 	}
 	
 	/**
@@ -400,19 +468,19 @@ public abstract class Critter {
 		//System.out.printf("H: %d W: %d\n",Params.world_height,Params.world_width);
 		for (int current_height = -1; current_height <= Params.world_height; current_height++ ) {
 			if (current_height == -1 || current_height == Params.world_height)
-				System.out.printf("+");
+				System.out.printf("");
 			else 
-				System.out.printf("|");
+				System.out.printf("");
 			
 			for (int current_width = 0; current_width < Params.world_width; current_width++ ) {
 				if (current_height == -1 || current_height == Params.world_height)
-					System.out.printf("-");
+					System.out.printf("");
 				else {
 					//System.out.printf("%d %d\n",current_height,current_width);
 					if(worldMap[current_height][current_width] ==  null || worldMap[current_height][current_width].neighbors.size() == 0 ) {
-						System.out.printf(" ");
+						System.out.printf("");
 					} else {
-						System.out.printf("%s",worldMap[current_height][current_width].neighbors.get(0).toString());
+						System.out.printf("");
 
 						if (worldMap[current_height][current_width].neighbors.get(0).sNode == null)
 							worldMap[current_height][current_width].neighbors.get(0).sNode = getIcon(
@@ -429,10 +497,10 @@ public abstract class Critter {
 				
 			}
 			if (current_height == -1 || current_height == Params.world_height)
-				System.out.printf("+");
+				System.out.printf("");
 			else 
-				System.out.printf("|");
-			System.out.printf("\n");
+				System.out.printf("");
+			System.out.printf("");
 		}
 	}
 	/**
@@ -543,7 +611,6 @@ public abstract class Critter {
 		//private Critter critter; // The critter here
 		private List<Critter> neighbors;// For critters that share the same address
 
-	
 		private Sector(Critter critter) {
 			//this.critter = critter;
 			    neighbors = new java.util.ArrayList<Critter>();
