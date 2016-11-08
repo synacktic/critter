@@ -233,6 +233,7 @@ public class Main extends Application {
 	                	step.setDisable(true);
 	                	play.setDisable(true);
 	                	setSeed.setDisable(true);
+	                	clear.setDisable(true);
 	                	pause.setDisable(false);
 	          	                		                	
 	                	timeline.play();                           	
@@ -249,6 +250,7 @@ public class Main extends Application {
 	                	step.setDisable(false);
 	                	play.setDisable(false);
 	                	setSeed.setDisable(false);
+	                	clear.setDisable(false);
 	                	pause.setDisable(true);
 	                		                	 
 	                	timeline.stop();          	               	
@@ -346,9 +348,9 @@ private KeyValue timestep(double speed) {
 			stepNum.setText("Step: " + stepnumber);
 			runStats.fire();
 			Critter.worldTimeStep();
-        	Critter.displayWorld();
 		} catch (InvalidCritterException e) {}
 	}
+	Critter.displayWorld();
 	return null;
 	}
 
