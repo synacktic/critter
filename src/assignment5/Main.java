@@ -31,6 +31,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -153,8 +154,8 @@ public class Main extends Application {
 	        ui.setVgap(15);
 	        statsArea.setVgap(5);
 	        statsArea.setHgap(10);
-			grid.setGridLinesVisible(true);			
-	        ui.setPadding(new Insets(20, 10, 30, 10));
+	    	grid.setAlignment(Pos.CENTER);		
+	        ui.setPadding(new Insets(20, 10, 10, 10));
 	        ui.getColumnConstraints().add(new ColumnConstraints(260));
 	        ui.add(controls, 0, 0, 1, 2);
 	        ui.add(statsArea, 1, 0);
@@ -343,7 +344,7 @@ public class Main extends Application {
 			
 	        Critter.displayWorld();
 
-			Scene scene = new Scene(ui, 1050, 875);		
+			Scene scene = new Scene(ui, ui.getPrefWidth(), ui.getPrefHeight());		
  
 	        primaryStage.setScene(scene);
 	        primaryStage.show();

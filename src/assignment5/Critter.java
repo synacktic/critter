@@ -4,7 +4,7 @@ import java.util.List;
 
 import assignment5.Critter.CritterShape;
 //import assignment5.Critter.CritterShape;
-import javafx.scene.shape.Circle;
+import javafx.scene.shape.*;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Polygon;
 
@@ -44,10 +44,15 @@ public abstract class Critter {
 	public abstract CritterShape viewShape(); 
 	static Shape getIcon(CritterShape shape,javafx.scene.paint.Color line,javafx.scene.paint.Color fill) {
 		Shape s = null;
-		int size = 50;
+	
+		int size;
+		if(Params.world_height > Params.world_width)
+			size = 770 / Params.world_height;
+		else	
+		 size = 770 / Params.world_width;
 		int ssize = size;
 		double dsize = (double) ssize-1;
-		
+
 		switch(shape) {
 		//	public CritterShape viewShape() { return CritterShape.SQUARE; }
 
@@ -472,9 +477,9 @@ public abstract class Critter {
 			for (int current_width = 0; current_width < Params.world_width; current_width++ ) {
 					//System.out.println(current_width);
 					Shape tNode = getIcon(
-							CritterShape.SCENE,
-							javafx.scene.paint.Color.BLACK,
-							javafx.scene.paint.Color.WHITE
+							CritterShape.SQUARE,
+							javafx.scene.paint.Color.LIGHTGREY,
+							javafx.scene.paint.Color.WHITESMOKE
 							);
 					Main.grid.add(tNode, current_width, current_height);
 			}
