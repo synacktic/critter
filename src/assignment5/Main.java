@@ -172,8 +172,10 @@ public class Main extends Application {
 	        setSeed.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 	            @Override
 	            public void handle(ActionEvent event) {
+	            	if(!seedAmount.getText().trim().isEmpty()){
 	            	seed.setText("Seed set to: " + seedAmount.getText());
 	            	Critter.setSeed(Integer.parseInt(seedAmount.getText()));
+	            	}
 	            }            
 	        });	
 
@@ -205,6 +207,7 @@ public class Main extends Application {
 		       add.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
+		            	if(!addAmount.getText().trim().isEmpty()){
 		            	System.out.println(Integer.parseInt(addAmount.getText()));
 
 		            	int count = Integer.parseInt(addAmount.getText());
@@ -218,7 +221,8 @@ public class Main extends Application {
 							} catch (InvalidCritterException e) {}
 		        		}
 		            	Critter.displayWorld();
-		            }            
+		            	}       
+		            }     
 		        });	
 		       
 	        // Step Controls
@@ -245,6 +249,7 @@ public class Main extends Application {
 		       step.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
+		            	if(!stepAmount.getText().trim().isEmpty()){
 		            	for (int c=0;c < Integer.parseInt(stepAmount.getText()); c++) {        			
 	                		try {
 	                			stepnumber++;
@@ -253,6 +258,7 @@ public class Main extends Application {
 				            	//Critter.displayWorld();
 							} catch (InvalidCritterException e) {}
 	            		}
+		            	}
 		            }            
 		        });	
 		       
