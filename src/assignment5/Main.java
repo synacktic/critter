@@ -13,9 +13,6 @@
 
 package assignment5;
 
-import java.lang.reflect.Method;
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.io.IOException;
@@ -26,7 +23,9 @@ import java.io.File;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -47,6 +46,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Main extends Application {
 	
@@ -63,7 +63,8 @@ public class Main extends Application {
 	private static Button runStats = new Button("Stats");
 	private static Button clear = new Button("Clear World");
 	private static Button quit = new Button("Quit");
-	private static Button animate = new Button("Animate Steps");
+	private static Button play = new Button("Play");
+	private static Button pause = new Button("Stop");
 	private ComboBox<String> critterAddList;
 	private ComboBox<String> critterStatsList;
 	private TextField seedAmount = new TextField();
@@ -71,7 +72,7 @@ public class Main extends Application {
 	private TextField stepAmount = new TextField();
 	private TextArea statsText = new TextArea("");
 	private Text seed = new Text("No seed set");
-	private Slider slider = new Slider(0, 50, 1);
+	private Slider slider = new Slider(1, 20, 1);
 	private Integer stepnumber = 0;
 	private Label stepNum = new Label("Step: " + stepnumber);
 	
@@ -92,13 +93,14 @@ public class Main extends Application {
 				Critter.makeCritter("Algae");
 			}
 	}
-	
+
+    
 	public void populatePulldowns() throws IllegalAccessException, ClassNotFoundException, IOException {
-			String pwd = new File( "." ).getCanonicalPath();	    
 			String myPackage = Critter.class.getPackage().toString().split(" ")[1];
 
+			//File folder = new File(myPackage);
 	        File folder = new File("bin"+File.separator+myPackage);
-
+	        
 			File[] listOfFiles = folder.listFiles();
 			//FXCollections.observableArrayList() myCrits;
 			List<String> myCrit = new java.util.ArrayList<String>();
@@ -155,6 +157,7 @@ public class Main extends Application {
 	        // Set seed controls
 	        controls.add(new Label("Set Seed"), 0, 0);
 	        controls.add(seedAmount, 0, 1);
+	        seedAmount.setPrefWidth(130);
 	        controls.add(setSeed, 1, 1);
 	        controls.add(seed, 0, 2);
 	        seed.setFill(Color.GRAY);
@@ -179,28 +182,19 @@ public class Main extends Application {
 	        // Add Critter Controls
 	        controls.add(new Label("Add Critter"), 0, 3);			// title lable
 	        controls.add(critterAddList, 0, 4);						// combobox
-	        critterAddList.setPrefWidth(150);						
+	        critterAddList.setPrefWidth(130);						
 	        critterAddList.setPromptText("Select a Critter...");	// prompt
 	        addAmount.setPrefWidth(30);								
 	        controls.add(addAmount, 1, 4);	
 	        addAmount.setPromptText("#");
-	        addAmount.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+	        	addAmount.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
 	            @Override public void handle(KeyEvent keyEvent) {
 	              if (!"0123456789".contains(keyEvent.getCharacter())) {
 	                keyEvent.consume();
 	              }
 	            }
-	          });
-	        
-	        // input field
+	          });       
 	        controls.add(add, 2, 4);								// button
-	        /*addAmount.setOnAction(new EventHandler<ActionEvent>(){
-	        	@Override
-	            public void handle(ActionEvent event) {
-	        		//addAmount = new IntField(addAmount.getValue());
-	        		System.out.println(addAmount.getValue());
-	        	}
-	        });*/
 		       add.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
@@ -223,66 +217,66 @@ public class Main extends Application {
 		        });	
 		       
 	        // Step Controls
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(400), ae -> timestep(slider.getValue()))); // timestep(slider.getValue())
+            timeline.setCycleCount(Animation.INDEFINITE); 	// loop
+	           
 	        controls.add(new Label("Time Step"), 0, 6);				// title label
-	        controls.add(slider, 0, 7);								// slider
-	        slider.setPrefWidth(150);								
+	        controls.add(slider, 0, 8);								// slider
+	        slider.setMaxWidth(130);								
 	        slider.setShowTickMarks(true);							
-	        slider.setShowTickLabels(true);							
-	        controls.add(stepAmount, 1, 7);							// input field
+	        controls.add(play, 1, 8);
+		       play.setOnAction(new EventHandler<ActionEvent>() {  		    	   
+		            @Override
+		            public void handle(ActionEvent event) {
+		            	// disable add/step action buttons
+	                	add.setDisable(true);
+	                	step.setDisable(true);
+	                	play.setDisable(true);
+	                	setSeed.setDisable(true);
+	                	pause.setDisable(false);
+	          	                		                	
+	                	timeline.play();                           	
+		            }				
+		        });		        
+		    
+		    controls.add(pause, 2, 8);	     
+	        pause.setDisable(true);
+	        pause.setOnAction(new EventHandler<ActionEvent>() {  		    	   
+		            @Override
+		            public void handle(ActionEvent event) {
+		            	// re-enable add/step action buttons
+	                	add.setDisable(false);
+	                	step.setDisable(false);
+	                	play.setDisable(false);
+	                	setSeed.setDisable(false);
+	                	pause.setDisable(true);
+	                		                	 
+	                	timeline.stop();          	               	
+		            }            
+		        });	
+	        
+	        controls.add(stepAmount, 0, 7);							// input field
 	        stepAmount.setPrefWidth(30);	
 	        stepAmount.setPromptText("#");
-	        stepAmount.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
+	        	stepAmount.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
 	        	  @Override public void handle(KeyEvent keyEvent) {
 	        	    if (!"0123456789".contains(keyEvent.getCharacter())) {
 	        	      keyEvent.consume();
 	        	    }
 	        	  }
 	        	});
-	       // stepAmount.valueProperty().bindBidirectional(slider.valueProperty()); // bind amount box to slider
-	        controls.add(step, 2, 7);								// button
-	        controls.add(animate, 0, 8);
-	        controls.add(stepNum, 2, 6);
 
+	        controls.add(stepNum, 2, 7);
+	        controls.add(step, 1, 7);								// button
 		       step.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
 		            	if(!stepAmount.getText().trim().isEmpty()){
-		            	for (int c=0;c < Integer.parseInt(stepAmount.getText()); c++) {        			
-	                		try {
-	                			stepnumber++;
-	                			stepNum.setText("Step: " + stepnumber);
-								Critter.worldTimeStep();
-				            	//Critter.displayWorld();
-							} catch (InvalidCritterException e) {}
-	            		}
+		            		timestep(Double.parseDouble(stepAmount.getText()));
 		            	}
 		            }            
 		        });	
 		       
-		       animate.setOnAction(new EventHandler<ActionEvent>() {  		    	   
-		            @Override
-		            public void handle(ActionEvent event) {
-	                	add.setDisable(true);
-	                	step.setDisable(true);	
-	                	
-	                	Timeline animation = new Timeline();
-	                	 
-	                	// need to make this a keyframe action thing
-	                	for (int c=0;c < Integer.parseInt(stepAmount.getText()); c++) {        			
-	                		try {
-	                			stepnumber++;
-	                			stepNum.setText("Step: " + stepnumber);
-								Critter.worldTimeStep();
-				            	Critter.displayWorld();
-							} catch (InvalidCritterException e) {}
-	            		}
-	                	
-	                	animation.play();
-
-	                	add.setDisable(false);
-	                	step.setDisable(false);
-		            }            
-		        });	
 		       
 	        // Run Stats Controls
 //		       - Do you have the ability for the user to invoke their runStats method? 
@@ -292,14 +286,13 @@ public class Main extends Application {
 //		       - By default is theCritter.runStats base class method invoked each time the view is updated?
 	        controls.add(new Label("Run Stats"), 0, 10);				// title lable
 	        controls.add(critterStatsList, 0, 11);					// combobox
-	        critterStatsList.setPrefWidth(150);				
+	        critterStatsList.setPrefWidth(130);				
 	        critterStatsList.setPromptText("Select a Critter...");	// prompt
 
 	        controls.add(statsText, 0, 12, 3, 3);					// textbox
 	        statsText.setPrefWidth(270);
 	        statsText.setPrefHeight(100);
 	        controls.add(runStats, 1, 11);							// button
-
 		       runStats.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
@@ -317,8 +310,7 @@ public class Main extends Application {
 		        });	
 		       
 	        // Clear
-	        controls.add(clear, 0, 17);								// button
-	        
+	        controls.add(clear, 0, 17);								// button        
 		       clear.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
 		            public void handle(ActionEvent event) {
@@ -328,8 +320,7 @@ public class Main extends Application {
 		        });		
 		     
 		    // Quit   
-	        controls.add(quit, 0, 18);								// button
-	        
+	        controls.add(quit, 0, 18);								// button	        
 		       quit.setOnAction(new EventHandler<ActionEvent>() {   	   
 		            @Override
 		            public void handle(ActionEvent event) {
@@ -341,14 +332,27 @@ public class Main extends Application {
 			
 	        Critter.displayWorld();
 
-			Scene scene = new Scene(ui, 750, 550);		
+			Scene scene = new Scene(ui, 1100, 800);		
  
 	        primaryStage.setScene(scene);
 	        primaryStage.show();
-	       // ps.close();
+
+	}           
+
+private KeyValue timestep(double speed) {
+	for (int c=0;c < speed; c++) {        			
+		try {
+			stepnumber++;
+			stepNum.setText("Step: " + stepnumber);
+			runStats.fire();
+			Critter.worldTimeStep();
+        	Critter.displayWorld();
+		} catch (InvalidCritterException e) {}
 	}
-	
-   public static class Console extends OutputStream {
+	return null;
+	}
+
+public static class Console extends OutputStream {
 
         private TextArea output;
 
@@ -361,13 +365,14 @@ public class Main extends Application {
             output.appendText(String.valueOf((char) i));
         }
     }
-	   
+   
 }
 
 //public class Main {
 //
 //	public static void main(String[] args) {
-//		 launch(args);
+//		 launch(args);	       
+// 		 //ps.close();
 //	}
 //
 //}
