@@ -15,6 +15,7 @@ package assignment5;
 
 import java.lang.reflect.Method;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -93,13 +94,12 @@ public class Main extends Application {
 			}
 	}
 	
-	public void populatePulldowns() throws IllegalAccessException, ClassNotFoundException {
+	public void populatePulldowns() throws IllegalAccessException, ClassNotFoundException, IOException {
 		   String myPackage = Critter.class.getPackage().toString().split(" ")[1];
 	        System.out.printf("%s\n", myPackage);
 
-
 			//File folder = new File(myPackage);
-			File folder = new File("bin/"+myPackage);
+			File folder = new File("bin"+File.separator+myPackage);
 
 			File[] listOfFiles = folder.listFiles();
 			//FXCollections.observableArrayList() myCrits;
@@ -107,7 +107,7 @@ public class Main extends Application {
 		    for (int i = 0; i < listOfFiles.length; i++) {
 		      if (listOfFiles[i].isFile()) {
 		    	  String myClass = listOfFiles[i].toString();
-		    	  String[] myParts = myClass.split("/");
+		    	  String[] myParts = myClass.split(File.separator);
 		    	  myClass = myParts[myParts.length-1];
 		    	  myParts = myClass.split(".class");
 		    	  myClass = myParts[0];
