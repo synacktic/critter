@@ -2,6 +2,7 @@ package assignment5;
 
 import java.util.List;
 
+import assignment5.Critter.CritterShape;
 //import assignment5.Critter.CritterShape;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -38,7 +39,7 @@ public abstract class Critter {
 	
 	public javafx.scene.paint.Color viewOutlineColor() { return viewColor(); }
 	public javafx.scene.paint.Color viewFillColor() { return viewColor(); }
-	
+	private static boolean terraformed = false;
 	public abstract CritterShape viewShape(); 
 	static Shape getIcon(CritterShape shape,javafx.scene.paint.Color line,javafx.scene.paint.Color fill) {
 		Shape s = null;
@@ -372,11 +373,29 @@ public abstract class Critter {
 				Critter.makeCritter("Algae");
 		}
 	}
+	private static void terraform() {
+		
+		for (int current_height = 0; current_height < Params.world_height; current_height++ ) {	
+			for (int current_width = 0; current_width < Params.world_width; current_width++ ) {
+					//System.out.println(current_width);
+					Shape tNode = getIcon(
+							CritterShape.SQUARE,
+							javafx.scene.paint.Color.BLACK,
+							javafx.scene.paint.Color.WHITE
+							);
+					Main.grid.add(tNode, current_width, current_height);
+			}
+		}
 
+	}
 	/**
 	 * Print the worldMap to the console with a nice border
 	 */
 	public static void displayWorld() {
+		if (!terraformed) {
+			terraform();
+			terraformed=false;
+		}
 		//Main.grid.getChildren().clear(); // clean up grid.
 		//System.out.printf("H: %d W: %d\n",Params.world_height,Params.world_width);
 		for (int current_height = -1; current_height <= Params.world_height; current_height++ ) {

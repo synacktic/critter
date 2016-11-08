@@ -43,6 +43,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -103,7 +104,9 @@ public class Main extends Application {
 	        
 			File[] listOfFiles = folder.listFiles();
 			//FXCollections.observableArrayList() myCrits;
+			
 			List<String> myCrit = new java.util.ArrayList<String>();
+			
 		    for (int i = 0; i < listOfFiles.length; i++) {
 		      if (listOfFiles[i].isFile()) {
 		    	  String myClass = listOfFiles[i].toString();
@@ -111,17 +114,17 @@ public class Main extends Application {
 		    	  myClass = myParts[myParts.length-1];
 		    	  myParts = myClass.split(".class");
 		    	  myClass = myParts[0];
+		    	
+		    	  
 		    	  String class_name = myPackage + "." + myClass;
 		    	  //System.out.println(class_name);
 		    		try {
-		    			Critter newCritter = (Critter) Class.forName(class_name).newInstance();
-				      // critterStatsList.getItems().addAll(newCritter);
-		    		myCrit.add(myClass);
-		    			
+		    			if (Critter.class.isAssignableFrom(Class.forName(class_name)) 
+		    					&& !myClass.equals("Critter") && !myClass.equals("Critter$TestCritter") )
+		    						myCrit.add(myClass);
 				       //allCritters.add("Craig");
 		    		} catch (ClassCastException e) { // This is fine, just ignore what won't cast.
-		    		} catch (InstantiationException e) { // This also gets thrown on non-critters
-		    		}	
+		    		} //catch (InstantiationException e) { // This also gets thrown on non-critters }	
 
 		      }
 		    }
@@ -129,6 +132,7 @@ public class Main extends Application {
 				    FXCollections.observableArrayList(
 				        myCrit
 			);
+			allCritters.sort(null);
 		    critterAddList = new ComboBox<String>(allCritters);
 		    critterStatsList = new ComboBox<String>(allCritters);
 
@@ -143,11 +147,11 @@ public class Main extends Application {
 	        primaryStage.setTitle("Critters");
 
 	        System.setOut(ps);
-	        System.setErr(ps);
+	        //System.setErr(ps);
 	        
 	        controls.setVgap(10);
 	        controls.setHgap(10);
-			grid.setGridLinesVisible(true);			
+		
 	        ui.setPadding(new Insets(10, 10, 30, 10));
 	        ui.getColumnConstraints().add(new ColumnConstraints(300));
 	        ui.add(controls, 0, 0);
