@@ -103,7 +103,7 @@ public class Critter3 extends Critter {
 		System.out.println();
 	}
 	@Override
-	public CritterShape viewShape() { return CritterShape.SQUARE; }
+	public CritterShape viewShape() { return CritterShape.DIAMOND; }
 
 	@Override
 	public javafx.scene.paint.Color viewOutlineColor() { return javafx.scene.paint.Color.BLACK; }

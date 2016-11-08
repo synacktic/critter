@@ -6,7 +6,7 @@ import assignment5.Critter.CritterShape;
 //import assignment5.Critter.CritterShape;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-//import javafx.scene.shape.Triangle;
+import javafx.scene.shape.Polygon;
 
 import javafx.scene.shape.Shape;
 
@@ -19,7 +19,8 @@ public abstract class Critter {
 		SQUARE,
 		TRIANGLE,
 		DIAMOND,
-		STAR
+		STAR,
+		SCENE
 	}
 	
 	/* the default color is white, which I hope makes critters invisible by default
@@ -44,17 +45,41 @@ public abstract class Critter {
 	static Shape getIcon(CritterShape shape,javafx.scene.paint.Color line,javafx.scene.paint.Color fill) {
 		Shape s = null;
 		int size = 50;
+		int ssize = size;
+		double dsize = (double) ssize-1;
 		
 		switch(shape) {
 		//	public CritterShape viewShape() { return CritterShape.SQUARE; }
 
 		//viewShape()
-		case CIRCLE: s = new Circle(size/2); 
+	
+		case CIRCLE: s = new Circle(ssize/2); 
 			s.setFill(fill); break;
-		case SQUARE: s = new Rectangle(size, size); 
+		case SQUARE: s = new Rectangle(ssize, ssize); 
 			s.setFill(fill); break;
-		//case TRIANGLE: s = new Triangle(size, size); 
-		//s.setFill(fill); break;
+		case DIAMOND: s = new Polygon(); 
+			((Polygon) s).getPoints().addAll(new Double[]{dsize/2, 0.0, 0.0, dsize/2, dsize/2, dsize ,dsize, dsize/2});
+			s.setFill(fill); break;
+		case STAR: s = new Polygon(); 
+			((Polygon) s).getPoints().addAll(new Double[]{	
+			0.0, dsize*.4,
+			dsize*.35,dsize*.4,
+			dsize*.5,0.0,
+			dsize*.65,dsize*.4,
+			dsize, dsize*.4, 
+			dsize*.75,dsize*.6,
+			dsize, dsize,
+			dsize*.5,dsize*.75,
+			0.0, dsize,
+			dsize*.25,dsize*.6
+			});
+
+			s.setFill(fill); break;
+		case TRIANGLE: s = new Polygon(); 
+			((Polygon) s).getPoints().addAll(new Double[]{1.0, dsize-1, dsize/2, 1.0, dsize-1, dsize-1});
+			s.setFill(fill); break;
+		case SCENE: s = new Rectangle(size, size); 
+			s.setFill(fill); break;
 		default:
 			break;
 		}
@@ -447,7 +472,7 @@ public abstract class Critter {
 			for (int current_width = 0; current_width < Params.world_width; current_width++ ) {
 					//System.out.println(current_width);
 					Shape tNode = getIcon(
-							CritterShape.SQUARE,
+							CritterShape.SCENE,
 							javafx.scene.paint.Color.BLACK,
 							javafx.scene.paint.Color.WHITE
 							);
@@ -464,24 +489,13 @@ public abstract class Critter {
 			terraform();
 			terraformed=false;
 		}
-		//Main.grid.getChildren().clear(); // clean up grid.
-		//System.out.printf("H: %d W: %d\n",Params.world_height,Params.world_width);
 		for (int current_height = -1; current_height <= Params.world_height; current_height++ ) {
-			if (current_height == -1 || current_height == Params.world_height)
-				System.out.printf("");
-			else 
-				System.out.printf("");
-			
+		
 			for (int current_width = 0; current_width < Params.world_width; current_width++ ) {
-				if (current_height == -1 || current_height == Params.world_height)
-					System.out.printf("");
-				else {
-					//System.out.printf("%d %d\n",current_height,current_width);
+				if (current_height == -1 || current_height == Params.world_height) {
+				} else {
 					if(worldMap[current_height][current_width] ==  null || worldMap[current_height][current_width].neighbors.size() == 0 ) {
-						System.out.printf("");
 					} else {
-						System.out.printf("");
-
 						if (worldMap[current_height][current_width].neighbors.get(0).sNode == null)
 							worldMap[current_height][current_width].neighbors.get(0).sNode = getIcon(
 								worldMap[current_height][current_width].neighbors.get(0).viewShape(),
