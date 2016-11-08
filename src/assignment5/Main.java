@@ -201,10 +201,10 @@ public class Main extends Application {
 		            @Override
 		            public void handle(ActionEvent event) {
 		            	if(!addAmount.getText().trim().isEmpty()){
-		            	System.out.println(Integer.parseInt(addAmount.getText()));
+		            	//System.out.println(Integer.parseInt(addAmount.getText()));
 
 		            	int count = Integer.parseInt(addAmount.getText());
-		            	System.out.println(count);
+		            	//System.out.println(count);
 		            	for (int c = 0;c < count; c++) {        			
 		        			try {		            	
 		        				String className = critterAddList.getValue();
@@ -309,8 +309,8 @@ public class Main extends Application {
 		            }
 		        });	
 		       
-	        statsArea.add(statsText, 2, 1);					// textbox
-	       // statsText.setPrefWidth(270);
+	        statsArea.add(statsText, 2, 1);					
+	        statsText.setPrefWidth(575);
 	        statsText.setPrefHeight(20);
 	        statsText.setWrapText(true);
 
@@ -338,7 +338,7 @@ public class Main extends Application {
 			
 	        Critter.displayWorld();
 
-			Scene scene = new Scene(ui, 1100, 800);		
+			Scene scene = new Scene(ui, 1050, 875);		
  
 	        primaryStage.setScene(scene);
 	        primaryStage.show();
