@@ -128,71 +128,68 @@ public abstract class Critter {
 
 		switch (direction){
 			case 0: // 0: (1,0) 
-				
-			
-				if(worldMap[xWrap(x_coord,1)][y_coord] != null) {
+				if(steps) {
 					return worldMap[xWrap(x_coord,1)][y_coord].neighbors.get(0).toString();					
 				}
-				else if (worldMap[xWrap(x_coord,2)][y_coord] != null){
+				else {
 					return worldMap[xWrap(x_coord,2)][y_coord].neighbors.get(0).toString();
 				}
-				break;
 			case 1: // 1: (1,-1)
-				if(worldMap[xWrap(x_coord,1)][yWrap(y_coord,-1)] != null) {
+				if(steps) {
 					return worldMap[xWrap(x_coord,1)][yWrap(y_coord,-1)].neighbors.get(0).toString();					
 				}
-				else if (worldMap[xWrap(x_coord,2)][yWrap(y_coord,-2)] != null){
+				else {
 					return worldMap[xWrap(x_coord,2)][yWrap(y_coord,-2)].neighbors.get(0).toString();
 				}
-				break;
+				
 			case 2: // 2: (0,-1)
-				if(worldMap[x_coord][yWrap(y_coord,-1)] != null) {
+				if(steps) {
 					return worldMap[x_coord][yWrap(y_coord,-1)].neighbors.get(0).toString();					
 				}
-				else if (worldMap[x_coord][yWrap(y_coord,-2)] != null){
+				else {
 					return worldMap[x_coord][yWrap(y_coord,-2)].neighbors.get(0).toString();
 				}
-				break;
+				
 			case 3: // 3: (-1,-1)
-				if(worldMap[xWrap(x_coord,-1)][yWrap(y_coord,-1)] != null) {
+				if(steps) {
 					return worldMap[xWrap(x_coord,-1)][yWrap(y_coord,-1)].neighbors.get(0).toString();					
 				}
-				else if (worldMap[xWrap(x_coord,-2)][yWrap(y_coord,-2)] != null){
+				else {
 					return worldMap[xWrap(x_coord,-2)][yWrap(y_coord,-2)].neighbors.get(0).toString();
 				}
-				break;
+			
 			case 4: // 4: (-1,0)
-				if(worldMap[xWrap(x_coord,-1)][y_coord] != null) {
+				if(steps) {
 					return worldMap[xWrap(x_coord,-1)][y_coord].neighbors.get(0).toString();					
 				}
-				else if (worldMap[xWrap(x_coord,-2)][y_coord] != null){
+				else {
 					return worldMap[xWrap(x_coord,-2)][y_coord].neighbors.get(0).toString();
 				}
-				break;
+				
 			case 5: // 5: (-1,1)
-				if(worldMap[xWrap(x_coord,-1)][yWrap(y_coord,1)] != null) {
+				if(steps) {
 					return worldMap[xWrap(x_coord,-1)][yWrap(y_coord,1)].neighbors.get(0).toString();					
 				}
-				else if (worldMap[xWrap(x_coord,-2)][yWrap(y_coord,2)] != null){
+				else {
 					return worldMap[xWrap(x_coord,-2)][yWrap(y_coord,2)].neighbors.get(0).toString();
 				}
-				break;
+				
 			case 6: // 6: (0,1)
-				if(worldMap[x_coord][yWrap(y_coord,1)] != null) {
+				if(steps) {
 					return worldMap[x_coord][yWrap(y_coord,1)].neighbors.get(0).toString();					
 				}
-				else if (worldMap[x_coord][yWrap(y_coord,2)] != null){
+				else {
 					return worldMap[x_coord][yWrap(y_coord,2)].neighbors.get(0).toString();
 				}
-				break;
+				
 			case 7: // 7: (1,1)
-				if(worldMap[xWrap(x_coord,1)][yWrap(y_coord,1)] != null) {
+				if(steps) {
 					return worldMap[xWrap(x_coord,1)][yWrap(y_coord,1)].neighbors.get(0).toString();					
 				}
-				else if (worldMap[xWrap(x_coord,2)][yWrap(y_coord,2)] != null){
+				else {
 					return worldMap[xWrap(x_coord,2)][yWrap(y_coord,2)].neighbors.get(0).toString();
 				}
-				break;
+			
 			}
     	
     	return null;
