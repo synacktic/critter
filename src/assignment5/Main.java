@@ -75,7 +75,7 @@ public class Main extends Application {
 	private TextField stepAmount = new TextField();
 	private TextArea statsText = new TextArea("");
 	private Text seed = new Text("No seed set");
-	private Slider slider = new Slider(1, 10, 5);
+	private Slider slider = new Slider(1, 30, 1);
 	private Integer stepnumber = 0;
 	private Label stepNum = new Label("Step: " + stepnumber);
 	
@@ -229,8 +229,8 @@ public class Main extends Application {
 		       
 	        // Step Controls
 
-			Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100*slider.getValue()), ae -> timestep(1))); 
-            timeline.setCycleCount(Animation.INDEFINITE); 	// loop
+		    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(400), ae -> timestep(slider.getValue()))); 
+		    timeline.setCycleCount(Animation.INDEFINITE); 	// loop
             
             grid.setCache(true);
             grid.setCacheShape(true);
@@ -241,6 +241,7 @@ public class Main extends Application {
 	        slider.setMaxWidth(130);								
 	        slider.setShowTickMarks(true);
 	        slider.setShowTickLabels(true);
+	        slider.setMajorTickUnit(10f);
 	        
 	        controls.add(play, 1, 8);
 		       play.setOnAction(new EventHandler<ActionEvent>() {  		    	   
