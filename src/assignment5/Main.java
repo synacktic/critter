@@ -112,14 +112,15 @@ public class Main extends Application {
 		    	  String myClass = listOfFiles[i].toString();
 		    	  String[] myParts = myClass.split("\\" + File.separator);
 		    	  myClass = myParts[myParts.length-1];
-		    	  myParts = myClass.split(".class");
+		    	  myParts = myClass.split("\\.");
 		    	  myClass = myParts[0];
-		    	
+		    	  
+		    	  
 		    	  
 		    	  String class_name = myPackage + "." + myClass;
 		    	  //System.out.println(class_name);
 		    		try {
-		    			if (Critter.class.isAssignableFrom(Class.forName(class_name)) 
+		    			if ( myParts[myParts.length-1].equals("class") && Critter.class.isAssignableFrom(Class.forName(class_name)) 
 		    					&& !myClass.equals("Critter") && !myClass.equals("Critter$TestCritter") )
 		    						myCrit.add(myClass);
 				       //allCritters.add("Craig");
