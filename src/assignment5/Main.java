@@ -73,7 +73,7 @@ public class Main extends Application {
 	private TextField stepAmount = new TextField();
 	private TextArea statsText = new TextArea("");
 	private Text seed = new Text("No seed set");
-	private Slider slider = new Slider(1, 20, 1);
+	private Slider slider = new Slider(1, 10, 1);
 	private Integer stepnumber = 0;
 	private Label stepNum = new Label("Step: " + stepnumber);
 	
@@ -225,13 +225,17 @@ public class Main extends Application {
 		        });	
 		       
 	        // Step Controls
-            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(400), ae -> timestep(slider.getValue()))); // timestep(slider.getValue())
+		    double topSpeed = 400;
+            double framerate = 1000 - 67*(slider.getValue() - 1);
+            //slider.addEventHandler(eventType, eventHandler);
+			Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100*slider.getValue()), ae -> timestep(1))); // timestep(slider.getValue())
             timeline.setCycleCount(Animation.INDEFINITE); 	// loop
 	           
 	        controls.add(new Label("Time Step"), 0, 6);				// title label
 	        controls.add(slider, 0, 8);								// slider
 	        slider.setMaxWidth(130);								
-	        slider.setShowTickMarks(true);							
+	        slider.setShowTickMarks(true);
+	        slider.setShowTickLabels(true);
 	        controls.add(play, 1, 8);
 		       play.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
@@ -352,14 +356,16 @@ public class Main extends Application {
 	}           
 
 private KeyValue timestep(double speed) {
+	stepnumber += (int) speed;
+	stepNum.setText("Step: " + stepnumber);	
+	
 	for (int c=0;c < speed; c++) {        			
 		try {
-			stepnumber++;
-			stepNum.setText("Step: " + stepnumber);
 			runStats.fire();
 			Critter.worldTimeStep();
 		} catch (InvalidCritterException e) {}
 	}
+	
 	Critter.displayWorld();
 	return null;
 	}
