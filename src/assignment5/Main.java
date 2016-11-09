@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.List;
 
 import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -32,6 +33,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.CacheHint;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -73,7 +75,7 @@ public class Main extends Application {
 	private TextField stepAmount = new TextField();
 	private TextArea statsText = new TextArea("");
 	private Text seed = new Text("No seed set");
-	private Slider slider = new Slider(1, 10, 1);
+	private Slider slider = new Slider(1, 10, 5);
 	private Integer stepnumber = 0;
 	private Label stepNum = new Label("Step: " + stepnumber);
 	
@@ -226,17 +228,20 @@ public class Main extends Application {
 		        });	
 		       
 	        // Step Controls
-		    double topSpeed = 400;
-            double framerate = 1000 - 67*(slider.getValue() - 1);
-            //slider.addEventHandler(eventType, eventHandler);
-			Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100*slider.getValue()), ae -> timestep(1))); // timestep(slider.getValue())
+
+			Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100*slider.getValue()), ae -> timestep(1))); 
             timeline.setCycleCount(Animation.INDEFINITE); 	// loop
+            
+            grid.setCache(true);
+            grid.setCacheShape(true);
+            grid.setCacheHint(CacheHint.SPEED);
 	           
 	        controls.add(new Label("Time Step"), 0, 6);				// title label
 	        controls.add(slider, 0, 8);								// slider
 	        slider.setMaxWidth(130);								
 	        slider.setShowTickMarks(true);
 	        slider.setShowTickLabels(true);
+	        
 	        controls.add(play, 1, 8);
 		       play.setOnAction(new EventHandler<ActionEvent>() {  		    	   
 		            @Override
