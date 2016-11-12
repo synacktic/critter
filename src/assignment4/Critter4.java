@@ -58,6 +58,10 @@ public class Critter4 extends Critter {
 		/* take one step forward */
 		if (Critter.getRandomInt(8) == 4) // Stopping to smell the roses
 			walk(dir);
+		// Walking again to see what crazy crap happens
+		walk(dir);
+		walk(dir);
+		walk(dir);
 		
 		if (getEnergy() > 75) { // Breeds twice as fast
 			Critter4 child = new Critter4();
