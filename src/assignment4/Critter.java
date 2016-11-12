@@ -52,7 +52,8 @@ public abstract class Critter {
 	
 	private int x_coord;
 	private int y_coord;
-    protected boolean hasFlees = false;
+    private boolean hasFlees = false;
+    private boolean rested = true;
 	/**
 	 * Add a critter to the world map
 	 * @param that The critter to add
@@ -95,7 +96,7 @@ public abstract class Critter {
 		
 		worldMap[y_old][x_old].neighbors.remove(this);
 		updateWorld(this);
-
+		rested = false;
 	}
 	/**
 	 * Call direction to move a single step
@@ -122,6 +123,7 @@ public abstract class Critter {
 	protected final void reproduce(Critter offspring, int direction) {
 		if (this.energy < Params.min_reproduce_energy)
 			return;
+		this.rested = false;
 		offspring.energy = (int) Math.floor(this.energy/2);		// make new critter with half health of parent
 		this.energy = (int) Math.ceil(this.energy/2);			// decrease parent's energy
 		offspring.x_coord = this.x_coord;
@@ -288,8 +290,9 @@ public abstract class Critter {
 			int oX = crit.x_coord;
 			int oY = crit.y_coord;
 			crit.doTimeStep();
-			if(oX != crit.x_coord || oY != crit.y_coord)
+			if(oX != crit.x_coord || oY != crit.y_coord){
 				crit.hasFlees = true;
+				}
 		}
 		
 	
@@ -313,6 +316,12 @@ public abstract class Critter {
 	    	population.add(baby);
 	    }
 	    babies = new java.util.ArrayList<Critter>();
+	    
+	    // deduct resting costs
+	    for(Critter c : population){
+	    	if(c.rested = false)
+	    		c.energy -= Params.rest_energy_cost;
+	    }
 	    
 	    // refresh algae 
 		for (int c = 0; c<Params.refresh_algae_count; c++) {
@@ -361,6 +370,8 @@ public abstract class Critter {
 						Critter critB = worldMap[c][r].neighbors.get(1);
 						boolean a = critA.fight(critB.toString());
 						boolean b = critB.fight(critA.toString());
+						critA.rested = false;
+						critB.rested = false;
 						
 						if (!a && critA.hasFlees) {
 							critA.energy -= Params.walk_energy_cost;
