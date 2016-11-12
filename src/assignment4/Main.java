@@ -46,7 +46,7 @@ public class Main {
      * and the second is test (for test output, where all output to be directed to a String), or nothing.
      * @throws InvalidCritterException 
      */
-    public static void main(String[] args) throws InvalidCritterException { 
+    public static void main(String[] args)  { 
         if (args.length != 0) {
             try {
                 inputFile = args[0];
@@ -123,7 +123,8 @@ public class Main {
             		}
         		} 
         		catch (InputMismatchException e)   {procError(myLine);}
-        		catch (IllegalArgumentException e) {procError(myLine);}
+        		catch (IllegalArgumentException e) {procError(myLine);} 
+        		catch (InvalidCritterException e) { procError(myLine);}
         		
         	} else if (myAns.equals("seed")) {
         		try {
