@@ -25,6 +25,7 @@ import java.util.List;
 
 public abstract class Critter {
 	 static String myPackage;
+
 	private	static List<Critter> population = new java.util.ArrayList<Critter>();
 	private static List<Critter> babies = new java.util.ArrayList<Critter>();
 	private static Sector[][] worldMap = new Sector[Params.world_height][Params.world_width];
@@ -71,6 +72,7 @@ public abstract class Critter {
 	 * @param direction The direction to move in
 	 */
 	private void move(int distance, int direction){
+		if (this.hasFlees) return;
 		// update location
 		int x_old = this.x_coord;
 		int y_old = this.y_coord;
@@ -80,9 +82,9 @@ public abstract class Critter {
 		if(direction == 3 || direction == 4 || direction == 5 )	// left
 			this.x_coord -= distance;		
 		if(direction == 5 || direction == 6 || direction == 7 ) // up
-			this.y_coord -= distance;		
+			this.y_coord += distance;		
 		if(direction == 1 || direction == 2 || direction == 3 ) // down
-			this.y_coord += distance;
+			this.y_coord -= distance;
 		
 		//wrap around world	
 		if (this.y_coord < 0) 							// wrap to bottom
@@ -97,6 +99,7 @@ public abstract class Critter {
 		worldMap[y_old][x_old].neighbors.remove(this);
 		updateWorld(this);
 		rested = false;
+		this.hasFlees = true;
 	}
 	/**
 	 * Call direction to move a single step
@@ -229,11 +232,21 @@ public abstract class Critter {
 		}
 		
 		protected void setX_coord(int new_x_coord) {
+			int x_old = super.x_coord;
+			int y_old = super.y_coord;
 			super.x_coord = new_x_coord;
+			//worldMap[y_old][x_old].neighbors.remove(this);
+			updateWorld(this);
+			super.rested = false;
 		}
 		
 		protected void setY_coord(int new_y_coord) {
+			int x_old = super.x_coord;
+			int y_old = super.y_coord;
 			super.y_coord = new_y_coord;
+			//worldMap[y_old][x_old].neighbors.remove(this);
+			updateWorld(this);
+			super.rested = false;
 		}
 		
 		protected int getX_coord() {
