@@ -319,7 +319,7 @@ public abstract class Critter {
 	    
 	    // deduct resting costs
 	    for(Critter c : population){
-	    	if(c.rested = false)
+	    	if(c.rested == false)
 	    		c.energy -= Params.rest_energy_cost;
 	    }
 	    

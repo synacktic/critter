@@ -42,9 +42,6 @@ public class Critter3 extends Critter {
 	public boolean fight(String other) { 
 		if(other == this.toString()){
 			if (Critter.getRandomInt(2) == 1)  // be nicer to its own kind
-				if (this.hasFlees == true )// unless it ran already
-					return true;
-				else
 					return false; 
 		}
 		return true; 

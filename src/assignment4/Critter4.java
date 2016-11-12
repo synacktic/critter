@@ -44,8 +44,6 @@ public class Critter4 extends Critter {
 		if (getEnergy() < 75) { // Lover not a fighter
 			if(other == "@")
 				return true;
-			else if (this.hasFlees == true )
-				return true;
 			else
 				return false;
 		} else {
