@@ -123,6 +123,7 @@ public abstract class Critter {
 	protected final void reproduce(Critter offspring, int direction) {
 		if (this.energy < Params.min_reproduce_energy)
 			return;
+		this.rested = false;
 		offspring.energy = (int) Math.floor(this.energy/2);		// make new critter with half health of parent
 		this.energy = (int) Math.ceil(this.energy/2);			// decrease parent's energy
 		offspring.x_coord = this.x_coord;
