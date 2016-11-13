@@ -300,6 +300,7 @@ public abstract class Critter {
 	public static void worldTimeStep() throws InvalidCritterException {
 		// do a time step for every Critter in the population
 		for (Critter crit: population) {
+			crit.rested = true;
 			int oX = crit.x_coord;
 			int oY = crit.y_coord;
 			crit.doTimeStep();
