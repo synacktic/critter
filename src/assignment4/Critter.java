@@ -309,17 +309,6 @@ public abstract class Critter {
 				}
 		}
 		
-	
-		// clear dead
-		Iterator<Critter> alive = population.iterator();
-	      while(alive.hasNext()) {
-	          Critter next = alive.next();
-	          if(next.getEnergy() <= 0){
-	  			worldMap[next.y_coord][next.x_coord].neighbors.remove(next);
-	        	alive.remove();
-	          }
-	       }
-		
 	  	// check for encounters
 	      while(checkOverlap()){
 		    encounter();
@@ -337,6 +326,16 @@ public abstract class Critter {
 	    		c.energy -= Params.rest_energy_cost;
 	    }
 	    
+		// clear dead
+		Iterator<Critter> alive = population.iterator();
+	      while(alive.hasNext()) {
+	          Critter next = alive.next();
+	          if(next.getEnergy() <= 0){
+	  			worldMap[next.y_coord][next.x_coord].neighbors.remove(next);
+	        	alive.remove();
+	          }
+	       }
+	      
 	    // refresh algae 
 		for (int c = 0; c<Params.refresh_algae_count; c++) {
 				Critter.makeCritter("Algae");
