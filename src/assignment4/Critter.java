@@ -98,7 +98,7 @@ public abstract class Critter {
 		
 		worldMap[y_old][x_old].neighbors.remove(this);
 		updateWorld(this);
-		rested = false;
+		this.rested = false;
 		this.hasFlees = true;
 	}
 	/**
@@ -308,17 +308,22 @@ public abstract class Critter {
 				crit.hasFlees = true;
 				}
 		}
-		
+		// clear dead
+		Iterator<Critter> alive1 = population.iterator();
+	      while(alive1.hasNext()) {
+	          Critter next = alive1.next();
+	          if(next.getEnergy() <= 0){
+	  			worldMap[next.y_coord][next.x_coord].neighbors.remove(next);
+	        	alive1.remove();
+	          }
+	       }
+	      	
 	  	// check for encounters
 	      while(checkOverlap()){
 		    encounter();
 	      }
 	      clearFlees();
-	    // add babies to population and clear babies
-	    for(Critter baby : babies){
-	    	population.add(baby);
-	    }
-	    babies = new java.util.ArrayList<Critter>();
+
 	    
 	    // deduct resting costs
 	    for(Critter c : population){
@@ -326,16 +331,22 @@ public abstract class Critter {
 	    		c.energy -= Params.rest_energy_cost;
 	    }
 	    
-		// clear dead
-		Iterator<Critter> alive = population.iterator();
-	      while(alive.hasNext()) {
-	          Critter next = alive.next();
+		// clear dead again
+		Iterator<Critter> alive2 = population.iterator();
+	      while(alive2.hasNext()) {
+	          Critter next = alive2.next();
 	          if(next.getEnergy() <= 0){
 	  			worldMap[next.y_coord][next.x_coord].neighbors.remove(next);
-	        	alive.remove();
+	        	alive2.remove();
 	          }
 	       }
 	      
+		    // add babies to population and clear babies
+		    for(Critter baby : babies){
+		    	population.add(baby);
+		    }
+		    babies = new java.util.ArrayList<Critter>();
+		    
 	    // refresh algae 
 		for (int c = 0; c<Params.refresh_algae_count; c++) {
 				Critter.makeCritter("Algae");
